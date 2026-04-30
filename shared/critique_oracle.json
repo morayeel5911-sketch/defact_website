@@ -1,0 +1,214 @@
+{
+  "meta": {
+    "critic": "DEFACT Design Director / Chief Critic (Oracle)",
+    "date": "2026-04-28",
+    "constitution_ref": "/shared/DESIGN.md",
+    "tech_ref": "/shared/tech_report.md",
+    "concepts_ref": "/shared/concepts_v1.md",
+    "prior_user_choice": "Clinical Archive (light, sterile, #FAFAFA void, chrome on white)",
+    "pass_threshold": "≥8/10 on all dimensions (per Agent Handoff Protocol §5)"
+  },
+  "directions": {
+    "A": {
+      "name": "The Vault",
+      "tagline": "Museum storage room at 4 AM — vast, cold, lit only by a single halogen tracking the chrome artifact's edges.",
+      "scores": {
+        "originality": {
+          "value": 8,
+          "rationale": "The 90vh silent hero — no text, no CTA, no explanation — is genuinely bold and rare in brand web design. The full-width horizontal list rows with 1px dividers replacing card grids is a strong anti-pattern stance. The 'information is withheld until you arrive' philosophy is distinctive. However, the 'museum storage / white corridor' spatial metaphor has precedent in high-end fashion (Acne Studios, some Rick Owens executions), preventing a 9 or 10."
+        },
+        "brand_alignment": {
+          "value": 9,
+          "rationale": "This is the Clinical Archive taken to its logical extreme. Strict monochrome (#F0F0F0 → #0D0D0D), no new colors introduced, chrome object as the only 'warmth.' The constitution's keywords — Archive, Ritual, Artifact, Precision, Restraint, Tension — are all embodied. Asymmetric compositions, no centered hero copy, no card grids, no drop shadows, no rounded corners. The DM Mono catalog feel and Clash Grotesk dominance are preserved. This direction honors the user's prior choice of Clinical Archive completely. The only deduction: the slightly cooler #F0F0F0 void shifts away from the constitution's explicit #FAFAFA, though the rationale (museum fluorescent) is defensible."
+        },
+        "technical_feasibility": {
+          "value": 8,
+          "rationale": "Single full-viewport R3F canvas with transparent background — the simplest and most proven architecture per the tech report. Chrome on light background is confirmed as working (tech_report §2.3). frameloop='demand' with scroll-driven invalidate() is the recommended approach (§4.1). No bloom, reduced SSAO — actually simpler than current state. Scroll-driven rotation via manual scroll binding is well-documented (§1.2). The 140vh hero height and extreme 15vw padding are CSS concerns, not R3F concerns. Main risk: the 90vh silent hero puts enormous pressure on 3D asset quality — if the chrome object doesn't look stunning, the entire first impression collapses. Mobile: 140vh hero with 6vw padding needs careful viewport testing."
+        },
+        "luxury_presence": {
+          "value": 9,
+          "rationale": "Extreme restraint IS luxury. The refusal to explain, sell, or persuade in the first 90vh signals supreme confidence. The 15vw margins, the 160px section padding, the 42rem max-width for text — these are the spatial grammar of high-end galleries (Gagosian, David Zwirner), not student portfolios. The single chrome object as the only moment of reflectivity in a monochrome world is a powerful luxury signal. The 'information withheld' philosophy is inherently premium — only luxury brands can afford to make users wait. The footer as a 'stamp, not a menu' is a perfect luxury detail."
+        },
+        "scroll_experience": {
+          "value": 7,
+          "rationale": "The delayed gratification arc — object alone, then title emerges below fold, then data arrives — is conceptually strong. The scroll-driven object rotation (90° over full page) gives physical purpose to scrolling. However, there are risks: 90vh of a single breathing object could feel boring rather than meditative, especially if the user doesn't immediately understand that scrolling reveals content. The linear list layouts for Works and Acquisition, while clean, could feel monotonous across 3 products — there's no visual crescendo. The scroll experience relies entirely on the quality of the 3D chrome object; if reflections aren't stunning, the journey collapses. No scroll-driven surprises after the hero — the remaining sections are static typography."
+        }
+      },
+      "verdict": "PASS",
+      "feedback": {
+        "keep": [
+          "The 90vh silent hero — this is the direction's strongest and most distinctive move. Do not compromise on this.",
+          "Full-width horizontal list rows with 1px dividers replacing card grids. This is the correct anti-card-grid stance.",
+          "Extreme whitespace (15vw padding, 160px section padding, 42rem max-width). This spatial grammar IS the luxury signal.",
+          "Strict monochrome with chrome object as the only reflective moment. No new colors.",
+          "Footer as stamp, not menu. Perfect restraint.",
+          "frameloop='demand' with scroll-driven invalidate(). Correct performance choice.",
+          "No bloom. SSAO only. This is the right clinical post-processing stack."
+        ],
+        "change": [
+          "Consider adding a subtle scroll indicator (not a bouncing arrow — perhaps a thin 1px vertical line that slowly extends downward over the first 30vh) to signal that content exists below. The current spec has NO indicator, which risks users thinking the page is broken.",
+          "The 140vh hero on mobile (6vw padding) may feel interminable. Consider reducing to 120vh on mobile with the title appearing at 80vh instead of 100vh.",
+          "The Works and Acquisition lists are structurally identical (horizontal rows with 1px dividers). Introduce a subtle visual distinction — perhaps the Acquisition list uses a slightly different row height or an additional metadata column that creates visual variety.",
+          "The Duo section's 35/65 split is good but the 'dark contrast material' for portrait objects (#1C1C1E) on a #F5F5F5 background may look like placeholder blocks rather than intentional design. Consider whether these should be actual photographs or whether the matte 3D objects need more visual presence (slightly larger scale, subtle rim light).",
+          "The Process section's [01]/[02]/[03] labels at 0.7rem may be too subtle. The constitution allows 'structural labels' — ensure they're visible enough to serve as navigation anchors.",
+          "The Transmit form's rectangular bordered inputs (vs. current underline style) is a good change, but the instant mechanical hover switch on the submit button (#0D0D0D → #A0A0A0 with no transition) may feel like a glitch rather than intentional. Consider a 100ms transition — fast enough to feel mechanical, slow enough to register as intentional."
+        ],
+        "constitution_concerns": [
+          "Minor: --void shifted from #FAFAFA to #F0F0F0. The constitution specifies #FAFAFA. The cooler tone is defensible for the 'museum fluorescent' concept but should be explicitly approved as a constitution amendment."
+        ]
+      },
+      "risk_assessment": "Medium",
+      "risk_details": "Primary risk: the 90vh silent hero is a bold bet. If the 3D chrome object isn't visually stunning (poor reflections, low-poly geometry, weak environment map), users will bounce before reaching any content. Secondary risk: mobile viewport behavior with 140vh hero and 6vw padding needs thorough testing across device sizes. Tertiary risk: the linear list layouts may feel monotonous across 3 products — there's limited visual variety in the scroll journey after the hero. Mitigation: ensure the chrome object is production-quality before committing to this direction; add a subtle scroll affordance; test mobile extensively."
+    },
+    "B": {
+      "name": "The Ledger",
+      "tagline": "A specimen catalog from 1923 cross-referenced with a contemporary metalworker's notebook.",
+      "scores": {
+        "originality": {
+          "value": 7,
+          "rationale": "The specimen catalog concept with marginal numbers, double-rules, and data-table layouts is a coherent aesthetic. The sticky sidebar with persistent page index is a distinctive navigation pattern. However, the 'rare book / monograph' editorial aesthetic is well-established in design (it's essentially the 'editorial design' playbook applied to web). The data table layout, while avoiding card grids, risks looking like an admin panel if typography and spacing aren't perfect. The warm paper palette is a genuine departure from current state, but warm-toned editorial sites are common in independent publishing and lifestyle brands."
+        },
+        "brand_alignment": {
+          "value": 6,
+          "rationale": "This is where The Ledger has its most serious problem. The Design Constitution explicitly defines the atmosphere as 'cooled concrete gallery at 10 AM' with a Clinical Archive palette (#FAFAFA void). The Ledger's warm paper tones (#F2F0EB, #FAF8F3, #1A1714 warm black) directly contradict this. The constitution says 'NO oversaturated digital colors. Muted, mineral, oxidized tones only' — the warm paper is arguably mineral, but it's not 'cooled.' More critically, the user previously chose 'Clinical Archive' (light, sterile) — The Ledger betrays this preference by going warm, bookish, and dense. The typography changes are also problematic: using Playfair Display (normal) for hero headlines breaks the constitution's rule that 'Headlines must be the LOUDEST visual element' in Clash Grotesk. Section headers reduced to DM Mono 0.8rem uppercase — this demotes typographic hierarchy to mere labeling. The constitution's keywords (Archive, Ritual, Artifact) are partially served, but Precision and Restraint are undermined by the information density and warm palette."
+        },
+        "technical_feasibility": {
+          "value": 6,
+          "rationale": "Multiple inline R3F canvases (hero plate 400×400px, duo plates 280×200px, process plates 200px) create architectural complexity. Each canvas is a separate WebGL context or shares one — either approach adds management overhead vs. a single full-viewport canvas. The tech report doesn't explicitly address multiple small canvases, but the performance implications are concerning: multiple render targets, multiple invalidation triggers, and potential GPU context switching. The 'no post-processing' approach for inline canvases is smart but means each plate relies entirely on raw material quality — no SSAO to define edges, no vignette for depth. The sticky sidebar with complex two-column layout is CSS-heavy and the mobile collapse (sidebar → top strip) is a significant responsive design challenge. On the positive side: no scroll-driven 3D means simpler animation logic, and auto-rotate only is low-overhead."
+        },
+        "luxury_presence": {
+          "value": 6,
+          "rationale": "The specimen catalog concept CAN feel premium — think Sotheby's or Christie's auction catalogs, or a Taschen monograph. However, the warm paper tones risk feeling like a boutique coffee shop brand, a lifestyle blog, or a Medium publication rather than a $200+ collectible object brand. The smaller typography (hero at 5rem max vs. current 10rem) and denser information layout, while editorial, don't convey the 'object as sacred' feeling that luxury collectibles require. The 3D object is demoted from hero to 'plate' — positioned alongside text like an illustration, not commanding the viewport. This fundamentally undermines the product's perceived value. The data table layout for Works, while clean, reads as 'inventory' rather than 'collection.' A luxury brand's products should feel curated, not listed."
+        },
+        "scroll_experience": {
+          "value": 5,
+          "rationale": "The scroll experience is the flattest of the three directions. No scroll-driven 3D interaction — only static plates with auto-rotate. The sidebar index is clever as a navigation pattern, but the actual act of scrolling through dense data tables isn't compelling. It feels like reading a PDF, not experiencing a gallery. The 'turning pages of a rare monograph' concept is intellectual but not visceral — users don't feel anything when scrolling. The double-rule section breaks are a nice detail but don't create momentum. The manifesto as an indented block quote with left border is editorial but static. There's no narrative arc, no revelation, no journey — just information organized neatly. For a brand whose products are ritualistic and tactile, a flat scroll experience is a missed opportunity."
+        }
+      },
+      "verdict": "REVISION",
+      "feedback": {
+        "keep": [
+          "The sticky sidebar with persistent page index is a genuinely good navigation pattern — it creates orientation and signals depth.",
+          "Marginal numbers positioned in the gutter (left: -3rem) are a beautiful editorial detail.",
+          "Double-rule section breaks (two 0.5px lines with 3px gap) are elegant and distinctive.",
+          "The 'FIG. 01' caption convention for 3D plates is charming and period-appropriate.",
+          "The integrated footer-in-sidebar concept is clever for desktop."
+        ],
+        "change": [
+          "CRITICAL: The warm paper palette (#F2F0EB) must be reconsidered. If this direction is to proceed, it needs to either (a) shift back to the Clinical Archive cool-neutral palette while keeping the Ledger's structural innovations, or (b) make an explicit, justified case for why warm tones serve DEFACT better than cool tones. The current spec doesn't make this case.",
+          "CRITICAL: Restore Clash Grotesk as the hero display typeface. Playfair Display for the opening title breaks the typographic hierarchy. If a serif moment is desired, use Playfair italic for a single pull-quote, not the primary headline.",
+          "The 3D object must be elevated from 'plate' to 'hero.' Consider a larger hero plate (600×600px or even full-width) that still uses the bordered/framed convention but gives the object more visual weight.",
+          "Introduce at least one scroll-driven 3D moment. The complete absence of scroll interaction with 3D objects wastes the medium. Even a subtle parallax or rotation on the hero plate would add physicality.",
+          "The data table density for Works (6 columns for 3 products) is over-engineered. With only 3 products, consider a sparser layout that gives each artifact more breathing room while keeping the catalog structure.",
+          "The Duo section's 'specimen entry' with technical data tables (DISCIPLINE, ORIGIN) feels like a parody of the catalog concept rather than genuine brand communication. Simplify to name, role, and a single paragraph.",
+          "Mobile: the sidebar collapsing to a top strip with 'CONTENTS' toggle needs careful UX design. The current spec is vague on this critical interaction."
+        ],
+        "constitution_concerns": [
+          "MAJOR: Warm paper palette (#F2F0EB, #FAF8F3, #1A1714) contradicts the Clinical Archive palette and 'cooled concrete gallery' atmosphere.",
+          "MAJOR: Playfair Display (normal) for hero headline violates 'Headlines must be the LOUDEST visual element' in Clash Grotesk.",
+          "MODERATE: Section headers reduced to DM Mono 0.8rem uppercase — this eliminates typographic hierarchy, reducing all structural labels to the same visual weight.",
+          "MODERATE: Information density contradicts 'Generous whitespace' rule — py-16 (64px) vs. constitution's minimum 6rem (96px).",
+          "MINOR: Filter chips reintroduced for Acquisition — the constitution doesn't ban these explicitly, but the current site removed them for a reason."
+        ]
+      },
+      "risk_assessment": "High",
+      "risk_details": "Primary risk: the warm palette departure from Clinical Archive is a fundamental brand identity question. If stakeholders reject the warmth, the entire direction collapses. Secondary risk: multiple inline canvases create technical complexity (WebGL context management, performance overhead, mobile GPU limitations). Tertiary risk: the dense, flat scroll experience may fail to engage users — high bounce risk. Quaternary risk: the mobile responsive behavior (sidebar → top strip) is underspecified and likely to require significant iteration. Mitigation: if pursuing this direction, prototype the warm palette as a single-section test before full commitment; benchmark multiple canvases on M1 Air and mobile devices early."
+    },
+    "C": {
+      "name": "The Relic",
+      "tagline": "A crypt-to-cathedral procession: from near-total darkness into warm gold-tinged illumination.",
+      "scores": {
+        "originality": {
+          "value": 7,
+          "rationale": "The dark-to-light journey with scroll-driven lighting is a strong narrative concept. The gold accent (#C4A35A) replacing grey chrome is a bold color move. The 'pilgrimage' metaphor and the object with emissive gold rim glow are evocative. However, dark backgrounds with dramatic lighting for luxury products is a well-worn path — Apple's dark-mode product pages, high-end watch brands (Rolex, Patek Philippe), and jewelry brands all use this vocabulary. The gold accent, while beautiful, edges close to jewelry/luxury watch territory rather than feeling uniquely DEFACT. The centered hero and centered manifesto, while justified as 'sacred exceptions,' are common patterns in luxury web design. The scroll-driven lighting rig is technically innovative but the aesthetic result (dark → light) is a known luxury trope."
+        },
+        "brand_alignment": {
+          "value": 5,
+          "rationale": "This is the most constitution-violating direction. The Design Constitution explicitly states: 'Backgrounds must feel like physical material (stone, linen, anodized aluminum) — not digital gradients.' The Relic's entire premise is a gradient journey from #0A0A0A to #FAFAFA — this is literally a digital gradient across the page. The constitution says 'Dark backgrounds reserved for 3D canvas areas only' — The Relic makes the entire page dark for the first ~400vh. The constitution says 'Asymmetric compositions preferred' — The Relic centers the hero and manifesto. The user previously chose 'Clinical Archive' (light, sterile) — The Relic starts in near-total darkness. This is a fundamental betrayal of the established preference. The gold accent (#C4A35A) is close to the constitution's warm accent (#B8860B) but using it as the primary UI accent color (replacing #808080 chrome) is a significant expansion of the color system. The 'incantation' manifesto with centered, large typography and verse line breaks, while dramatic, contradicts the constitution's voice guidelines ('Short, declarative sentences. No filler')."
+        },
+        "technical_feasibility": {
+          "value": 4,
+          "rationale": "This is the highest-risk direction technically. The tech report explicitly recommends frameloop='demand' for DEFACT's aesthetic (§4.1) — The Relic REQUIRES frameloop='always' for smooth lighting transitions. The scroll-driven lighting rig with color temperature interpolation, fog transitions, vignette changes, and bloom is the most complex animation system of all three directions. The tech report confirms chrome on white backgrounds is proven (§2.3) — The Relic puts chrome on black backgrounds, which is a different and harder lighting scenario (reflections read differently against dark, requiring higher envMapIntensity and more careful light placement). The MeshPhysicalMaterial with clearcoat, emissive gold rim, and high metalness is the most expensive material configuration. The full post-processing stack (bloom + vignette + SSAO + noise) all running simultaneously with frameloop='always' on M1 Air at 60fps is ambitious — the tech report's performance budget is 16.6ms per frame, and this stack could easily exceed it. The fog with dynamic color transitions adds additional GPU cost. The spec acknowledges the performance concern by suggesting dpr={[1, 1.5]} as a cap, but this may not be sufficient. The navigation component's dark/light adaptive behavior (glassmorphism on dark, solid on light) requires IntersectionObserver or scroll position tracking, adding JavaScript complexity."
+        },
+        "luxury_presence": {
+          "value": 8,
+          "rationale": "Despite the brand alignment issues, this direction has strong luxury presence. The dark, dramatic opening with gold accents feels undeniably premium. The massive typography emerging from darkness (clamp(5rem, 16vw, 14rem)), the gold rim glow on the chrome object, the 'incantation' manifesto — these are powerful luxury signals. It feels like a high-end watch or jewelry brand at its best moments. The scroll-driven 'revelation' of the object from fog is cinematic and expensive-feeling. The gold focus states on form inputs and the gold hover on the submit button are refined luxury details. However, the question is whether it feels like DEFACT specifically, or like a generic luxury brand. The dark+gold vocabulary is so widely used in luxury that it risks feeling interchangeable with any premium watch, jewelry, or fashion brand."
+        },
+        "scroll_experience": {
+          "value": 8,
+          "rationale": "The scroll experience is the strongest of the three directions. The journey from darkness to light is inherently compelling — every scroll action has narrative meaning. The scroll-driven lighting changes (key light intensifying, color warming from cool blue-grey to warm white, ambient rising) create a genuine sense of progression. The object emerging from fog as you scroll is a powerful reveal. The gold accents appearing gradually (first the rim glow, then gold lines, then gold text) creates a sense of discovery. The 'pilgrimage' concept gives the entire page a cohesive arc. However, there are weaknesses: the centered manifesto and centered transmit section break the asymmetric tension that makes the rest of the journey interesting. The 150vh hero, while dramatic, may test patience. The transition zone (Acquisition section at #8A8A8A) where text switches from light to dark is a delicate moment — if not executed perfectly, it will feel like a bug rather than a feature."
+        }
+      },
+      "verdict": "REJECT",
+      "feedback": {
+        "keep": [
+          "The scroll-driven lighting rig concept is genuinely innovative and worth exploring in a future direction that stays within the Clinical Archive palette.",
+          "The gold rim glow (emissive on edges) is a beautiful 3D technique that could be adapted to a light-background context.",
+          "The 'pilgrimage' narrative structure — a journey with a destination — is a strong UX concept that could inform a Clinical Archive-compatible direction.",
+          "The gold focus states on form inputs are a refined interaction detail.",
+          "The footer's centered vertical gold line as a 'final mark' is elegant."
+        ],
+        "change": [
+          "CRITICAL: The dark background journey (#0A0A0A → #FAFAFA) must be abandoned for this round. It directly contradicts the user's stated preference for Clinical Archive and violates multiple constitution rules. If a 'journey' concept is desired, explore a journey within the light palette — e.g., from #FAFAFA (sterile) to #F5F5F5 (slightly warmer) to #FFFFFF (arrival), using subtle tonal shifts rather than dark-to-light.",
+          "CRITICAL: The centered hero and centered manifesto must be replaced with asymmetric compositions. The constitution is explicit: 'Asymmetric compositions preferred.' The 'sacred exception' justification is not sufficient to override a core layout rule.",
+          "CRITICAL: frameloop='always' with full post-processing stack is too risky for the performance budget. Any future direction using scroll-driven lighting must work within frameloop='demand' with targeted invalidate() calls.",
+          "The gold accent (#C4A35A) as primary UI color is a significant departure from the monochrome Clinical Archive. If gold is to be introduced, it should be used as the constitution's warm accent (#B8860B) for 3D materials only, not as a UI chrome replacement.",
+          "The 'incantation' manifesto with verse line breaks and centered large typography contradicts the constitution's voice guidelines. The manifesto should remain left-aligned, restrained, and declarative.",
+          "The navigation's dark/light adaptive behavior (glassmorphism ↔ solid) adds complexity without clear brand benefit. Simplify to a single navigation treatment.",
+          "The 150vh hero is excessive. Even The Vault's 140vh is pushing it."
+        ],
+        "constitution_concerns": [
+          "CRITICAL: Dark backgrounds (#0A0A0A, #1A1A1A, #2A2A2A, #4A4A4A) for content sections violate 'Dark backgrounds reserved for 3D canvas areas only.'",
+          "CRITICAL: Gradient background journey (#0A0A0A → #FAFAFA) violates 'Backgrounds must feel like physical material — not digital gradients.'",
+          "CRITICAL: Centered hero and centered manifesto violate 'Asymmetric compositions preferred.'",
+          "MAJOR: Gold (#C4A35A) replacing chrome (#808080) as primary UI accent expands the color system beyond the constitution's palette.",
+          "MAJOR: 'Incantation' manifesto with verse formatting contradicts 'Short, declarative sentences. No filler.'",
+          "MODERATE: frameloop='always' contradicts the performance budget and the tech report's recommendation for demand rendering.",
+          "MODERATE: MeshPhysicalMaterial with clearcoat + emissive is the most expensive material path and may not be necessary for DEFACT's aesthetic."
+        ]
+      },
+      "risk_assessment": "High",
+      "risk_details": "Primary risk: the dark background direction fundamentally betrays the Clinical Archive preference — stakeholder rejection is near-certain. Secondary risk: frameloop='always' with full post-processing stack (bloom + vignette + SSAO + noise + fog) on M1 Air at 60fps is unproven and likely to miss the performance budget. Tertiary risk: chrome on black backgrounds is a harder lighting scenario than chrome on white — the current proven approach would be discarded for an untested one. Quaternary risk: the gold accent, while beautiful, may position DEFACT as a jewelry/watch brand rather than a 3D-printed collectibles atelier. Mitigation: do not pursue this direction in its current form. If elements are to be salvaged (scroll-driven lighting concept, gold rim glow technique), adapt them to a light-background Clinical Archive context in a future revision."
+    }
+  },
+  "recommended_ranking": {
+    "1st": {
+      "direction": "A",
+      "name": "The Vault",
+      "summary": "The clear winner. Honors the Clinical Archive preference, technically sound, strong luxury presence, and the 90vh silent hero is the most distinctive move across all three directions. The risks (silent hero engagement, mobile viewport) are manageable with the recommended mitigations."
+    },
+    "2nd": {
+      "direction": "C",
+      "name": "The Relic",
+      "summary": "Despite being REJECTED for this round, The Relic has stronger luxury presence and scroll experience than The Ledger. Its scroll-driven lighting concept and gold accent technique are worth salvaging for a future Clinical Archive-compatible direction. Ranked 2nd for conceptual ambition, not implementability."
+    },
+    "3rd": {
+      "direction": "B",
+      "name": "The Ledger",
+      "summary": "The weakest overall. The warm palette betrays Clinical Archive, the scroll experience is flat, and the multiple-canvas architecture adds technical risk. The sticky sidebar and marginal numbers are good ideas that could be extracted and applied to The Vault. Ranked 3rd."
+    }
+  },
+  "cross_direction_observations": {
+    "strongest_individual_moves": [
+      "The Vault's 90vh silent hero — the most distinctive single idea across all directions.",
+      "The Ledger's sticky sidebar with persistent page index — best navigation innovation.",
+      "The Relic's scroll-driven lighting rig — most technically ambitious and narratively compelling 3D concept."
+    ],
+    "extractable_ideas_for_vault_enhancement": [
+      "From Ledger: marginal numbers in the gutter for Works list rows (adds archival precision without warmth).",
+      "From Ledger: double-rule section breaks (more distinctive than single 1px rules).",
+      "From Relic: gold accent used ONLY for the 3D warm accent material (#B8860B per constitution), not UI chrome.",
+      "From Relic: the 'journey' concept applied within the light palette — subtle tonal shifts from section to section."
+    ],
+    "constitution_compliance_summary": {
+      "A": "8/8 anti-patterns avoided. 1 minor palette deviation (#F0F0F0 vs #FAFAFA). All typography, layout, motion, and voice rules followed.",
+      "B": "5/8 anti-patterns avoided. 3 major constitution violations (warm palette, Playfair hero headline, reduced typographic hierarchy).",
+      "C": "4/8 anti-patterns avoided. 4 critical/major constitution violations (dark backgrounds, gradient journey, centered layouts, gold UI accent)."
+    },
+    "clinical_archive_fidelity": {
+      "A": "HONORS — Takes Clinical Archive to its logical extreme. Colder, more restrained, more silent.",
+      "B": "BETRAYS — Replaces clinical coolness with warm paper nostalgia. Different brand personality entirely.",
+      "C": "BETRAYS — Replaces light/sterile with dark/dramatic. Opposite end of the spectrum."
+    }
+  }
+}
