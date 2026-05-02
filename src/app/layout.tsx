@@ -32,7 +32,7 @@ export default function RootLayout({
         <link href="https://api.fontshare.com/v2/css?f[]=clash-grotesk@400,500,600,700&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;1,400&family=Inter:wght@400;500&family=Playfair+Display:ital,wght@1,400;1,500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="min-h-full flex flex-col" style={{ background: 'var(--void)' }}>
+      <body className="min-h-full flex flex-col has-custom-cursor" style={{ background: 'var(--void)' }}>
         <style>{`
           :root {
             --font-display: 'Clash Grotesk', -apple-system, sans-serif;

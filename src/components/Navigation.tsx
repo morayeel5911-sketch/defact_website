@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Logo from "./Logo";
 
 const navLinks = [
   { num: "01", label: "WORKS", href: "#works" },
@@ -39,12 +40,12 @@ export default function Navigation({ theme = "dark" }: NavigationProps) {
       >
         <div className="max-w-[90vw] mx-auto px-6 py-4 flex items-center justify-between">
           {/* Logo */}
-          <a
-            href="#"
-            className={`font-clash text-xl tracking-tight ${textColor} glitch`}
-            data-text="DEFACT"
-          >
-            DEFACT
+          <a href="#" className="flex items-center gap-3 group">
+            <Logo 
+              width={60} 
+              height={43} 
+              className={`transition-all duration-300 group-hover:scale-105 ${textColor}`} 
+            />
           </a>
 
           {/* Desktop Navigation */}

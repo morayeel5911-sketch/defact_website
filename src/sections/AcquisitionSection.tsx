@@ -1,35 +1,56 @@
-"use client";
-
 export default function AcquisitionSection() {
-  const items = [
-    { idx: "001", name: "STARMIRROR", sub: "COLLECTIBLE", material: "PLA, Spray-painted", status: "Available", statusColor: "#A0A0A0" },
-    { idx: "002", name: "PHYLACTERY", sub: "CAPSULE", material: "Resin, Hand-finished", status: "Available", statusColor: "#A0A0A0" },
-    { idx: "003", name: "TIARA", sub: "HEADPIECE", material: "Chrome-electroplated Resin", status: "SOLD OUT", statusColor: "#D0403B" },
-  ];
-
   return (
-    <section id="acquisition" className="relative py-40 px-8 md:px-[15vw] animate-section" style={{ background: "rgba(13,13,13,0.75)" }}>
-      <div className="max-w-5xl mx-auto stagger-children">
-        <div className="mb-16 flex items-center gap-4">
-          <span className="text-xs" style={{ fontFamily: "var(--font-mono), 'DM Mono', monospace", color: "#A0A0A0" }}>[03]</span>
-          <h2 className="text-3xl md:text-4xl font-semibold" style={{ fontFamily: "var(--font-display), 'Clash Grotesk', sans-serif", color: "#0D0D0D" }}>ACQUISITION</h2>
+    <section id="acquisition" data-theme="dark" className="relative min-h-screen py-32 bg-void overflow-hidden">
+      {/* Marquee */}
+      <div className="border-y border-border-dark py-6 mb-24 overflow-hidden">
+        <div className="marquee-track">
+          {[...Array(10)].map((_, i) => (
+            <span key={i} className="font-clash text-h2 tracking-tight text-signal/10 mx-8 whitespace-nowrap">
+              CLAIM YOUR ARTIFACT — LIMITED EDITION — MINT NOW —
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="max-w-[90vw] mx-auto px-8 md:px-16">
+        <div className="flex items-baseline gap-4 mb-16 reveal-up">
+          <span className="font-dm-mono text-micro tracking-mono text-steel/50">[04/06]</span>
+          <h2 className="font-clash text-h2 tracking-tight text-signal">04 — ACQUISITION</h2>
         </div>
 
-        <div className="space-y-0">
-          {items.map((item) => (
-            <div key={item.idx} className="flex flex-col md:flex-row md:items-center justify-between py-4 border-b border-[#D5D5D5]">
-              <div className="flex items-center gap-4 md:gap-6">
-                <span className="text-xs" style={{ fontFamily: "var(--font-mono), 'DM Mono', monospace", color: "#A0A0A0" }}>{item.idx}</span>
-                <span className="text-xl" style={{ fontFamily: "var(--font-display), 'Clash Grotesk', sans-serif", color: "#0D0D0D" }}>
-                  {item.name} — {item.sub}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          <div className="reveal-up">
+            <p className="font-clash text-h1 tracking-tight leading-[0.9] text-signal mb-8">
+              SECURE<br />
+              <span className="liquid-text">YOUR</span><br />
+              ARTIFACT
+            </p>
+            <p className="font-inter text-body text-steel max-w-md mb-8">
+              Each piece is produced in strictly limited editions. Once minted, the algorithm retires — no duplicates, no reproductions.
+            </p>
+            <button
+              className="font-dm-mono text-micro tracking-mono uppercase px-8 py-4 border border-slime text-slime hover:bg-slime hover:text-void transition-all duration-300"
+              data-cursor-hover
+            >
+              [INITIATE ACQUISITION →]
+            </button>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 reveal-scale">
+            {[
+              { label: "EDITION SIZE", value: "50" },
+              { label: "MINTED", value: "12" },
+              { label: "FLOOR PRICE", value: "€1,800" },
+              { label: "CHAIN", value: "ETH" },
+            ].map((stat) => (
+              <div key={stat.label} className="vault-card p-6">
+                <span className="font-dm-mono text-micro tracking-mono text-steel block mb-2">
+                  [{stat.label}]
                 </span>
+                <span className="font-clash text-h2 tracking-tight text-signal">{stat.value}</span>
               </div>
-              <div className="flex items-center gap-4 md:gap-6 mt-2 md:mt-0">
-                <span className="text-xs" style={{ fontFamily: "var(--font-mono), 'DM Mono', monospace", color: "#9A9A9A" }}>{item.material}</span>
-                <span className="text-xs" style={{ fontFamily: "var(--font-mono), 'DM Mono', monospace", color: item.statusColor }}>{item.status}</span>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

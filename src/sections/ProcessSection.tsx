@@ -1,27 +1,55 @@
-"use client";
-
 export default function ProcessSection() {
-  const chapters = [
-    { num: "[01]", title: "CONCEPTION", desc: "Every artifact begins as a thought. A meditation on form, function, and the relationship between object and owner." },
-    { num: "[02]", title: "FABRICATION", desc: "3D-printed in PLA, hand-sanded and spray-painted — each piece finished with care and edge." },
-    { num: "[03]", title: "FINITION", desc: "Chrome-electroplated, 3D-printed in resin. Hand-polished. No two pieces identical." },
-  ];
-
   return (
-    <section id="process" className="relative py-40 px-8 md:px-[15vw] animate-section" style={{ background: "rgba(240,240,240,0.75)" }}>
-      <div className="max-w-[42rem] ml-[8vw] md:ml-[15vw] mr-[8vw] md:mr-0 stagger-children">
-        <div className="mb-16 flex items-center gap-4">
-          <span className="text-xs" style={{ fontFamily: "var(--font-mono), 'DM Mono', monospace", color: "#A0A0A0" }}>[04]</span>
-          <h2 className="text-3xl md:text-4xl font-semibold" style={{ fontFamily: "var(--font-display), 'Clash Grotesk', sans-serif", color: "#0D0D0D" }}>PROCESS</h2>
+    <section id="process" data-theme="chrome" className="relative min-h-screen py-32 bg-chrome text-void">
+      <div className="max-w-[90vw] mx-auto px-8 md:px-16">
+        <div className="flex items-baseline gap-4 mb-16 reveal-up">
+          <span className="font-dm-mono text-micro tracking-mono text-void/40">[05/06]</span>
+          <h2 className="font-clash text-h2 tracking-tight">05 — PROCESS</h2>
         </div>
 
-        {chapters.map((c) => (
-          <div key={c.num} className="mb-32 last:mb-0">
-            <span className="text-xs block mb-4" style={{ fontFamily: "var(--font-mono), 'DM Mono', monospace", color: "#A0A0A0" }}>{c.num}</span>
-            <h3 className="text-2xl mb-4" style={{ fontFamily: "var(--font-display), 'Clash Grotesk', sans-serif", color: "#0D0D0D" }}>{c.title}</h3>
-            <p className="text-lg leading-relaxed" style={{ fontFamily: "var(--font-body), 'Inter', sans-serif", color: "#9A9A9A" }}>{c.desc}</p>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
+          <div className="md:col-span-5 reveal-up">
+            <p className="font-clash text-h2 tracking-tight leading-[0.95] mb-8">
+              FROM BIT<br />TO MATTER
+            </p>
+            <div className="space-y-4 font-dm-mono text-micro tracking-mono text-void/50 mono-run">
+              <p>
+                0010 1101 0110 1001<br />
+                PARAMETRIC_SEED: 0x4F2A<br />
+                VORONOI_DENSITY: HIGH<br />
+                MATERIAL: BRONZE_INFUSED_PLA<br />
+                LAYER_HEIGHT: 0.12mm<br />
+                INFILL: 85% GYROID<br />
+                POST_PROCESS: PATINA + POLISH
+              </p>
+            </div>
           </div>
-        ))}
+
+          <div className="md:col-span-7 space-y-4">
+            {[
+              { step: "01", title: "DESIGN", desc: "Topology optimization and form-finding" },
+              { step: "02", title: "SIMULATE", desc: "Stress analysis and thermal validation" },
+              { step: "03", title: "PRINT", desc: "72-hour continuous fabrication cycle" },
+              { step: "04", title: "FINISH", desc: "Chemical patination and hand-polishing" },
+            ].map((item, i) => (
+              <div
+                key={item.step}
+                className="vault-card-light p-6 flex items-center gap-6 reveal-left"
+                style={{ transitionDelay: `${i * 100}ms` }}
+                data-cursor-hover
+              >
+                <span className="font-dm-mono text-micro tracking-mono text-void/30 w-12">
+                  [{item.step}]
+                </span>
+                <div className="flex-1">
+                  <h4 className="font-clash text-h3 tracking-tight text-void">{item.title}</h4>
+                  <p className="font-inter text-body text-void/60">{item.desc}</p>
+                </div>
+                <div className="w-2 h-2 rounded-full bg-void/20 group-hover:bg-slime transition-colors" />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

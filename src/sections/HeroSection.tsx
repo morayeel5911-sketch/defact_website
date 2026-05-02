@@ -1,100 +1,63 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import dynamic from 'next/dynamic';
-import Navigation from "@/components/Navigation";
+import { useThrottledMouse } from "@/hooks/useThrottledMouse";
+import { type ReactNode } from "react";
 
-const Scene = dynamic(() => import('@/components/Scene'), {
-  ssr: false,
-  loading: () => (
-    <div
-      className="fixed top-0 left-0 w-full h-[90vh] z-0 flex items-center justify-center"
-      style={{ background: "#F0F0F0" }}
-    >
-      <div
-        className="text-xs uppercase tracking-widest"
-        style={{ fontFamily: "var(--font-mono), 'DM Mono', monospace", color: "#A0A0A0" }}
-      >
-        INITIALIZING
-      </div>
-    </div>
-  )
-});
+interface HeroSectionProps {
+  scene?: ReactNode;
+}
 
-const ProductModel = dynamic(() => import('@/components/ProductModel'), { ssr: false });
-
-export default function HeroSection() {
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      setScrollProgress(docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+export default function HeroSection({ scene }: HeroSectionProps) {
+  const mousePos = useThrottledMouse(10);
 
   return (
-    <section className="relative">
-      {/* Video Background */}
-      <video
-        className="video-bg"
-        src="/assets/video-hero.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-      />
-      <div className="video-overlay bg-black/30" />
-
-      {/* 3D Canvas - First 90vh, fixed position */}
-      <div
-        className="fixed top-0 left-0 w-full h-[90vh] z-[5]"
-        style={{ background: "transparent" }}
-      >
-        <Scene>
-          <ProductModel scale={1} variant="chrome" />
-        </Scene>
+    <section
+      data-theme="dark"
+      className="relative h-screen overflow-hidden"
+      style={{
+        background: `
+          radial-gradient(at ${mousePos.x * 100}% ${mousePos.y * 100}%, rgba(57, 255, 20, 0.12) 0px, transparent 50%),
+          radial-gradient(at ${80 + mousePos.x * 10}% ${mousePos.y * 5}%, rgba(232, 17, 35, 0.08) 0px, transparent 40%),
+          radial-gradient(at ${20 - mousePos.x * 10}% ${50 + mousePos.y * 20}%, rgba(208, 208, 208, 0.06) 0px, transparent 40%),
+          #050505
+        `,
+      }}
+    >
+      {/* R3F Scene */}
+      <div className="absolute inset-0 z-10 opacity-60">
+        {scene}
       </div>
 
-      {/* DEFACT Title - Below fold at 100vh-140vh */}
-      <div
-        className="relative z-10 flex flex-col justify-end min-h-[140vh] pt-[90vh]"
-        style={{ background: "transparent" }}
-      >
-        <div className="px-[8vw] md:px-[15vw] pb-8">
-          <h1
-            className="tracking-tight"
-            style={{
-              fontFamily: "var(--font-display), 'Clash Grotesk', sans-serif",
-              fontWeight: 700,
-              fontSize: "clamp(3rem, 16vw, 12rem)",
-              letterSpacing: "-0.03em",
-              color: "#FFFFFF",
-              textShadow: "0 2px 20px rgba(0,0,0,0.3)"
-            }}
-          >
-            DEFACT
+      {/* Hero Content */}
+      <div className="absolute inset-0 z-20 flex flex-col justify-center px-8 md:px-16">
+        <div className="max-w-[90vw] mx-auto w-full">
+          <div className="reveal-up mb-8">
+            <span className="font-dm-mono text-micro tracking-mono text-steel uppercase">
+              [ARCHIVE — COLOGNE — EST. 2024]
+            </span>
+          </div>
+
+          <h1 className="reveal-up font-clash text-hero tracking-tight text-signal leading-[0.9] mb-8">
+            <span className="glitch-intense" data-text="DEFACT">DEFACT</span>
           </h1>
-          <p
-            className="mt-4 text-xs md:text-sm"
-            style={{
-              fontFamily: "var(--font-mono), 'DM Mono', monospace",
-              color: "rgba(255,255,255,0.8)",
-              letterSpacing: "0.08em",
-              textShadow: "0 1px 10px rgba(0,0,0,0.3)"
-            }}
-          >
-            ARCHIVE — COLOGNE — EST. 2024
+
+          <p className="reveal-up font-clash text-h2 tracking-tight text-chrome max-w-2xl mb-12">
+            Objects forged in the liminal space between computation and matter.
           </p>
+
+          <div className="reveal-up flex items-center gap-6">
+            <span className="font-dm-mono text-micro tracking-mono text-blood uppercase status-badge">
+              [BETA v0.9]
+            </span>
+            <div className="h-px w-24 bg-chrome/30" />
+            <span className="font-dm-mono text-micro tracking-mono text-steel uppercase">
+              [SCROLL TO EXPLORE]
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* Thin 1px rule spanning full width */}
-      <div className="relative z-10" style={{ background: "transparent", borderTop: "1px solid rgba(255,255,255,0.2)" }} />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-border-dark" />
     </section>
   );
 }
