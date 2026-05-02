@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEFACT — Clinical Archive / The Vault</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-grotesk@200,300,400,500,600,700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    :root {
+      --void: #F0F0F0;
+      --anodized: #F5F5F5;
+      --signal: #0D0D0D;
+      --steel: #9A9A9A;
+      --chrome: #A0A0A0;
+      --border: rgba(255,255,255,0.06);
+      --border-light: #D5D5D5;
+      --alarm: #D0403B;
+      --font-display: "Clash Grotesk", system-ui, sans-serif;
+      --font-mono: "DM Mono", ui-monospace, monospace;
+      --font-body: "Inter", system-ui, sans-serif;
+      --font-quote: "Playfair Display", Georgia, serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--signal);
+      background: var(--void);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* === NAVIGATION === */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 40px;
+      transition: all 0.4s ease;
+    }
+    .nav.scrolled {
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+    }
+    .nav-light { color: var(--signal); }
+    .nav-light.scrolled { color: var(--void); background: rgba(13,13,13,0.9); }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 18px; font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+    .nav-links {
+      display: flex; gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: inherit;
+      opacity: 0.5;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      display: inline-block;
+    }
+    .nav-links a:hover {
+      opacity: 1;
+      transform: translateX(4px);
+    }
+
+    /* === SECTIONS === */
+    .section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    .section-dark { background: var(--signal); color: var(--void); }
+    .section-light { background: var(--void); color: var(--signal); }
+    .section-anodized { background: var(--anodized); color: var(--signal); }
+
+    /* === VIDEO BACKGROUNDS === */
+    .video-bg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 120%;
+      object-fit: cover;
+      z-index: 0;
+      opacity: 0.4;
+    }
+    .section-dark .video-bg { opacity: 0.5; }
+    .gradient-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to bottom, transparent 0%, var(--signal) 100%);
+    }
+    .section-light .gradient-overlay {
+      background: linear-gradient(to bottom, transparent 0%, var(--void) 100%);
+    }
+
+    /* === CONTENT === */
+    .content {
+      position: relative; z-index: 2;
+      width: 100%; max-width: 1200px;
+      padding: 0 40px;
+    }
+    .label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      margin-bottom: 24px;
+    }
+    h1, h2 {
+      font-family: var(--font-display);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+    h1 { font-size: clamp(48px, 10vw, 120px); }
+    h2 { font-size: clamp(32px, 6vw, 72px); margin-bottom: 32px; }
+    .subtitle {
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.5;
+      opacity: 0.6;
+      max-width: 600px;
+    }
+    .quote {
+      font-family: var(--font-quote);
+      font-style: italic;
+      font-size: clamp(24px, 4vw, 42px);
+      line-height: 1.3;
+      font-weight: 400;
+    }
+    .quote-large {
+      font-family: var(--font-quote);
+      font-style: italic;
+      font-size: clamp(28px, 5vw, 56px);
+      line-height: 1.2;
+      font-weight: 500;
+    }
+
+    /* === CARDS (Depth Shadows) === */
+    .card {
+      background: var(--void);
+      border: 1px solid rgba(160,160,160,0.08);
+      border-radius: 4px;
+      box-shadow:
+        0 1px 2px rgba(0,0,0,0.04),
+        0 4px 12px rgba(0,0,0,0.06),
+        0 16px 48px rgba(0,0,0,0.04);
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .card:hover {
+      box-shadow:
+        0 1px 2px rgba(0,0,0,0.06),
+        0 8px 24px rgba(0,0,0,0.08),
+        0 24px 64px rgba(0,0,0,0.06);
+      transform: translateY(-2px);
+    }
+    .section-dark .card {
+      background: rgba(255,255,255,0.02);
+      border-color: rgba(255,255,255,0.06);
+      box-shadow:
+        0 1px 2px rgba(0,0,0,0.3),
+        0 4px 16px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+    .section-dark .card:hover {
+      box-shadow:
+        0 1px 2px rgba(0,0,0,0.4),
+        0 8px 32px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    /* === PRODUCT GRID === */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 60px;
+    }
+    .product-card {
+      aspect-ratio: 4/5;
+      overflow: hidden;
+      position: relative;
+    }
+    .product-card video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .product-card:hover video {
+      transform: scale(1.05);
+    }
+    .product-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 24px;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    }
+    .product-info h3 {
+      font-family: var(--font-display);
+      font-size: 24px; font-weight: 400;
+      margin-bottom: 4px;
+    }
+    .product-info .meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border: 1px solid rgba(255,255,255,0.15);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      margin-top: 12px;
+    }
+    .status-badge.sold {
+      border-color: var(--alarm);
+      color: var(--alarm);
+      opacity: 0.8;
+    }
+
+    /* === MANIFESTO === */
+    .manifesto-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .manifesto-content .quote-large {
+      margin-bottom: 40px;
+    }
+    .manifesto-content .attribution {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.5;
+    }
+
+    /* === DUO === */
+    .duo-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .duo-video {
+      aspect-ratio: 16/10;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+    .duo-video video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .duo-text h2 {
+      margin-bottom: 24px;
+    }
+    .duo-text p {
+      font-size: 16px;
+      line-height: 1.6;
+      opacity: 0.6;
+      margin-bottom: 16px;
+    }
+    .duo-meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      margin-top: 32px;
+    }
+
+    /* === PROCESS === */
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      margin-top: 60px;
+    }
+    .step {
+      padding: 32px;
+      border: 1px solid var(--border-light);
+      transition: all 0.3s ease;
+    }
+    .step:hover {
+      border-color: var(--signal);
+      transform: translateX(6px);
+    }
+    .step-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      margin-bottom: 20px;
+    }
+    .step h3 {
+      font-family: var(--font-display);
+      font-size: 24px; font-weight: 400;
+      margin-bottom: 12px;
+    }
+    .step p {
+      font-size: 14px;
+      line-height: 1.5;
+      opacity: 0.6;
+    }
+
+    /* === TRANSMIT (Contact) === */
+    .transmit-content {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .transmit-form {
+      margin-top: 48px;
+      display: flex; flex-direction: column; gap: 24px;
+    }
+    .form-group {
+      text-align: left;
+    }
+    .form-group label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 16px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--void);
+      font-family: var(--font-body);
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.04);
+    }
+    .submit-btn {
+      padding: 16px 32px;
+      background: var(--void);
+      color: var(--signal);
+      border: none;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .submit-btn:hover {
+      opacity: 0.8;
+    }
+
+    /* === FOOTER === */
+    .footer {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 80px 40px;
+      position: relative;
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      position: relative; z-index: 2;
+    }
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 14vw;
+      font-weight: 300;
+      line-height: 0.85;
+      letter-spacing: -0.03em;
+      opacity: 0.08;
+      position: absolute;
+      bottom: 40px; left: 40px;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .footer-links {
+      display: flex; gap: 32px;
+      list-style: none;
+    }
+    .footer-links a {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: inherit;
+      opacity: 0.5;
+      transition: opacity 0.3s;
+    }
+    .footer-links a:hover { opacity: 1; }
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      opacity: 0.3;
+    }
+
+    /* === SCROLL ANIMATIONS === */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 900px) {
+      .product-grid { grid-template-columns: 1fr; }
+      .duo-content { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+      h1 { font-size: 48px; }
+      h2 { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="nav nav-light" id="nav">
+    <div class="nav-logo">DEFACT</div>
+    <ul class="nav-links">
+      <li><a href="#works">Works</a></li>
+      <li><a href="#manifesto">Manifesto</a></li>
+      <li><a href="#duo">Duo</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#transmit">Transmit</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO (Dark) -->
+  <section class="section section-dark" id="hero">
+    <video class="video-bg" autoplay muted loop playsinline poster="">
+      <source src="./video-hero.mp4" type="video/mp4">
+    </video>
+    <div class="gradient-overlay"></div>
+    <div class="content">
+      <div class="reveal">
+        <div class="label">[Clinical Archive / The Vault]</div>
+        <h1>DEFACT</h1>
+        <p class="subtitle">Rituelle Objekte zwischen analoger Handwerkskunst und digitaler Präzision. Gegründet 2023 in Köln.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKS (Light) -->
+  <section class="section section-light" id="works">
+    <div class="content">
+      <div class="reveal">
+        <div class="label">[Selected Works]</div>
+        <h2>Objekte</h2>
+      </div>
+      <div class="product-grid">
+        <div class="product-card card reveal">
+          <video autoplay muted loop playsinline>
+            <source src="./video-product-1.mp4" type="video/mp4">
+          </video>
+          <div class="product-info">
+            <h3>Fertility Totem</h3>
+            <div class="meta">Objekt 01 / PLA Chrome</div>
+            <div class="status-badge">AVAILABLE</div>
+          </div>
+        </div>
+        <div class="product-card card reveal">
+          <video autoplay muted loop playsinline>
+            <source src="./video-product-2.mp4" type="video/mp4">
+          </video>
+          <div class="product-info">
+            <h3>Star Mirror</h3>
+            <div class="meta">Objekt 02 / PETG Transparent</div>
+            <div class="status-badge sold">SOLD OUT</div>
+          </div>
+        </div>
+        <div class="product-card card reveal">
+          <video autoplay muted loop playsinline>
+            <source src="./video-product-3.mp4" type="video/mp4">
+          </video>
+          <div class="product-info">
+            <h3>Void Reliquary</h3>
+            <div class="meta">Objekt 03 / Resin Clear</div>
+            <div class="status-badge">AVAILABLE</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO (Dark) -->
+  <section class="section section-dark" id="manifesto">
+    <video class="video-bg" autoplay muted loop playsinline>
+      <source src="./video-about.mp4" type="video/mp4">
+    </video>
+    <div class="gradient-overlay"></div>
+    <div class="content manifesto-content">
+      <div class="reveal">
+        <div class="label">[Manifesto]</div>
+        <div class="quote-large">
+          "Wir drucken nicht Dinge.<br>Wir materialisieren<br>Rituale."</div>
+        <div class="attribution">— LYAHUASCA + MIKI.NGLO, 2023</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DUO (Dark) -->
+  <section class="section section-dark" id="duo">
+    <video class="video-bg" autoplay muted loop playsinline>
+      <source src="./video-product-2.mp4" type="video/mp4">
+    </video>
+    <div class="gradient-overlay"></div>
+    <div class="content">
+      <div class="duo-content reveal">
+        <div class="duo-video card">
+          <video autoplay muted loop playsinline>
+            <source src="./video-product-3.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="duo-text">
+          <div class="label">[The Duo]</div>
+          <h2>LYAHUASCA<br>+ MIKI.NGLO</h2>
+          <p>Zwei Designer, eine Vision: Objekte, die die Grenze zwischen analoger Handwerkskunst und digitaler Präzision aufheben. Jedes Stück ist ein Einzelstück — designed in Köln, materialisiert durch 3D-Druck.</p>
+          <p>Die Arbeit entsteht im Spannungsfeld zwischen traditioneller Formensprache und computergenerierter Geometrie. Das Ergebnis sind Artefakte, die wie archäologische Fundstücke aus einer digitalen Zivilisation wirken.</p>
+          <div class="duo-meta">Gegründet 2023 / Cologne, DE</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS (Light) -->
+  <section class="section section-anodized" id="process">
+    <div class="content">
+      <div class="reveal">
+        <div class="label">[Acquisition Process]</div>
+        <h2>Wie man erwirbt</h2>
+      </div>
+      <div class="process-steps">
+        <div class="step reveal">
+          <div class="step-num">01</div>
+          <h3>Anfrage</h3>
+          <p>Kontakt via Transmit-Formular. Wir prüfen Verfügbarkeit.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">02</div>
+          <h3>Beratung</h3>
+          <p>Material, Finish und Details werden festgelegt.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">03</div>
+          <h3>Produktion</h3>
+          <p>3D-Druck in unserem Atelier in Köln-Ehrenfeld.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">04</div>
+          <h3>Lieferung</h3>
+          <p>Mit Zertifikat und Archiv-Nummer weltweit versandt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRANSMIT (Dark) -->
+  <section class="section section-dark" id="transmit">
+    <video class="video-bg" autoplay muted loop playsinline>
+      <source src="./video-contact.mp4" type="video/mp4">
+    </video>
+    <div class="gradient-overlay"></div>
+    <div class="content">
+      <div class="transmit-content reveal">
+        <div class="label">[Transmit]</div>
+        <h2>Kontakt</h2>
+        <p class="subtitle">Anfragen für Objekte, Press & Kollaborationen.</p>
+        <form class="transmit-form">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" placeholder="">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="">
+          </div>
+          <div class="form-group">
+            <label>Nachricht</label>
+            <textarea rows="4" placeholder=""></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Senden →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <section class="section section-dark footer" id="footer">
+    <video class="video-bg" autoplay muted loop playsinline style="opacity:0.2;">
+      <source src="./video-footer.mp4" type="video/mp4">
+    </video>
+    <div class="gradient-overlay"></div>
+    <div class="footer-brand">DEFACT</div>
+    <div class="footer-content">
+      <ul class="footer-links">
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Vimeo</a></li>
+        <li><a href="#">Impressum</a></li>
+      </ul>
+      <div class="footer-copy">© 2023 DEFACT. Cologne, DE.</div>
+    </div>
+  </section>
+
+  <script>
+    // GSAP ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Nav scroll effect
+    const nav = document.getElementById('nav');
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const current = window.scrollY;
+      if (current > 100) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+      lastScroll = current;
+    });
+
+    // Reveal animations
+    const reveals = document.querySelectorAll('.reveal');
+    reveals.forEach((el, i) => {
+      gsap.fromTo(el,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1, y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    });
+
+    // Parallax for video backgrounds
+    document.querySelectorAll('.video-bg').forEach(video => {
+      gsap.to(video, {
+        yPercent: 20,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: video.parentElement,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+    });
+
+    // Stagger product cards
+    gsap.fromTo('.product-card',
+      { opacity: 0, y: 60 },
+      {
+        opacity: 1, y: 0,
+        duration: 0.7,
+        stagger: 0.15,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.product-grid',
+          start: 'top 80%'
+        }
+      }
+    );
+
+    // Stagger process steps
+    gsap.fromTo('.step',
+      { opacity: 0, x: -30 },
+      {
+        opacity: 1, x: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.process-steps',
+          start: 'top 80%'
+        }
+      }
+    );
+  </script>
+
+</body>
+</html>
