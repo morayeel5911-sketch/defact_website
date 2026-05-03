@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 export default function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
-  const cursorDotRef = useRef<HTMLDivElement>(null);
+  const dotRef = useRef<HTMLDivElement>(null);
   const [showCursor, setShowCursor] = useState(false);
 
   useEffect(() => {
@@ -17,57 +17,70 @@ export default function CustomCursor() {
     setShowCursor(true);
 
     const cursor = cursorRef.current;
-    const dot = cursorDotRef.current;
+    const dot = dotRef.current;
     if (!cursor || !dot) return;
 
-    let mouseX = 0, mouseY = 0;
-    let cursorX = 0, cursorY = 0;
-    let dotX = 0, dotY = 0;
+    // Start OUTSIDE viewport so cursor doesn't flash at (0,0)
+    let mouseX = -100, mouseY = -100;
+    let cursorX = -100, cursorY = -100;
+    let dotX = -100, dotY = -100;
+    let hasMoved = false;
+    let rafId: number;
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
+      
+      // Make visible on first mouse movement
+      if (!hasMoved) {
+        hasMoved = true;
+        cursor.style.opacity = "1";
+        dot.style.opacity = "1";
+      }
     };
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (target.closest("a, button, [data-cursor-hover]")) {
+      if (target.closest("a, button, [data-cursor-hover], [role='button']")) {
         cursor.classList.add("cursor-hover");
       }
     };
 
     const handleMouseOut = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (target.closest("a, button, [data-cursor-hover]")) {
+      if (target.closest("a, button, [data-cursor-hover], [role='button']")) {
         cursor.classList.remove("cursor-hover");
       }
     };
 
-    let raf: number;
     const animate = () => {
-      cursorX += (mouseX - cursorX) * 0.15;
-      cursorY += (mouseY - cursorY) * 0.15;
-      dotX += (mouseX - dotX) * 0.35;
-      dotY += (mouseY - dotY) * 0.35;
+      // Smooth follow with different lerp speeds
+      cursorX += (mouseX - cursorX) * 0.12;
+      cursorY += (mouseY - cursorY) * 0.12;
+      dotX += (mouseX - dotX) * 0.25;
+      dotY += (mouseY - dotY) * 0.25;
 
       cursor.style.transform = `translate(${cursorX - 20}px, ${cursorY - 20}px)`;
       dot.style.transform = `translate(${dotX - 4}px, ${dotY - 4}px)`;
 
-      raf = requestAnimationFrame(animate);
+      rafId = requestAnimationFrame(animate);
     };
 
+    // Add body class for CSS cursor: none
     document.body.classList.add("has-custom-cursor");
-    document.addEventListener("mousemove", handleMouseMove, { passive: true });
+    
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     document.addEventListener("mouseover", handleMouseOver, { passive: true });
     document.addEventListener("mouseout", handleMouseOut, { passive: true });
-    raf = requestAnimationFrame(animate);
+    
+    rafId = requestAnimationFrame(animate);
 
     return () => {
       document.body.classList.remove("has-custom-cursor");
-      document.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("mouseout", handleMouseOut);
-      cancelAnimationFrame(raf);
+      cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -75,7 +88,7 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Outer ring */}
+      {/* Outer ring — starts invisible until mouse moves */}
       <div
         ref={cursorRef}
         className="custom-cursor"
@@ -89,14 +102,15 @@ export default function CustomCursor() {
           border: "1px solid rgba(255,255,255,0.5)",
           borderRadius: "50%",
           pointerEvents: "none",
-          zIndex: 9999,
+          zIndex: 99999,
           mixBlendMode: "difference",
-          transition: "width 0.3s, height 0.3s, border-color 0.3s",
+          opacity: 0, // Hidden until first mousemove
+          transition: "width 0.3s ease, height 0.3s ease, border-color 0.3s ease, opacity 0.2s ease",
         }}
       />
       {/* Center dot */}
       <div
-        ref={cursorDotRef}
+        ref={dotRef}
         className="custom-cursor-dot"
         aria-hidden="true"
         style={{
@@ -108,8 +122,9 @@ export default function CustomCursor() {
           background: "#fff",
           borderRadius: "50%",
           pointerEvents: "none",
-          zIndex: 9999,
+          zIndex: 99999,
           mixBlendMode: "difference",
+          opacity: 0, // Hidden until first mousemove
         }}
       />
     </>
