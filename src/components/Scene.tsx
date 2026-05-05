@@ -1,12 +1,10 @@
 "use client";
 
-import { Suspense, ReactNode, useEffect, useRef, useMemo } from "react";
+import { Suspense, ReactNode, useEffect } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
-import { Environment, ContactShadows, Lightformer } from "@react-three/drei";
+import { Environment } from "@react-three/drei";
 import * as THREE from "three";
-
-// Memoize to prevent re-creation
-const EMPTY_ARRAY: never[] = [];
+import { HeroShaderContent } from "./HeroShader";
 
 function LoadingFallback() {
   return (
@@ -32,88 +30,74 @@ function ScrollInvalidate() {
   return null;
 }
 
-// Custom studio environment with light sources for better chrome reflections
-function StudioEnvironment() {
+// Mouse tracking for HeroShader
+function MouseTracker() {
+  const { viewport } = useThree();
+
+  useEffect(() => {
+    const shaderMesh = (window as unknown as Record<string, unknown>).__heroShaderMesh as
+      | THREE.Mesh
+      | undefined;
+    if (!shaderMesh) return;
+
+    const mat = shaderMesh.material as THREE.ShaderMaterial;
+    if (!mat.uniforms?.uMouse) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mat.uniforms.uMouse.value.set(
+        e.clientX / window.innerWidth,
+        1 - e.clientY / window.innerHeight
+      );
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  return null;
+}
+
+function HeroBackground() {
+  const mousePos = { x: 0.5, y: 0.5 }; // Default center position
   return (
-    <Environment preset="studio" environmentIntensity={2.5}>
-      {/* Key light - warm from upper right */}
-      <Lightformer
-        intensity={2}
-        rotation={[0, Math.PI / 4, 0]}
-        position={[5, 5, -5]}
-        scale={[10, 5, 1]}
-        color="#FFFFFF"
-      />
-      {/* Fill light - cool from left */}
-      <Lightformer
-        intensity={0.8}
-        rotation={[0, -Math.PI / 3, 0]}
-        position={[-5, 3, -2]}
-        scale={[8, 4, 1]}
-        color="#E8E8FF"
-      />
-      {/* Rim light - subtle back glow */}
-      <Lightformer
-        intensity={0.5}
-        rotation={[0, Math.PI, 0]}
-        position={[0, 2, -8]}
-        scale={[15, 3, 1]}
-        color="#F0F0FF"
-      />
-      {/* Floor light - subtle uplight for chrome underside */}
-      <Lightformer
-        intensity={0.3}
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, -2, 0]}
-        scale={[10, 10, 1]}
-        color="#FFFFFF"
-      />
-    </Environment>
+    <group>
+      <HeroShaderContent mousePos={mousePos} />
+    </group>
   );
 }
 
 export default function Scene({ children }: { children?: ReactNode }) {
   return (
-    <Canvas
-      camera={{ position: [0, 0, 4.5], fov: 42 }}
-      gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
-      style={{ background: "transparent" }}
-      dpr={[1, 2]}
-    >
-      <ScrollInvalidate />
+    <div className="fixed inset-0 z-0" style={{ touchAction: "none" }}>
+      <Canvas
+        camera={{ position: [0, 0, 4.5], fov: 42 }}
+        gl={{
+          alpha: true,
+          antialias: true,
+          powerPreference: "high-performance",
+          premultipliedAlpha: false,
+        }}
+        style={{ background: "transparent" }}
+        dpr={[1, 2]}
+      >
+        <ScrollInvalidate />
+        <MouseTracker />
 
-      {/* Lighting */}
-      <ambientLight intensity={0.5} />
-      <directionalLight
-        position={[5, 5, -5]}
-        intensity={0.8}
-        color="#FFFFFF"
-        castShadow
-        shadow-mapSize={[1024, 1024]}
-      />
-      <directionalLight position={[-3, 2, -5]} intensity={0.4} color="#E8E8FF" />
-      <pointLight position={[0, 3, 2]} intensity={0.5} color="#FFFFFF" />
+        {/* Lighting */}
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[5, 5, -5]} intensity={0.8} color="#FFFFFF" />
+        <directionalLight position={[-3, 2, -5]} intensity={0.4} color="#E8E8FF" />
+        <pointLight position={[0, 3, 2]} intensity={0.5} color="#FFFFFF" />
 
-      {/* Studio environment with lightformers for chrome reflections */}
-      <StudioEnvironment />
+        {/* Studio environment for chrome reflections */}
+        <Environment preset="studio" environmentIntensity={2} />
 
-      {/* Contact shadows - sharper for clinical feel */}
-      <ContactShadows
-        position={[0, -1.5, 0]}
-        opacity={0.25}
-        scale={6}
-        blur={1}
-        far={4}
-        color="#888888"
-      />
-
-      {/* 3D Content */}
-      <Suspense fallback={<LoadingFallback />}>
-        {children}
-      </Suspense>
-
-      {/* REMOVED: EffectComposer - causes silent crashes on some GPU configurations */}
-      {/* TODO: Re-enable postprocessing once stability is confirmed */}
-    </Canvas>
+        {/* Hero shader background */}
+        <Suspense fallback={<LoadingFallback />}>
+          <HeroBackground />
+          {children}
+        </Suspense>
+      </Canvas>
+    </div>
   );
 }

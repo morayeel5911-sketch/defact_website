@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Logo from "./Logo";
+import MagneticLink from "./MagneticLink";
 
 const navLinks = [
   { num: "01", label: "WORKS", href: "#works" },
@@ -48,12 +49,13 @@ export default function Navigation({ theme = "dark" }: NavigationProps) {
             />
           </a>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation — Magnetic Links */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
+              <MagneticLink
                 key={link.num}
                 href={link.href}
+                strength={0.25}
                 className={`group flex items-center gap-2 transition-all duration-300 hover:translate-x-1 ${
                   isLight ? "text-void/60 hover:text-blood" : "text-signal/60 hover:text-blood"
                 }`}
@@ -64,7 +66,7 @@ export default function Navigation({ theme = "dark" }: NavigationProps) {
                 <span className="font-dm-mono text-micro tracking-mono uppercase group-hover:text-blood transition-colors">
                   {link.label}
                 </span>
-              </a>
+              </MagneticLink>
             ))}
           </div>
 

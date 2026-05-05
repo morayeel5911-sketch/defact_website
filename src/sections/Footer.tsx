@@ -8,114 +8,108 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-void text-signal relative">
-      {/* Top marquee band */}
-      <div className="border-y border-border-dark py-4">
+    <footer id="contact" className="bg-void text-signal relative">
+      {/* Contact CTA Banner */}
+      <div className="border-y border-border-dark">
+        <a
+          href="#contact"
+          className="block py-8 md:py-12 text-center hover:bg-signal/5 transition-colors"
+          data-cursor-hover
+        >
+          <h2 className="font-clash text-h1 tracking-tight text-signal">
+            CONTACT NOW!
+          </h2>
+        </a>
+      </div>
+
+      {/* Bottom Marquee */}
+      <div className="border-b border-border-dark py-3">
         <Marquee
-          text="DEFACT — DIGITAL DECAY LUXURY — OBJECTS OF DISTINCTION — COLOGNE — EST. 2024 —"
-          speed={25}
-          textClassName="font-clash text-h3 tracking-tight text-signal/10"
+          text="CONTACT CONTACT — DEFACT DEFACT — LYAHUASCA LYAHUASCA — MIKI.NGLO MIKI.NGLO — TERMS OF SERVICE — PRIVACY POLICY — RIGHT OF WITHDRAWAL — DEFACT DEFACT —"
+          speed={30}
+          textClassName="font-dm-mono text-micro tracking-mono text-signal/20"
         />
       </div>
 
-      <div className="max-w-[90vw] mx-auto px-6 md:px-12 py-24">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
-          {/* Brand + Manifesto */}
-          <div className="md:col-span-5">
-            <h3 className="font-clash text-h2 tracking-tight mb-6">
+      {/* Footer Content */}
+      <div className="px-6 md:px-12 py-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {/* Brand */}
+          <div className="col-span-2 md:col-span-1">
+            <span className="font-dm-mono text-micro tracking-mono text-steel/40 block">
               DEFACT
-            </h3>
-            <p className="font-inter text-body text-steel max-w-sm leading-relaxed mb-8">
-              Objects of distinction. Forged in digital fire, cast in physical reality.
-              Each artifact exists in the liminal space between computation and matter.
-            </p>
-            <button
-              onClick={scrollToTop}
-              className="font-dm-mono text-micro tracking-mono text-steel hover:text-slime transition-colors uppercase group flex items-center gap-2"
-              data-cursor-hover
-            >
-              <span>[BACK TO TOP ↑]</span>
-            </button>
+            </span>
+            <span className="font-dm-mono text-micro tracking-mono text-steel/40 block">
+              ©2024
+            </span>
           </div>
 
-          {/* Navigation */}
-          <div className="md:col-span-2">
-            <h4 className="font-dm-mono text-micro tracking-mono text-steel uppercase mb-6">
-              [NAV]
-            </h4>
-            <ul className="space-y-2">
-              {["Works", "Manifesto", "Protocol", "Acquisition", "Process", "Transmit"].map((item) => (
-                <li key={item}>
-                  <a
-                    href={`#${item.toLowerCase()}`}
-                    className="font-inter text-body text-signal/60 hover:text-blood transition-colors"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Lectures & Talks */}
-          <div className="md:col-span-3">
-            <h4 className="font-dm-mono text-micro tracking-mono text-steel uppercase mb-6">
-              [LECTURES & TALKS]
-            </h4>
-            <ul className="space-y-3">
-              {[
-                "ETH Zürich — Swiss Federal Institute of Technology",
-                "ZHdK — Zurich University of the Arts",
-                "RCA — Royal College of Art, London",
-              ].map((inst) => (
-                <li
-                  key={inst}
-                  className="font-dm-mono text-micro tracking-mono text-steel/60"
-                >
-                  {inst}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* System Status */}
-          <div className="md:col-span-2">
-            <h4 className="font-dm-mono text-micro tracking-mono text-steel uppercase mb-6">
-              [STATUS]
-            </h4>
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-slime animate-pulse" />
-                <span className="font-dm-mono text-micro tracking-mono text-slime">
-                  ONLINE
-                </span>
-              </div>
-              <p className="font-dm-mono text-micro tracking-mono text-steel/40">
-                LAT: 50.9375° N
-                <br />
-                LON: 6.9603° E
-              </p>
-              <p className="font-dm-mono text-micro tracking-mono text-steel/40 pt-2">
-                [NO COOKIES]
-                <br />
-                [NO TRACKING]
-                <br />
-                [PURE SIGNAL]
-              </p>
+          {/* Creators */}
+          <div>
+            <div className="space-y-1">
+              <a
+                href="#"
+                className="font-dm-mono text-micro tracking-mono text-steel/40 hover:text-signal transition-colors block"
+              >
+                LYAHUASCA
+              </a>
+              <a
+                href="#"
+                className="font-dm-mono text-micro tracking-mono text-steel/40 hover:text-signal transition-colors block"
+              >
+                MIKI.NGLO
+              </a>
             </div>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <div className="space-y-1">
+              <a
+                href="#"
+                className="font-dm-mono text-micro tracking-mono text-steel/40 hover:text-signal transition-colors block"
+              >
+                TERMS OF SERVICE
+              </a>
+              <a
+                href="#"
+                className="font-dm-mono text-micro tracking-mono text-steel/40 hover:text-signal transition-colors block"
+              >
+                PRIVACY POLICY
+              </a>
+              <a
+                href="#"
+                className="font-dm-mono text-micro tracking-mono text-steel/40 hover:text-signal transition-colors block"
+              >
+                RIGHT OF WITHDRAWAL
+              </a>
+            </div>
+          </div>
+
+          {/* Instagram */}
+          <div className="text-right">
+            <a
+              href="https://instagram.com/defact_de"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-dm-mono text-micro tracking-mono text-steel/40 hover:text-signal transition-colors"
+            >
+              @DEFACT_DE
+            </a>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-24 pt-8 border-t border-border-dark flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <span className="font-dm-mono text-micro tracking-mono text-steel/40">
-            © 2024 DEFACT. ALL RIGHTS RESERVED.
-          </span>
-          <span className="font-dm-mono text-micro tracking-mono text-steel/40">
-            [DESIGNED BY ALGORITHMS. CURATED BY HUMANS.]
-          </span>
-          <span className="font-dm-mono text-micro tracking-mono text-steel/40">
-            [NOT A STUDIO — JUST US]
+        {/* Back to top */}
+        <div className="mt-12 pt-6 border-t border-border-dark flex justify-between items-center">
+          <button
+            onClick={scrollToTop}
+            className="font-dm-mono text-micro tracking-mono text-steel/40 hover:text-slime transition-colors uppercase"
+            data-cursor-hover
+          >
+            [↑ BACK TO TOP]
+          </button>
+          <span className="font-dm-mono text-micro tracking-mono text-steel/20">
+            COLOGNE, GERMANY — LAT: 50.9375°N / LON: 6.9603°E
           </span>
         </div>
       </div>

@@ -1,132 +1,106 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
 
 export default function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
-  const dotRef = useRef<HTMLDivElement>(null);
-  const [showCursor, setShowCursor] = useState(false);
-
+  const labelRef = useRef<HTMLSpanElement>(null);
+  
   useEffect(() => {
-    // Only show custom cursor on devices with fine pointer + hover support
-    // AND if user hasn't requested reduced motion (WCAG 2.3.3)
-    const mqHover = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const mqMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (!mqHover.matches || mqMotion.matches) return;
-
-    setShowCursor(true);
-
     const cursor = cursorRef.current;
-    const dot = dotRef.current;
-    if (!cursor || !dot) return;
-
-    // Start OUTSIDE viewport so cursor doesn't flash at (0,0)
-    let mouseX = -100, mouseY = -100;
-    let cursorX = -100, cursorY = -100;
-    let dotX = -100, dotY = -100;
-    let hasMoved = false;
-    let rafId: number;
-
-    const handleMouseMove = (e: MouseEvent) => {
+    const label = labelRef.current;
+    if (!cursor || !label) return;
+    
+    let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
+    let isHovering = false;
+    
+    const onMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      
-      // Make visible on first mouse movement
-      if (!hasMoved) {
-        hasMoved = true;
-        cursor.style.opacity = "1";
-        dot.style.opacity = "1";
-      }
     };
-
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest("a, button, [data-cursor-hover], [role='button']")) {
-        cursor.classList.add("cursor-hover");
-      }
-    };
-
-    const handleMouseOut = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest("a, button, [data-cursor-hover], [role='button']")) {
-        cursor.classList.remove("cursor-hover");
-      }
-    };
-
-    const animate = () => {
-      // Smooth follow with different lerp speeds
-      cursorX += (mouseX - cursorX) * 0.12;
-      cursorY += (mouseY - cursorY) * 0.12;
-      dotX += (mouseX - dotX) * 0.25;
-      dotY += (mouseY - dotY) * 0.25;
-
-      cursor.style.transform = `translate(${cursorX - 20}px, ${cursorY - 20}px)`;
-      dot.style.transform = `translate(${dotX - 4}px, ${dotY - 4}px)`;
-
-      rafId = requestAnimationFrame(animate);
-    };
-
-    // Add body class for CSS cursor: none
-    document.body.classList.add("has-custom-cursor");
     
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    document.addEventListener("mouseover", handleMouseOver, { passive: true });
-    document.addEventListener("mouseout", handleMouseOut, { passive: true });
+    const onMouseEnterLink = (e: Event) => {
+      const target = e.target as HTMLElement;
+      const text = target.getAttribute("data-cursor") || "VIEW";
+      isHovering = true;
+      gsap.to(cursor, { scale: 3, duration: 0.4, ease: "power2.out" });
+      gsap.to(cursor, { backgroundColor: "rgba(57, 255, 20, 0.8)", duration: 0.2 });
+      label.textContent = text;
+      label.style.opacity = "1";
+    };
     
-    rafId = requestAnimationFrame(animate);
-
+    const onMouseLeaveLink = () => {
+      isHovering = false;
+      gsap.to(cursor, { scale: 1, duration: 0.4, ease: "power2.out" });
+      gsap.to(cursor, { backgroundColor: "rgba(57, 255, 20, 0.6)", duration: 0.2 });
+      label.style.opacity = "0";
+    };
+    
+    window.addEventListener("mousemove", onMouseMove);
+    
+    // Apply to links, buttons, and [data-cursor-hover]
+    const addListeners = () => {
+      document.querySelectorAll("a, button, [data-cursor-hover]").forEach(el => {
+        el.addEventListener("mouseenter", onMouseEnterLink);
+        el.addEventListener("mouseleave", onMouseLeaveLink);
+      });
+    };
+    
+    addListeners();
+    
+    const observer = new MutationObserver(addListeners);
+    observer.observe(document.body, { childList: true, subtree: true });
+    
+    const tick = () => {
+      cursorX += (mouseX - cursorX) * 0.15;
+      cursorY += (mouseY - cursorY) * 0.15;
+      cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
+      requestAnimationFrame(tick);
+    };
+    
+    const raf = requestAnimationFrame(tick);
+    
     return () => {
-      document.body.classList.remove("has-custom-cursor");
-      window.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseover", handleMouseOver);
-      document.removeEventListener("mouseout", handleMouseOut);
-      cancelAnimationFrame(rafId);
+      window.removeEventListener("mousemove", onMouseMove);
+      cancelAnimationFrame(raf);
+      observer.disconnect();
     };
   }, []);
-
-  if (!showCursor) return null;
-
+  
   return (
-    <>
-      {/* Outer ring — starts invisible until mouse moves */}
-      <div
-        ref={cursorRef}
-        className="custom-cursor"
-        aria-hidden="true"
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: 40,
-          height: 40,
-          border: "1px solid rgba(255,255,255,0.5)",
-          borderRadius: "50%",
-          pointerEvents: "none",
-          zIndex: 99999,
-          mixBlendMode: "difference",
-          opacity: 0, // Hidden until first mousemove
-          transition: "width 0.3s ease, height 0.3s ease, border-color 0.3s ease, opacity 0.2s ease",
-        }}
+    <div
+      ref={cursorRef}
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "20px",
+        height: "20px",
+        borderRadius: "50%",
+        background: "rgba(57, 255, 20, 0.6)",
+        mixBlendMode: "difference",
+        pointerEvents: "none",
+        zIndex: 9999,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        willChange: "transform",
+      }}
+    >
+      <span 
+        ref={labelRef} 
+        style={{ 
+          fontSize: "6px", 
+          color: "#fff", 
+          opacity: 0,
+          transition: "opacity 0.3s",
+          whiteSpace: "nowrap",
+          fontFamily: "var(--font-dm-mono)",
+          letterSpacing: "0.1em",
+        }} 
       />
-      {/* Center dot */}
-      <div
-        ref={dotRef}
-        className="custom-cursor-dot"
-        aria-hidden="true"
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: 8,
-          height: 8,
-          background: "#fff",
-          borderRadius: "50%",
-          pointerEvents: "none",
-          zIndex: 99999,
-          mixBlendMode: "difference",
-          opacity: 0, // Hidden until first mousemove
-        }}
-      />
-    </>
+    </div>
   );
 }

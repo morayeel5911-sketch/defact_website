@@ -10,7 +10,7 @@ import SectionNav from "@/components/SectionNav";
 import useScrollReveal from "@/hooks/useScrollReveal";
 
 import HeroSection from "@/sections/HeroSection";
-import ObjectsSection from "@/sections/ObjectsSection";
+import ArtifactsSection from "@/sections/ArtifactsSection";
 import ManifestoSection from "@/sections/ManifestoSection";
 import ProtocolSection from "@/sections/ProtocolSection";
 import AcquisitionSection from "@/sections/AcquisitionSection";
@@ -33,7 +33,7 @@ const ProductModel = dynamic(() => import("@/components/ProductModel"), { ssr: f
 
 const sectionNames = [
   "Hero",
-  "Objects",
+  "Artifacts",
   "Manifesto",
   "Protocol",
   "Acquisition",
@@ -69,21 +69,15 @@ export default function Home() {
       <Preloader onComplete={() => setLoaded(true)} />
 
       <main className={`relative w-full bg-void text-signal transition-opacity duration-700 ${loaded ? "opacity-100" : "opacity-0"}`}>
-        <ScrollProgress sectionNames={sectionNames} />
+        <ScrollProgress sections={sectionNames} />
         <SectionNav sections={sectionNames} />
         <Navigation theme={currentTheme} />
         <CustomCursor />
 
         <div className="grain-overlay" />
 
-        <HeroSection
-          scene={
-            <Scene>
-              <ProductModel scale={1.2} variant="chrome" />
-            </Scene>
-          }
-        />
-        <ObjectsSection />
+        <HeroSection />
+        <ArtifactsSection />
         <ManifestoSection />
         <ProtocolSection />
         <AcquisitionSection />

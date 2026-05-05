@@ -589,3 +589,13 @@ input:focus, textarea:focus {
   60% { clip-path: inset(70% 0 10% 0); transform: translate(-2px, 0); }
   80% { clip-path: inset(5% 0 80% 0); transform: translate(1px, 0); }
 }
+@keyframes float-1 {
+  0%, 100% { opacity: 1; transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes float-2 {
+  0%, 100% { opacity: 1; transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+}
+.animate-float-1 { animation: float-1 6s ease-in-out infinite; }
+.animate-float-2 { animation: float-2 5s ease-in-out infinite; }
