@@ -20,9 +20,13 @@ export default function CustomCursor() {
       mouseX = e.clientX;
       mouseY = e.clientY;
     };
-    
-    const onMouseEnterLink = (e: Event) => {
+
+    window.addEventListener("mousemove", onMouseMove);
+
+    // Event delegation on document.body — no per-element listeners, no MutationObserver
+    const onDelegatedMouseEnter = (e: Event) => {
       const target = e.target as HTMLElement;
+      if (!target.matches("a, button, [data-cursor-hover]")) return;
       const text = target.getAttribute("data-cursor") || "VIEW";
       isHovering = true;
       gsap.to(cursor, { scale: 3, duration: 0.4, ease: "power2.out" });
@@ -30,42 +34,33 @@ export default function CustomCursor() {
       label.textContent = text;
       label.style.opacity = "1";
     };
-    
-    const onMouseLeaveLink = () => {
+
+    const onDelegatedMouseLeave = (e: Event) => {
+      const target = e.target as HTMLElement;
+      if (!target.matches("a, button, [data-cursor-hover]")) return;
       isHovering = false;
       gsap.to(cursor, { scale: 1, duration: 0.4, ease: "power2.out" });
       gsap.to(cursor, { backgroundColor: "rgba(57, 255, 20, 0.6)", duration: 0.2 });
       label.style.opacity = "0";
     };
-    
-    window.addEventListener("mousemove", onMouseMove);
-    
-    // Apply to links, buttons, and [data-cursor-hover]
-    const addListeners = () => {
-      document.querySelectorAll("a, button, [data-cursor-hover]").forEach(el => {
-        el.addEventListener("mouseenter", onMouseEnterLink);
-        el.addEventListener("mouseleave", onMouseLeaveLink);
-      });
-    };
-    
-    addListeners();
-    
-    const observer = new MutationObserver(addListeners);
-    observer.observe(document.body, { childList: true, subtree: true });
-    
+
+    document.body.addEventListener("mouseenter", onDelegatedMouseEnter, true);
+    document.body.addEventListener("mouseleave", onDelegatedMouseLeave, true);
+
     const tick = () => {
       cursorX += (mouseX - cursorX) * 0.15;
       cursorY += (mouseY - cursorY) * 0.15;
       cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
       requestAnimationFrame(tick);
     };
-    
+
     const raf = requestAnimationFrame(tick);
-    
+
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
       cancelAnimationFrame(raf);
-      observer.disconnect();
+      document.body.removeEventListener("mouseenter", onDelegatedMouseEnter, true);
+      document.body.removeEventListener("mouseleave", onDelegatedMouseLeave, true);
     };
   }, []);
   

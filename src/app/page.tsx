@@ -1,13 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import dynamic from "next/dynamic";
 import Navigation from "@/components/Navigation";
 import CustomCursor from "@/components/CustomCursor";
 import Preloader from "@/components/Preloader";
 import ScrollProgress from "@/components/ScrollProgress";
 import SectionNav from "@/components/SectionNav";
+import ScrollEffects from "@/components/ScrollEffects";
+import AmbientSound from "@/components/AmbientSound";
 import useScrollReveal from "@/hooks/useScrollReveal";
+import { initLenis, destroyLenis } from "@/lib/lenis";
 
 import HeroSection from "@/sections/HeroSection";
 import ArtifactsSection from "@/sections/ArtifactsSection";
@@ -47,6 +50,14 @@ export default function Home() {
   const [loaded, setLoaded] = useState(false);
   useScrollReveal();
 
+  // Lenis smooth scroll — lifecycle managed here (was in ClientWrapper)
+  useEffect(() => {
+    initLenis();
+    return () => destroyLenis();
+  }, []);
+
+  // Theme observer — combines Navigation theme + SectionNav highlighting
+  // (deduped: SectionNav now receives activeSection from this observer)
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -64,15 +75,19 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+  const handlePreloaderDone = useCallback(() => setLoaded(true), []);
+
   return (
     <>
-      <Preloader onComplete={() => setLoaded(true)} />
+      <Preloader onComplete={handlePreloaderDone} />
 
       <main className={`relative w-full bg-void text-signal transition-opacity duration-700 ${loaded ? "opacity-100" : "opacity-0"}`}>
         <ScrollProgress sections={sectionNames} />
         <SectionNav sections={sectionNames} />
         <Navigation theme={currentTheme} />
         <CustomCursor />
+        <ScrollEffects />
+        <AmbientSound />
 
         <div className="grain-overlay" />
 

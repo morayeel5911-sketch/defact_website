@@ -106,7 +106,7 @@ const fragmentShader = `
   }
 `;
 
-function ShaderPlane({ mousePos }: { mousePos: { x: number; y: number } }) {
+export function ShaderPlane({ mousePos }: { mousePos: { x: number; y: number } }) {
   const meshRef = useRef<THREE.Mesh>(null);
   
   const uniforms = useMemo(() => ({
@@ -141,6 +141,8 @@ function ShaderPlane({ mousePos }: { mousePos: { x: number; y: number } }) {
   );
 }
 
+// Kept for backwards compatibility — renders ShaderPlane inside a div (no Canvas).
+// Prefer <ShaderPlane> directly inside your Canvas to avoid nested Canvas issues.
 export function HeroShaderContent({ mousePos }: { mousePos: { x: number; y: number } }) {
   return (
     <div className="absolute inset-0 z-5 opacity-60">
@@ -155,6 +157,7 @@ export function HeroShaderContent({ mousePos }: { mousePos: { x: number; y: numb
   );
 }
 
+// Deprecated — use <ShaderPlane> inside your Canvas instead.
 export default function HeroShader({ mousePos }: { mousePos: { x: number; y: number } }) {
   return <HeroShaderContent mousePos={mousePos} />;
 }

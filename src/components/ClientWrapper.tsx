@@ -1,13 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { initLenis, destroyLenis } from "@/lib/lenis";
-
-import { useState, useCallback } from "react";
 import LoadingScreen from "@/components/LoadingScreen";
-import ScrollProgress from "@/components/ScrollProgress";
 import ScrollEffects from "@/components/ScrollEffects";
-import CustomCursor from "@/components/CustomCursor";
 import AmbientSound from "@/components/AmbientSound";
 
 export default function ClientWrapper({ children }: { children: React.ReactNode }) {
@@ -21,9 +17,7 @@ export default function ClientWrapper({ children }: { children: React.ReactNode 
   return (
     <>
       <LoadingScreen onDone={handleDone} />
-      <ScrollProgress />
       <ScrollEffects />
-      <CustomCursor />
       <AmbientSound />
       <div style={{ opacity: loaded ? 1 : 0, transition: "opacity 0.5s ease" }}>
         {children}

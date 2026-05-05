@@ -108,7 +108,7 @@ export default function HeroSection() {
         <div className="flex-1 flex items-center relative">
           <h1
             data-hero-title
-            className={`font-clash text-[clamp(4rem,18vw,16rem)] tracking-tight text-signal leading-[0.85] mix-blend-difference ${glitchEnabled ? "glitch-intense" : ""}`}
+            className={`font-clash text-[clamp(4rem,18vw,16rem)] tracking-tight text-signal leading-[0.85] ${glitchEnabled ? "glitch-intense" : ""}`}
             data-text="DEFACT"
           >
             DEFACT

@@ -11,9 +11,6 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// Set Draco decoder path before any model loads
-useGLTF.setDecoderPath('/draco/');
-
 type Variant = "chrome" | "matte" | "dark";
 
 interface ProductModelProps {
@@ -88,6 +85,14 @@ function GLBModel({ modelPath = "/models/starmirror.glb", scale = 1, variant = "
   const scrollRef = useRef({ progress: 0 });
   const matProps = variantMaterials[variant];
 
+  // Set Draco decoder path (must be called after mount, not at module level)
+  useEffect(() => {
+    // Only runs in browser — setDecoderPath must be called before first model load
+    if (typeof window !== "undefined") {
+      useGLTF.setDecoderPath('/draco/');
+    }
+  }, []);
+
   // GSAP ScrollTrigger
   useEffect(() => {
     if (typeof window === "undefined" || !document.body) return;
@@ -102,6 +107,29 @@ function GLBModel({ modelPath = "/models/starmirror.glb", scale = 1, variant = "
     });
     return () => ctx.revert();
   }, []);
+
+  // GPU memory cleanup on unmount
+  useEffect(() => {
+    return () => {
+      scene.traverse((child) => {
+        if ((child as THREE.Mesh).isMesh) {
+          const mesh = child as THREE.Mesh;
+          if (mesh.geometry) {
+            mesh.geometry.dispose();
+          }
+          if (mesh.material) {
+            if (Array.isArray(mesh.material)) {
+              mesh.material.forEach((m) => m.dispose());
+            } else {
+              mesh.material.dispose();
+            }
+          }
+        }
+      });
+      // Clear the GLTF cache so the same path can be re-used without stale state
+      useGLTF.clear(modelPath);
+    };
+  }, [scene, modelPath]);
 
   // Apply materials
   useEffect(() => {
