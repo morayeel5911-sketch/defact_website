@@ -47,18 +47,23 @@ export default function CustomCursor() {
     document.body.addEventListener("mouseenter", onDelegatedMouseEnter, true);
     document.body.addEventListener("mouseleave", onDelegatedMouseLeave, true);
 
+    let rafId: number;
+    let mounted = true;
+
     const tick = () => {
+      if (!mounted) return;
       cursorX += (mouseX - cursorX) * 0.15;
       cursorY += (mouseY - cursorY) * 0.15;
       cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
-      requestAnimationFrame(tick);
+      rafId = requestAnimationFrame(tick);
     };
 
-    const raf = requestAnimationFrame(tick);
+    rafId = requestAnimationFrame(tick);
 
     return () => {
+      mounted = false;
+      cancelAnimationFrame(rafId);
       window.removeEventListener("mousemove", onMouseMove);
-      cancelAnimationFrame(raf);
       document.body.removeEventListener("mouseenter", onDelegatedMouseEnter, true);
       document.body.removeEventListener("mouseleave", onDelegatedMouseLeave, true);
     };

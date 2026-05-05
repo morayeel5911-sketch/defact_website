@@ -305,6 +305,9 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     gl.enableVertexAttribArray(aTex);
     gl.vertexAttribPointer(aTex, 2, gl.FLOAT, false, 0, 0);
 
+    // Track timeouts for cleanup
+    const pendingTimers: ReturnType<typeof setTimeout>[] = [];
+
     // Uniforms
     const uTime = gl.getUniformLocation(program, "u_time");
     const uProgress = gl.getUniformLocation(program, "u_progress");
@@ -343,14 +346,16 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       if (p < 1) {
         rafRef.current = requestAnimationFrame(render);
       } else {
-        // Fade out phase
-        setTimeout(() => {
+        // Fade out phase — track timers for cleanup
+        const t1 = setTimeout(() => {
           setFadeOut(true);
-          setTimeout(() => {
+          const t2 = setTimeout(() => {
             setVisible(false);
             onComplete?.();
           }, 700);
+          pendingTimers.push(t2);
         }, 200);
+        pendingTimers.push(t1);
       }
     };
 
@@ -358,7 +363,10 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
     return () => {
       cancelAnimationFrame(rafRef.current);
+      pendingTimers.forEach((t) => clearTimeout(t));
       window.removeEventListener("resize", resize);
+      gl.deleteBuffer(posBuffer);
+      gl.deleteBuffer(texBuffer);
       gl.deleteProgram(program);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps

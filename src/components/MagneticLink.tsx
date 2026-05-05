@@ -1,7 +1,7 @@
 "use client";
 
 /* MagneticLink — React Hook-based magnetic hover effect */
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import gsap from "gsap";
 
 interface MagneticLinkProps {
@@ -20,6 +20,13 @@ export default function MagneticLink({
   strength = 0.3,
 }: MagneticLinkProps) {
   const ref = useRef<HTMLAnchorElement>(null);
+
+  // Kill orphaned tweens on unmount
+  useEffect(() => {
+    return () => {
+      if (ref.current) gsap.killTweensOf(ref.current);
+    };
+  }, []);
 
   const handleMove = useCallback(
     (e: React.MouseEvent) => {
