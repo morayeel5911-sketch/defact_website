@@ -30,6 +30,8 @@ function addWillChange(el: Element | NodeListOf<Element>, props: string[] = ["tr
 
 export function useScrollEffects() {
   useEffect(() => {
+    let marqueeRafId: number;
+
     const ctx = gsap.context(() => {
       // ─── 1. HERO PARALLAX ───
       // Floating images move at different speeds (depth illusion)
@@ -165,10 +167,10 @@ export function useScrollEffects() {
           (el as HTMLElement).style.setProperty("--marquee-speed", `${baseSpeed / speedMultiplier}s`);
         });
         
-        requestAnimationFrame(updateVelocity);
+        marqueeRafId = requestAnimationFrame(updateVelocity);
       };
       
-      const rafId = requestAnimationFrame(updateVelocity);
+      marqueeRafId = requestAnimationFrame(updateVelocity);
 
       // ─── 7. SECTION NAV HIGHLIGHT ───
       const sections = ["hero", "artifacts", "manifesto", "protocol", "acquisition", "process", "transmit", "footer"];
@@ -190,6 +192,7 @@ export function useScrollEffects() {
 
     return () => {
       ctx.revert();
+      cancelAnimationFrame(marqueeRafId);
     };
   }, []);
 }

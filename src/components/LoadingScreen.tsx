@@ -54,27 +54,37 @@ export default function LoadingScreen({ onDone }: { onDone?: () => void }) {
     /* Phased text animation */
     const phrases = ["INITIALIZING", "LOADING ASSETS", "SCULPTING GEOMETRY", "POLISHING EDGES", "DEFACT"];
     let idx = 0;
+    let cancelled = false;
+    const pendingTimers: ReturnType<typeof setTimeout>[] = [];
+
     const advance = () => {
+      if (cancelled) return;
       setPhase(idx + 1);
       if (idx < phrases.length - 1) {
         idx++;
-        setTimeout(advance, 400 + Math.random() * 300);
+        const t = setTimeout(advance, 400 + Math.random() * 300);
+        pendingTimers.push(t);
       } else {
         /* Final: hold then fade */
-        setTimeout(() => {
+        const t1 = setTimeout(() => {
+          if (cancelled) return;
           setHidden(true);
-          setTimeout(() => {
-            if (onDone) onDone();
+          const t2 = setTimeout(() => {
+            if (!cancelled && onDone) onDone();
           }, 800);
+          pendingTimers.push(t2);
         }, 1200);
+        pendingTimers.push(t1);
       }
     };
     const timer = setTimeout(advance, 500);
+    pendingTimers.push(timer);
 
     return () => {
+      cancelled = true;
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener("resize", resize);
-      clearTimeout(timer);
+      pendingTimers.forEach(clearTimeout);
     };
   }, [onDone]);
 

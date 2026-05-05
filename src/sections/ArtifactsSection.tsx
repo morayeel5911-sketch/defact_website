@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 // DEFACT Artifacts — all three are Japanese-style throwing stars (shuriken)
 const artifacts = [
@@ -60,12 +61,14 @@ function ArtifactCard({ artifact, index }: { artifact: typeof artifacts[0]; inde
             </span>
           </div>
         ) : (
-          <img
+          <Image
             src={artifact.image}
             alt={artifact.name}
-            className="absolute inset-0 w-full h-full object-contain p-12 transition-all duration-500 ease-out group-hover:scale-110 group-hover:drop-shadow-[0_0_30px_rgba(57,255,20,0.3)]"
-            loading="eager"
+            fill
+            className="object-contain p-12 transition-all duration-500 ease-out group-hover:scale-110 group-hover:drop-shadow-[0_0_30px_rgba(57,255,20,0.3)]"
+            sizes="(max-width: 1024px) 100vw, 50vw"
             onError={() => setImgError(true)}
+            unoptimized
           />
         )}
 
