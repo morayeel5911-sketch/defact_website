@@ -4,6 +4,10 @@ const nextConfig: NextConfig = {
   // Static export for hosting without Node server
   output: 'export',
   
+  // GitHub Pages deploys to /defact_website/ subpath
+  basePath: '/defact_website',
+  assetPrefix: '/defact_website/',
+  
   // Image optimization disabled for static export
   images: {
     unoptimized: true,
