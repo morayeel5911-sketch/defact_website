@@ -12,7 +12,6 @@ import HeroSection from "@/sections/HeroSection";
 import ArtifactsSection from "@/sections/ArtifactsSection";
 import ManifestoSection from "@/sections/ManifestoSection";
 import ProtocolSection from "@/sections/ProtocolSection";
-import AcquisitionSection from "@/sections/AcquisitionSection";
 import ProcessSection from "@/sections/ProcessSection";
 import TransmitSection from "@/sections/TransmitSection";
 import CreatorBiosSection from "@/sections/CreatorBiosSection";
@@ -42,7 +41,6 @@ const sectionNames = [
   "Artifacts",
   "Manifesto",
   "Protocol",
-  "Acquisition",
   "Process",
   "V2 Gallery",
   "Transmit",
@@ -94,7 +92,6 @@ export default function Home() {
         <ArtifactsSection />
         <ManifestoSection />
         <ProtocolSection />
-        <AcquisitionSection />
         <ProcessSection />
         <V2GallerySection />
         <TransmitSection />

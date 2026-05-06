@@ -36,8 +36,8 @@ export default function InterfaceGrid() {
       // Determine color based on theme (read from html background)
       const htmlBg = getComputedStyle(document.documentElement).backgroundColor;
       const isDark = htmlBg.includes("0, 15, 234") || htmlBg.includes("15, 234");
-      const lineColor = isDark ? "rgba(255, 255, 255, 0.28)" : "rgba(0, 15, 234, 0.32)";
-      const nodeColor = isDark ? "rgba(255, 255, 255, 0.30)" : "rgba(0, 15, 234, 0.35)";
+      const lineColor = isDark ? "rgba(255, 255, 255, 0.50)" : "rgba(0, 15, 234, 0.55)";
+      const nodeColor = isDark ? "rgba(255, 255, 255, 0.60)" : "rgba(0, 15, 234, 0.65)";
 
       ctx.clearRect(0, 0, w, h);
 

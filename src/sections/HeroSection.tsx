@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, Suspense } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import heroBg from "../../public/images/v2/hero.jpg";
+import heroBg from "../../public/images/v2/hero_v3.webp";
 
 // Dynamic import for R3F — must be client-only
 const HeroShader = dynamic(() => import("@/components/HeroShader"), {
