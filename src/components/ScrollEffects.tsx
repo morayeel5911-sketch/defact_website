@@ -13,7 +13,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
   - Horizontal scroll within Artifacts section
 */
 
-gsap.registerPlugin(ScrollTrigger);
+// ScrollTrigger already registered in lenis.ts (single source of truth)
 
 // Global will-change cleanup helper
 function addWillChange(el: Element | NodeListOf<Element>, props: string[] = ["transform", "opacity"]) {
@@ -153,8 +153,10 @@ export function useScrollEffects() {
       // ─── 6. MARQUEE SPEED = SCROLL SPEED ───
       let scrollVelocity = 0;
       let lastScrollTop = 0;
+      let marqueeActive = true;
       
       const updateVelocity = () => {
+        if (!marqueeActive) return;
         const st = window.scrollY || document.documentElement.scrollTop;
         scrollVelocity = Math.abs(st - lastScrollTop);
         lastScrollTop = st;
@@ -192,6 +194,7 @@ export function useScrollEffects() {
 
     return () => {
       ctx.revert();
+      marqueeActive = false;
       cancelAnimationFrame(marqueeRafId);
     };
   }, []);
