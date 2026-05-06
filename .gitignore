@@ -41,3 +41,7 @@ yarn-error.log*
 next-env.d.ts
 ._*
 out/
+
+# ComfyUI generierte Assets (werden per Pipeline synchronisiert)
+public/assets/comfy/*
+!public/assets/comfy/.gitkeep
