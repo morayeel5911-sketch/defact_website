@@ -1,4 +1,5 @@
-import ComfyImage, { getComfyAssetUrl } from '@/components/ui/ComfyImage'
+import ComfyImage from '@/components/ui/ComfyImage'
+import { comfyAssetUrl } from '@/lib/comfyAssets'
 
-export { getComfyAssetUrl }
+export { comfyAssetUrl as getComfyAssetUrl }
 export default ComfyImage

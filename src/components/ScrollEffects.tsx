@@ -31,6 +31,7 @@ function addWillChange(el: Element | NodeListOf<Element>, props: string[] = ["tr
 export function useScrollEffects() {
   useEffect(() => {
     let marqueeRafId: number;
+    let marqueeActive = true;
 
     const ctx = gsap.context(() => {
       // ─── 1. HERO PARALLAX ───

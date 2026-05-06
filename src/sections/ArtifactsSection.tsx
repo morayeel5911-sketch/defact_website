@@ -2,44 +2,11 @@
 
 import { useState } from "react";
 import Image from "next/image";
-
-// DEFACT Artifacts — all three are Japanese-style throwing stars (shuriken)
-const artifacts = [
-  {
-    id: "01.01",
-    name: "STARMIRROR",
-    tagline: "REFLECT. PROTECT. STRIKE.",
-    description: "A FOUR-POINTED PRECISION THROWING STAR WITH CENTRAL GRIP HOLE. 3D-PRINTED IN PLA, HAND-FINISHED WITH GLOSS PAINT. BALANCED FOR ROTATION. EACH PIECE UNIQUE.",
-    price: "€240",
-    status: "ACTIVE",
-    image: "/images/artifacts/starmirror_1.webp",
-    specs: { material: "PLA + Gloss Paint", weight: "120g", edition: "∞" },
-  },
-  {
-    id: "01.02",
-    name: "PHYLACTERY",
-    tagline: "LONG TAIL. SHORT FUSE.",
-    description: "A THREE-BLADED SHURIKEN WITH ELONGATED TAPERED HANDLE. DESIGNED FOR DISTANCE AND ACCURACY. THE EXTENDED TAIL PROVIDES STABILITY IN FLIGHT. HAND-FINISHED, MADE TO MOVE.",
-    price: "€180",
-    status: "ACTIVE",
-    image: "/images/artifacts/phylactery_1.webp",
-    specs: { material: "PLA + Gloss Paint", weight: "85g", edition: "∞" },
-  },
-  {
-    id: "01.03",
-    name: "TIARA",
-    tagline: "WEARABLE WEAPON.",
-    description: "A COMPACT FOUR-POINTED STAR WITH SMOOTH CERAMIC SURFACE. SMALL ENOUGH TO CONCEAL. SHARP ENOUGH TO MATTER. THE TIARA BLURS THE LINE BETWEEN ORNAMENT AND TOOL.",
-    price: "€160",
-    status: "COMING_SOON",
-    image: "/images/artifacts/tiara_1.webp",
-    specs: { material: "PLA + Ceramic Coat", weight: "65g", edition: "50" },
-  },
-];
+import { products, type Product } from "@/data/products";
 
 const CATEGORY_PILLS = ["3D PRINTING", "ART DIRECTION", "MERCHANDISE", "TECHNOLOGY", "CONCEPT", "MISC"] as const;
 
-function ArtifactCard({ artifact, index }: { artifact: typeof artifacts[0]; index: number }) {
+function ArtifactCard({ artifact, index }: { artifact: Product; index: number }) {
   const [imgError, setImgError] = useState(false);
   const isEven = index % 2 === 0;
 
@@ -161,7 +128,7 @@ export default function ArtifactsSection() {
 
       {/* Artifacts */}
       <div className="space-y-48">
-        {artifacts.map((artifact, i) => (
+        {products.map((artifact, i) => (
           <ArtifactCard key={artifact.id} artifact={artifact} index={i} />
         ))}
       </div>
