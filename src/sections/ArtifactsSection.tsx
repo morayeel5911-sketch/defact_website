@@ -100,7 +100,7 @@ function ArtifactCard({ artifact, index }: { artifact: Product; index: number })
 
 export default function ArtifactsSection() {
   return (
-    <section id="artifacts" data-theme="dark" className="relative py-32 px-6 lg:px-16 min-h-screen bg-[#0a0a0a]">
+    <section id="artifacts" data-theme="dark" className="relative py-32 px-6 lg:px-16 min-h-screen bg-void">
       {/* Section header */}
       <div className="mb-32 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 border-b border-white/10 pb-8">
         <div>

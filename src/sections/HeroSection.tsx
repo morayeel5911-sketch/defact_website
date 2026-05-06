@@ -8,7 +8,7 @@ import heroBg from "../../public/images/v2/hero.jpg";
 // Dynamic import for R3F — must be client-only
 const HeroShader = dynamic(() => import("@/components/HeroShader"), {
   ssr: false,
-  loading: () => <div className="absolute inset-0 bg-[#050505]" />,
+  loading: () => <div className="absolute inset-0 bg-void" />,
 });
 
 export default function HeroSection() {
@@ -30,7 +30,7 @@ export default function HeroSection() {
           priority
           unoptimized
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/60 via-[#050505]/40 to-[#050505]/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-void/60 via-void/40 to-void/80" />
       </div>
 
       {/* Subtle noise texture overlay */}

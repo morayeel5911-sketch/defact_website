@@ -98,7 +98,7 @@ function V2Card({ asset, index }: { asset: V2Asset; index: number }) {
 
 export default function V2GallerySection() {
   return (
-    <section id="v2-gallery" data-theme="dark" className="relative py-32 bg-[#050505]">
+    <section id="v2-gallery" data-theme="dark" className="relative py-32 bg-void">
       <div className="max-w-[90vw] mx-auto px-8 md:px-16">
         {/* Header */}
         <div className="flex items-baseline gap-4 mb-16 reveal-up">

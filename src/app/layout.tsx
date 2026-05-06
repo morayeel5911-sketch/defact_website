@@ -23,7 +23,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${dmMono.variable} antialiased`}>
-      <body id="top" className="bg-[var(--void)] text-[var(--signal)] font-sans selection:bg-[var(--ember)] selection:text-white overflow-x-hidden">
+      <body id="top" className="bg-void text-signal font-sans selection:bg-blood selection:text-white overflow-x-hidden">
         <ClientWrapper>{children}</ClientWrapper>
       </body>
     </html>

@@ -18,7 +18,7 @@ export default function DuoSection() {
             ].map((person) => (
               <div key={person.name} className="flex flex-col">
                 <div className="aspect-[3/4] max-h-[300px] md:max-h-none overflow-hidden relative flex items-center justify-center"
-                  style={{ background: "linear-gradient(180deg, #1C1C1E 0%, #0D0D0D 100%)" }}
+                  style={{ background: "linear-gradient(180deg, #0f1d30 0%, #0A1628 100%)" }}
                 >
                   <span className="absolute text-center opacity-10 select-none"
                     style={{

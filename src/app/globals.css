@@ -7,15 +7,18 @@
 
 @theme {
   /* Core Palette */
-  --color-void: #050505;
+  --color-void: #0A1628;
   --color-signal: #FFFFFF;
   --color-chrome: #D0D0D0;
   --color-steel: #9A9A9A;
   --color-molten: #A0A0A0;
   --color-blood: #E81123;
   --color-slime: #39FF14;
+  --color-void-deep: #060e1a;
+  --color-navy-mid: #0f1d30;
+  --color-blue-accent: #4A90D9;
   --color-border-dark: rgba(255, 255, 255, 0.06);
-  --color-border-light: rgba(13, 13, 13, 0.08);
+  --color-border-light: rgba(10, 22, 40, 0.08);
 
   /* Typography */
   --font-display: 'Clash Grotesk', 'Helvetica Now', 'Inter', system-ui, sans-serif;
@@ -57,7 +60,7 @@
 
 html {
   scroll-behavior: smooth;
-  background: #050505;
+  background: #0A1628;
 }
 
 body {
@@ -301,7 +304,7 @@ body {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(5,5,5,0.3) 0%, rgba(5,5,5,0.7) 100%);
+  background: linear-gradient(180deg, rgba(10,22,40,0.3) 0%, rgba(10,22,40,0.7) 100%);
 }
 
 .video-content {
@@ -373,6 +376,30 @@ input:focus, textarea:focus {
   height: 60px !important;
   border-color: rgba(57, 255, 20, 0.8) !important;
   background: rgba(57, 255, 20, 0.1) !important;
+}
+
+/* ═══════════════════════════════════════════════
+   INTERFACE GRID OVERLAY
+   Blueprint-like 80px grid on all sections
+   ═══════════════════════════════════════════════ */
+
+.interface-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9997; /* under grain-overlay (9998) */
+  background-size: 80px 80px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+}
+
+/* Light sections: slightly darker grid lines */
+.section-signal ~ .interface-grid,
+.section-chrome ~ .interface-grid {
+  background-image:
+    linear-gradient(to right, rgba(10, 22, 40, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10, 22, 40, 0.04) 1px, transparent 1px);
 }
 
 /* ═══════════════════════════════════════════════

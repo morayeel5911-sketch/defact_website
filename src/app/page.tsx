@@ -86,6 +86,7 @@ export default function Home() {
         {/* ScrollEffects + AmbientSound are handled by ClientWrapper in layout.tsx */}
 
         <div className="grain-overlay" />
+        <div className="interface-grid" />
 
         <HeroSection />
         <ArtifactsSection />

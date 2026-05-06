@@ -111,7 +111,7 @@ export default function Navigation({ theme = "dark" }: NavigationProps) {
         className={`fixed inset-0 z-40 flex flex-col items-start justify-center px-8 transition-all duration-500 ${
           mobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
         }`}
-        style={{ background: "#050505" }}
+        style={{ background: "#0A1628" }}
       >
         <button
           className="absolute top-6 right-6 text-signal"
