@@ -16,6 +16,7 @@ import AcquisitionSection from "@/sections/AcquisitionSection";
 import ProcessSection from "@/sections/ProcessSection";
 import TransmitSection from "@/sections/TransmitSection";
 import CreatorBiosSection from "@/sections/CreatorBiosSection";
+import V2GallerySection from "@/sections/V2GallerySection";
 import Footer from "@/sections/Footer";
 
 // ScrollProgress is kept here (not in ClientWrapper) since it depends on section names
@@ -41,6 +42,7 @@ const sectionNames = [
   "Protocol",
   "Acquisition",
   "Process",
+  "V2 Gallery",
   "Transmit",
   "Creators",
   "Footer",
@@ -91,6 +93,7 @@ export default function Home() {
         <ProtocolSection />
         <AcquisitionSection />
         <ProcessSection />
+        <V2GallerySection />
         <TransmitSection />
         <CreatorBiosSection />
         <Footer />
