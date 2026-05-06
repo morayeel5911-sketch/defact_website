@@ -5,12 +5,13 @@ import Logo from "./Logo";
 import MagneticLink from "./MagneticLink";
 
 const navLinks = [
-  { num: "01", label: "WORKS", href: "#works" },
+  { num: "01", label: "ARTIFACTS", href: "#artifacts" },
   { num: "02", label: "MANIFESTO", href: "#manifesto" },
-  { num: "03", label: "PROTOCOL", href: "#duo" },
+  { num: "03", label: "PROTOCOL", href: "#protocol" },
   { num: "04", label: "ACQUISITION", href: "#acquisition" },
   { num: "05", label: "PROCESS", href: "#process" },
   { num: "06", label: "TRANSMIT", href: "#transmit" },
+  { num: "07", label: "CREATORS", href: "#creators" },
 ];
 
 interface NavigationProps {
