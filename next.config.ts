@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   
   // GitHub Pages deploys to /defact_website/ subpath
   basePath: '/defact_website',
-  assetPrefix: '/defact_website/',
+  assetPrefix: '/defact_website',
   
   // Image optimization disabled for static export
   images: {
