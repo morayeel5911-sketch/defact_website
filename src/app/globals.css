@@ -6,19 +6,24 @@
    ═══════════════════════════════════════════════ */
 
 @theme {
+  /* ═══════════════════════════════════════════════
+     V3 PALETTE — Royal Blue #000FEA
+     ═══════════════════════════════════════════════ */
+
   /* Core Palette */
-  --color-void: #4200FF;
+  --color-void: #000FEA;
   --color-signal: #FFFFFF;
   --color-chrome: #D0D0D0;
   --color-steel: #9A9A9A;
-  --color-molten: #A0A0A0;
+  --color-molten: #FF8C00;
   --color-blood: #E81123;
   --color-slime: #39FF14;
-  --color-void-deep: #1E004C;
-  --color-navy-mid: #3200A3;
-  --color-blue-accent: #7B4CFF;
+  --color-cyan: #00F0FF;
+  --color-void-deep: #0007A0;
+  --color-navy-mid: #0018D9;
+  --color-blue-accent: #4D7AFF;
   --color-border-dark: rgba(255, 255, 255, 0.06);
-  --color-border-light: rgba(66, 0, 255, 0.08);
+  --color-border-light: rgba(0, 15, 234, 0.08);
 
   /* Typography */
   --font-display: 'Clash Grotesk', 'Helvetica Now', 'Inter', system-ui, sans-serif;
@@ -60,7 +65,7 @@
 
 html {
   scroll-behavior: smooth;
-  background: #4200FF;
+  background: #000FEA;
 }
 
 body {
@@ -304,7 +309,7 @@ body {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(30,0,76,0.3) 0%, rgba(30,0,76,0.7) 100%);
+  background: linear-gradient(180deg, rgba(0,7,160,0.3) 0%, rgba(0,7,160,0.7) 100%);
 }
 
 .video-content {
@@ -376,30 +381,6 @@ input:focus, textarea:focus {
   height: 60px !important;
   border-color: rgba(57, 255, 20, 0.8) !important;
   background: rgba(57, 255, 20, 0.1) !important;
-}
-
-/* ═══════════════════════════════════════════════
-   INTERFACE GRID OVERLAY
-   Blueprint-like 80px grid on all sections
-   ═══════════════════════════════════════════════ */
-
-.interface-grid {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9997; /* under grain-overlay (9998) */
-  background-size: 80px 80px;
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-}
-
-/* Light sections: slightly darker grid lines */
-.section-signal ~ .interface-grid,
-.section-chrome ~ .interface-grid {
-  background-image:
-    linear-gradient(to right, rgba(66, 0, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(66, 0, 255, 0.04) 1px, transparent 1px);
 }
 
 /* ═══════════════════════════════════════════════

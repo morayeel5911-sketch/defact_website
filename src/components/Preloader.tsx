@@ -377,7 +377,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   return (
     <div
       className={`fixed inset-0 z-[9999] flex flex-col items-center justify-between transition-opacity duration-700 ${fadeOut ? "opacity-0 pointer-events-none" : "opacity-100"}`}
-        style={{ background: "#4200FF" }}
+        style={{ background: "#000FEA" }}
     >
       {/* WebGL Canvas */}
       <canvas

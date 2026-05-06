@@ -22,6 +22,8 @@ import Footer from "@/sections/Footer";
 // ScrollProgress is kept here (not in ClientWrapper) since it depends on section names
 import ScrollProgress from "@/components/ScrollProgress";
 
+import InterfaceGrid from "@/components/InterfaceGrid";
+
 const Scene = dynamic(() => import("@/components/Scene"), {
   ssr: false,
   loading: () => (
@@ -86,7 +88,7 @@ export default function Home() {
         {/* ScrollEffects + AmbientSound are handled by ClientWrapper in layout.tsx */}
 
         <div className="grain-overlay" />
-        <div className="interface-grid" />
+        <InterfaceGrid />
 
         <HeroSection />
         <ArtifactsSection />
