@@ -96,7 +96,7 @@ export default function LoadingScreen({ onDone }: { onDone?: () => void }) {
     <div
       style={{
         position: "fixed", inset: 0, zIndex: 9999,
-        background: "linear-gradient(135deg, #060e1a 0%, #0f1d30 50%, #060e1a 100%)",
+        background: "linear-gradient(135deg, #1E004C 0%, #3200A3 50%, #1E004C 100%)",
         display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
         transition: "opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1)",
         opacity: phase >= 5 ? 0 : 1,
