@@ -28,7 +28,7 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const l = new Lenis({
-      lerp: 0.08,
+      lerp: 0.06,
       smoothWheel: true,
       wheelMultiplier: 0.7,
       touchMultiplier: 1.5,
