@@ -42,11 +42,11 @@ export default function HeroSection() {
       />
 
       {/* Top bar — Local time + Shop + Glitch Toggle */}
-      <div className="absolute top-0 left-0 right-0 z-30 flex justify-between items-center gsnap-1 md:gsnap-2 py-grid-1">
+      <div className="absolute top-0 left-0 right-0 z-30 flex justify-between items-center gsnap-1 md:gsnap-2 py-4">
         <div className="font-dm-mono text-micro tracking-mono text-steel/60">
           <LocalTime />
         </div>
-          <div className="flex items-center gap-grid-1">
+          <div className="flex items-center gap-4">
           <button
             onClick={() => setGlitchEnabled(!glitchEnabled)}
             className={`font-dm-mono text-micro tracking-mono uppercase transition-colors ${
@@ -67,7 +67,7 @@ export default function HeroSection() {
       </div>
 
       {/* Main asymmetric layout */}
-      <div className="absolute inset-0 z-20 flex flex-col justify-between gsnap-1 md:gsnap-2 pt-grid-4 pb-grid-2">
+      <div className="absolute inset-0 z-20 flex flex-col justify-between gsnap-1 md:gsnap-2 pt-24 pb-12">
         {/* Top-left: Brand Index + Floating products */}
         <div className="flex items-start justify-between w-full">
           <div className="space-y-1">
@@ -80,7 +80,7 @@ export default function HeroSection() {
           </div>
 
           {/* Floating product images — asymmetric scattered (Sutera-style) */}
-          <div className="hidden md:flex gap-grid-1 relative">
+          <div className="hidden md:flex gap-4 relative">
             <HeroFloatingImage
               src="/images/artifacts/starmirror_1.webp"
               alt="Starmirror Shuriken"
@@ -122,7 +122,7 @@ export default function HeroSection() {
           </p>
 
           {/* Specs Grid (micro-typography) */}
-          <div className="hidden md:grid grid-cols-4 gap-grid-1 border-t border-border-dark/50 pt-4 max-w-lg">
+          <div className="hidden md:grid grid-cols-4 gap-4 border-t border-border-dark/50 pt-4 max-w-lg">
             <div>
               <span className="font-dm-mono text-micro tracking-mono text-steel/40 block uppercase">Material</span>
               <span className="font-dm-mono text-micro tracking-mono text-steel/70 block mt-1">PLA + Glanzfarbe</span>
@@ -142,7 +142,7 @@ export default function HeroSection() {
           </div>
 
           {/* Category pills */}
-          <div className="flex flex-wrap gap-grid-1">
+          <div className="flex flex-wrap gap-3">
             {["3D PRINTING", "ART DIRECTION", "PRODUCT DESIGN"].map((cat) => (
               <span
                 key={cat}

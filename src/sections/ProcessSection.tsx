@@ -1,13 +1,13 @@
 export default function ProcessSection() {
   return (
-    <section id="process" data-theme="chrome" className="relative min-h-screen py-grid-4 bg-chrome text-void">
-      <div className="max-w-[90vw] mx-auto gsnap-1 md:gsnap-2">
-        <div className="flex items-baseline gap-4 mb-grid-2 reveal-up">
+    <section id="process" data-theme="chrome" className="relative min-h-screen py-grid-1 bg-chrome text-void">
+      <div className="max-w-[90vw] mx-auto px-8 md:px-16">
+        <div className="flex items-baseline gap-4 mb-8 reveal-up">
           <span className="font-dm-mono text-micro tracking-mono text-void/40">[05/06]</span>
           <h2 className="font-clash text-h2 tracking-tight">05 — PROCESS</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-grid-1 md:gap-grid-2">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
           <div className="md:col-span-5 reveal-up">
             <p className="font-clash text-h2 tracking-tight leading-[0.95] mb-8">
               FROM BIT<br />TO MATTER
