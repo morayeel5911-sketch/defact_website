@@ -7,13 +7,13 @@ const steps = [
 
 export default function ProtocolSection() {
   return (
-    <section id="duo" data-theme="dark" className="relative min-h-screen py-32 bg-void scanlines">
-      <div className="max-w-[90vw] mx-auto px-8 md:px-16">
-        <div className="flex items-baseline gap-4 mb-16 reveal-up">
+    <section id="duo" data-theme="dark" className="relative min-h-screen py-grid-4 bg-void scanlines">
+      <div className="max-w-[90vw] mx-auto gsnap-1 md:gsnap-2">
+        <div className="flex items-baseline gap-4 mb-grid-2 reveal-up">
           <span className="font-dm-mono text-micro tracking-mono text-steel/50">[03/06]</span>
           <h2 className="font-clash text-h2 tracking-tight text-signal">03 — PROTOCOL</h2>
         </div>
-        <p className="font-clash text-h3 tracking-tight text-molten mb-24 reveal-up">
+        <p className="font-clash text-h3 tracking-tight text-molten mb-grid-4 reveal-up">
           SIGNAL {'>'} NOISE
         </p>
 
@@ -21,7 +21,7 @@ export default function ProtocolSection() {
           {steps.map((step, i) => (
             <div
               key={step.num}
-              className="group border-t border-border-dark py-12 reveal-left flex flex-col md:flex-row md:items-start gap-6 md:gap-16"
+              className="group border-t border-border-dark py-12 reveal-left flex flex-col md:flex-row md:items-start gap-grid-1 md:gap-grid-2"
               style={{ transitionDelay: `${i * 100}ms` }}
               data-cursor-hover
             >

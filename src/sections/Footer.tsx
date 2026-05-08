@@ -13,7 +13,7 @@ export default function Footer() {
       <div className="border-y border-border-dark">
         <a
           href="#contact"
-          className="block py-8 md:py-12 text-center hover:bg-signal/5 transition-colors"
+          className="block py-grid-1 md:py-grid-2 text-center hover:bg-signal/5 transition-colors"
           data-cursor-hover
         >
           <h2 className="font-clash text-h1 tracking-tight text-signal">
@@ -32,8 +32,8 @@ export default function Footer() {
       </div>
 
       {/* Footer Content */}
-      <div className="px-6 md:px-12 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="gsnap-1 md:gsnap-2 py-grid-2">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-grid-1">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <span className="font-dm-mono text-micro tracking-mono text-steel/40 block">
@@ -100,7 +100,7 @@ export default function Footer() {
         </div>
 
         {/* Back to top */}
-        <div className="mt-12 pt-6 border-t border-border-dark flex justify-between items-center">
+        <div className="mt-grid-2 pt-grid-1 border-t border-border-dark flex justify-between items-center">
           <button
             onClick={scrollToTop}
             className="font-dm-mono text-micro tracking-mono text-steel/40 hover:text-slime transition-colors uppercase"

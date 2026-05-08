@@ -636,4 +636,14 @@ input:focus, textarea:focus {
 @utility py-grid-4 { padding-top: calc(var(--grid-size) * 4); padding-bottom: calc(var(--grid-size) * 4); }
 @utility py-grid-6 { padding-top: calc(var(--grid-size) * 6); padding-bottom: calc(var(--grid-size) * 6); }
 @utility py-grid-8 { padding-top: calc(var(--grid-size) * 8); padding-bottom: calc(var(--grid-size) * 8); }
+@utility gap-grid-1 { gap: calc(var(--grid-size) * 1); }
+@utility gap-grid-2 { gap: calc(var(--grid-size) * 2); }
+@utility gap-grid-4 { gap: calc(var(--grid-size) * 4); }
+@utility mt-grid-1 { margin-top: calc(var(--grid-size) * 1); }
+@utility mt-grid-2 { margin-top: calc(var(--grid-size) * 2); }
+@utility mt-grid-4 { margin-top: calc(var(--grid-size) * 4); }
+@utility mb-grid-1 { margin-bottom: calc(var(--grid-size) * 1); }
+@utility mb-grid-2 { margin-bottom: calc(var(--grid-size) * 2); }
+@utility mb-grid-4 { margin-bottom: calc(var(--grid-size) * 4); }
+
 .animate-float-2 { animation: float-2 5s ease-in-out infinite; }

@@ -11,7 +11,7 @@ function ArtifactCard({ artifact, index }: { artifact: Product; index: number })
   const isEven = index % 2 === 0;
 
   return (
-    <div data-artifact-card className={`relative flex flex-col lg:flex-row ${isEven ? "" : "lg:flex-row-reverse"} gap-8 lg:gap-16 min-h-[80vh] items-center py-16`}>
+    <div data-artifact-card className={`relative flex flex-col lg:flex-row ${isEven ? "" : "lg:flex-row-reverse"} gap-grid-1 lg:gap-grid-2 min-h-[80vh] items-center py-16`}>
       {/* Annotation line */}
       <div className={`hidden lg:block absolute top-0 ${isEven ? "left-[48%]" : "right-[48%]"} w-px h-24 bg-white/20`} />
 
@@ -67,7 +67,7 @@ function ArtifactCard({ artifact, index }: { artifact: Product; index: number })
         </p>
 
         {/* Specs grid */}
-        <div className="grid grid-cols-3 gap-6 border-t border-white/20 pt-6">
+        <div className="grid grid-cols-3 gap-grid-1 border-t border-white/20 pt-6">
           <div>
             <span className="text-[10px] tracking-[0.2em] text-white/60 uppercase block">Material</span>
             <span className="font-mono text-sm text-white mt-1 block">{artifact.specs.material}</span>
@@ -82,7 +82,7 @@ function ArtifactCard({ artifact, index }: { artifact: Product; index: number })
           </div>
         </div>
 
-        <div className="flex items-center gap-6 pt-2">
+        <div className="flex items-center gap-grid-1 pt-2">
           <span className="font-mono text-lg text-white">{artifact.price}</span>
           <a
             href="https://defact.world"
@@ -100,9 +100,9 @@ function ArtifactCard({ artifact, index }: { artifact: Product; index: number })
 
 export default function ArtifactsSection() {
   return (
-    <section id="artifacts" data-theme="dark" className="relative py-32 px-6 lg:px-16 min-h-screen bg-void">
+    <section id="artifacts" data-theme="dark" className="relative py-grid-4 gsnap-1 lg:gsnap-2 min-h-screen bg-void">
       {/* Section header */}
-      <div className="mb-32 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 border-b border-white/10 pb-8">
+      <div className="mb-grid-4 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 border-b border-white/10 pb-8">
         <div>
           <span className="text-[10px] tracking-[0.3em] text-white/50 block mb-4 font-mono">
             DEFACT.ARTIFACTS
@@ -118,7 +118,7 @@ export default function ArtifactsSection() {
       </div>
 
       {/* Category pills */}
-      <div className="flex flex-wrap gap-3 mb-24">
+      <div className="flex flex-wrap gap-3 mb-grid-2">
         {CATEGORY_PILLS.map((pill) => (
           <span key={pill} className="px-4 py-2 text-[10px] tracking-[0.2em] uppercase border border-white/20 text-white/60 hover:border-white/40 hover:text-white/80 transition-all cursor-default">
             {pill}
@@ -134,7 +134,7 @@ export default function ArtifactsSection() {
       </div>
 
       {/* Bottom CTA */}
-      <div className="mt-48 flex flex-col items-center gap-6">
+      <div className="mt-grid-4 flex flex-col items-center gap-6">
         <p className="text-[10px] tracking-[0.3em] text-white/50 uppercase text-center font-mono">
           ALL OBJECTS ARE MADE TO ORDER. CONTACT FOR CUSTOM EDITIONS.
         </p>

@@ -1,13 +1,13 @@
 export default function ManifestoSection() {
   return (
-    <section id="manifesto" data-theme="light" className="relative min-h-screen py-32 bg-signal text-void">
-      <div className="max-w-[90vw] mx-auto px-8 md:px-16">
-        <div className="flex items-baseline gap-4 mb-16 reveal-up">
+    <section id="manifesto" data-theme="light" className="relative min-h-screen py-grid-4 bg-signal text-void">
+      <div className="max-w-[90vw] mx-auto gsnap-1 md:gsnap-2">
+        <div className="flex items-baseline gap-4 mb-grid-2 reveal-up">
           <span className="font-dm-mono text-micro tracking-mono text-void/40">[02/06]</span>
           <h2 className="font-clash text-h2 tracking-tight">02 — MANIFESTO</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-grid-1">
           <div className="md:col-span-8">
             <p className="font-clash text-h1 tracking-tight leading-[0.95] reveal-up">
               THE CODE<br />

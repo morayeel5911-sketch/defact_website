@@ -98,16 +98,16 @@ function V2Card({ asset, index }: { asset: V2Asset; index: number }) {
 
 export default function V2GallerySection() {
   return (
-    <section id="v2-gallery" data-theme="dark" className="relative py-32 bg-void">
-      <div className="max-w-[90vw] mx-auto px-8 md:px-16">
+    <section id="v2-gallery" data-theme="dark" className="relative py-grid-4 bg-void">
+      <div className="max-w-[90vw] mx-auto gsnap-1 md:gsnap-2">
         {/* Header */}
-        <div className="flex items-baseline gap-4 mb-16 reveal-up">
+        <div className="flex items-baseline gap-4 mb-grid-2 reveal-up">
           <span className="font-dm-mono text-micro tracking-mono text-white/40">[V2]</span>
           <h2 className="font-clash text-h2 tracking-tight text-white">V2 ASSETS</h2>
         </div>
 
         {/* Grid — 3 columns on desktop, 2 on tablet, 1 on mobile */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-grid-1">
           {v2Assets.map((asset, i) => (
             <div
               key={asset.label}
@@ -120,7 +120,7 @@ export default function V2GallerySection() {
         </div>
 
         {/* Bottom note */}
-        <div className="mt-16 pt-8 border-t border-white/10 reveal-up">
+        <div className="mt-grid-2 pt-8 border-t border-white/10 reveal-up">
           <p className="font-dm-mono text-micro tracking-mono text-white/30">
             GENERATED VIA FLUX ON POLLINATIONS.AI — CLINICAL ARCHIVE AESTHETIC
           </p>

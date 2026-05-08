@@ -20,7 +20,7 @@ export default function CreatorBiosSection() {
     <section
       id="creators"
       data-theme="light"
-      className="relative py-24 md:py-32 px-6 md:px-[10vw] overflow-hidden animate-section bg-void"
+      className="relative py-grid-4 md:py-grid-4 gsnap-1 md:gsnap-2 overflow-hidden animate-section bg-void"
     >
       {/* Global noise texture overlay */}
       <div
@@ -32,7 +32,7 @@ export default function CreatorBiosSection() {
 
       <div className="relative z-10 max-w-[1400px] mx-auto">
         {/* Section header — asymmetric, left-weighted */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between pb-8 md:pb-12 border-b border-[#D5D5D5] mb-12 md:mb-20">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between pb-8 md:pb-12 border-b border-[#D5D5D5] mb-grid-2 md:mb-grid-2">
           <div>
             <p className="font-dm-mono text-micro tracking-mono uppercase text-steel mb-3">
               [Personnel File]
@@ -134,7 +134,7 @@ export default function CreatorBiosSection() {
             return (
               <div
                 key={creator.name}
-                className={`grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 py-12 md:py-16 ${
+                className={`grid grid-cols-1 md:grid-cols-12 gap-grid-1 md:gap-grid-1 py-12 md:py-16 ${
                   !isLast ? "border-b border-[#D5D5D5]" : ""
                 }`}
               >
@@ -157,7 +157,7 @@ export default function CreatorBiosSection() {
         </div>
 
         {/* Footer note */}
-        <div className="mt-12 md:mt-16 pt-8 border-t border-[#D5D5D5]">
+        <div className="mt-grid-2 md:mt-grid-2 pt-8 border-t border-[#D5D5D5]">
           <p className="font-dm-mono text-micro tracking-mono uppercase text-steel">
             [Process documentation available upon request]
           </p>
