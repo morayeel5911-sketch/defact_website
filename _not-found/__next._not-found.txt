@@ -2,4 +2,4 @@
 2:I[98165,["/defact_website/_next/static/chunks/0abq70hq3t00e.js","/defact_website/_next/static/chunks/0sgvm6_cn95dp.js","/defact_website/_next/static/chunks/03b_dbzjb3dqm.js","/defact_website/_next/static/chunks/054q~10vif5az.js"],"default"]
 3:I[42619,["/defact_website/_next/static/chunks/0abq70hq3t00e.js","/defact_website/_next/static/chunks/0sgvm6_cn95dp.js","/defact_website/_next/static/chunks/03b_dbzjb3dqm.js","/defact_website/_next/static/chunks/054q~10vif5az.js"],"default"]
 4:[]
-0:{"rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"isPartial":false,"staleTime":300,"varyParams":"$W4","buildId":"oqc0zMfM9F-9UxVawNl2a"}
+0:{"rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"isPartial":false,"staleTime":300,"varyParams":"$W4","buildId":"gL7ckfnkOU7RY44LQc-wE"}
