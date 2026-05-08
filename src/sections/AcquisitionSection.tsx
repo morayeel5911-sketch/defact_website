@@ -12,7 +12,7 @@ export default function AcquisitionSection() {
         </div>
       </div>
 
-      <div className="max-w-[90vw] mx-auto px-8 md:px-16">
+      <div className="gc-g">
         <div className="flex items-baseline gap-4 mb-16 reveal-up">
           <span className="font-dm-mono text-micro tracking-mono text-steel/50">[04/06]</span>
           <h2 className="font-clash text-h2 tracking-tight text-signal">04 — ACQUISITION</h2>

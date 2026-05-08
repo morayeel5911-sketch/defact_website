@@ -660,4 +660,14 @@ input:focus, textarea:focus {
 @utility mb-grid-2 { margin-bottom: calc(var(--grid-size) * 2); }
 @utility mb-grid-4 { margin-bottom: calc(var(--grid-size) * 4); }
 
+@utility gc-g {
+  max-width: min(calc(10 * 120px + 9 * 24px), calc(100vw - 2 * 32px));
+  margin-inline: auto;
+  padding-inline: 0;
+}
+
+@utility gap-g {
+  gap: min(24px, calc(100vw / 12 * 0.167));
+}
+
 .animate-float-2 { animation: float-2 5s ease-in-out infinite; }

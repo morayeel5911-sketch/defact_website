@@ -1,7 +1,7 @@
 export default function ProcessSection() {
   return (
     <section id="process" data-theme="chrome" className="relative min-h-screen py-grid-1 bg-chrome text-void">
-      <div className="max-w-[90vw] mx-auto px-8 md:px-16">
+      <div className="gc-g">
         <div className="flex items-baseline gap-4 mb-8 reveal-up">
           <span className="font-dm-mono text-micro tracking-mono text-void/40">[05/06]</span>
           <h2 className="font-clash text-h2 tracking-tight">05 — PROCESS</h2>

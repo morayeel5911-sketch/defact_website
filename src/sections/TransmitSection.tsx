@@ -1,7 +1,7 @@
 export default function TransmitSection() {
   return (
     <section id="transmit" data-theme="dark" className="relative min-h-screen py-grid-1 bg-void flex items-center">
-      <div className="max-w-[90vw] mx-auto px-8 md:px-16 w-full">
+      <div className="gc-g w-full">
         <div className="flex items-baseline gap-4 mb-8 reveal-up">
           <span className="font-dm-mono text-micro tracking-mono text-steel/50">[06/06]</span>
           <h2 className="font-clash text-h2 tracking-tight text-signal">06 — TRANSMIT</h2>
