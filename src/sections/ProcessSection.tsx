@@ -1,17 +1,49 @@
+"use client";
+
 import InterfaceGrid from "@/components/InterfaceGrid";
 
+import { useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+
 export default function ProcessSection() {
+
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(el.querySelectorAll("[data-reveal]"), {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      });
+    }, el);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="process" data-theme="chrome" className="relative min-h-screen py-grid-1 bg-chrome text-void">
+    <section ref={sectionRef} id="process" data-theme="chrome" className="relative min-h-screen py-grid-1 bg-chrome text-void">
       <InterfaceGrid theme="chrome" />
       <div className="gc-g">
-        <div className="flex items-baseline gap-4 mb-8 reveal-up">
+        <div className="flex items-baseline gap-4 mb-8 " data-reveal>
           <span className="font-dm-mono text-micro tracking-mono text-void/40">[05/06]</span>
           <h2 className="font-clash text-h2 tracking-tight">05 — PROCESS</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
-          <div className="md:col-span-5 reveal-up">
+          <div className="md:col-span-5 " data-reveal>
             <p className="font-clash text-h2 tracking-tight leading-[0.95] mb-8">
               FROM BIT<br />TO MATTER
             </p>

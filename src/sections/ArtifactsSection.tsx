@@ -5,11 +5,41 @@ import Image from "next/image";
 import InterfaceGrid from "@/components/InterfaceGrid";
 import { products, type Product } from "@/data/products";
 
+import { useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+
 const CATEGORY_PILLS = ["3D PRINTING", "ART DIRECTION", "MERCHANDISE", "TECHNOLOGY", "CONCEPT", "MISC"] as const;
 
 function ArtifactCard({ artifact, index }: { artifact: Product; index: number }) {
   const [imgError, setImgError] = useState(false);
   const isEven = index % 2 === 0;
+
+
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(el.querySelectorAll("[data-reveal]"), {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      });
+    }, el);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <div data-artifact-card className={`relative flex flex-col lg:flex-row ${isEven ? "" : "lg:flex-row-reverse"} gap-8 lg:gap-16 min-h-[80vh] items-center py-16`}>
@@ -100,8 +130,33 @@ function ArtifactCard({ artifact, index }: { artifact: Product; index: number })
 }
 
 export default function ArtifactsSection() {
+
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(el.querySelectorAll("[data-reveal]"), {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      });
+    }, el);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="artifacts" data-theme="dark" className="relative py-grid-1 px-6 lg:px-16 min-h-screen bg-void">
+    <section ref={sectionRef} id="artifacts" data-theme="dark" className="relative py-grid-1 px-6 lg:px-16 min-h-screen bg-void">
       <InterfaceGrid theme="dark" />
 
       {/* Section header */}

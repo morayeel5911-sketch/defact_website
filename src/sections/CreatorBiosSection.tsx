@@ -2,6 +2,11 @@
 
 import InterfaceGrid from "@/components/InterfaceGrid";
 
+import { useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+
 export default function CreatorBiosSection() {
   const creators = [
     {
@@ -18,8 +23,33 @@ export default function CreatorBiosSection() {
     },
   ];
 
+
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(el.querySelectorAll("[data-reveal]"), {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      });
+    }, el);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section
+    <section ref={sectionRef}
       id="creators"
       data-theme="light"
       className="relative py-24 md:py-32 px-6 md:px-[10vw] overflow-hidden animate-section bg-void"
@@ -135,7 +165,32 @@ export default function CreatorBiosSection() {
               </div>
             );
 
-            return (
+          
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(el.querySelectorAll("[data-reveal]"), {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      });
+    }, el);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
               <div
                 key={creator.name}
                 className={`grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 py-12 md:py-16 ${

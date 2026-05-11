@@ -1,4 +1,11 @@
+"use client";
+
 import InterfaceGrid from "@/components/InterfaceGrid";
+
+import { useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 
 const steps = [
   { num: "01", title: "PARAMETRIC DESIGN", desc: "Algorithm-driven form generation using computational geometry and topology optimization." },
@@ -8,15 +15,40 @@ const steps = [
 ];
 
 export default function ProtocolSection() {
+
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(el.querySelectorAll("[data-reveal]"), {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      });
+    }, el);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="duo" data-theme="dark" className="relative min-h-screen py-grid-1 bg-void scanlines">
+    <section ref={sectionRef} id="duo" data-theme="dark" className="relative min-h-screen py-grid-1 bg-void scanlines">
       <InterfaceGrid theme="dark" />
       <div className="gc-g">
-        <div className="flex items-baseline gap-4 mb-8 reveal-up">
+        <div className="flex items-baseline gap-4 mb-8 " data-reveal>
           <span className="font-dm-mono text-micro tracking-mono text-steel/50">[03/06]</span>
           <h2 className="font-clash text-h2 tracking-tight text-signal">03 — PROTOCOL</h2>
         </div>
-        <p className="font-clash text-h3 tracking-tight text-molten mb-16 reveal-up">
+        <p className="font-clash text-h3 tracking-tight text-molten mb-16 " data-reveal>
           SIGNAL {'>'} NOISE
         </p>
 

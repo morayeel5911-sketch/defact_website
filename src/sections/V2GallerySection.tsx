@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import InterfaceGrid from "@/components/InterfaceGrid";
 
 interface V2Asset {
@@ -13,42 +14,12 @@ interface V2Asset {
 }
 
 const v2Assets: V2Asset[] = [
-  {
-    src: "/images/v2/artifact_abyss.jpg",
-    alt: "Artifact Abyss",
-    label: "01.01",
-    subtitle: "ABYSS — DEEP CERAMIC",
-  },
-  {
-    src: "/images/v2/artifact_fault.jpg",
-    alt: "Artifact Fault",
-    label: "01.02",
-    subtitle: "FAULT — FRACTURE LINES",
-  },
-  {
-    src: "/images/v2/artifact_horizon.jpg",
-    alt: "Artifact Horizon",
-    label: "01.03",
-    subtitle: "HORIZON — CHROME RIM",
-  },
-  {
-    src: "/images/v2/manifesto.jpg",
-    alt: "Manifesto",
-    label: "02.00",
-    subtitle: "MANIFESTO — RITUAL OBJECTS",
-  },
-  {
-    src: "/images/v2/process.jpg",
-    alt: "Process",
-    label: "05.00",
-    subtitle: "PROCESS — LAYER LINES",
-  },
-  {
-    src: "/images/v2/hero.jpg",
-    alt: "Hero",
-    label: "00.00",
-    subtitle: "HERO — CLINICAL ARCHIVE",
-  },
+  { src: "/images/v2/artifact_abyss.jpg", alt: "Artifact Abyss", label: "01.01", subtitle: "ABYSS — DEEP CERAMIC" },
+  { src: "/images/v2/artifact_fault.jpg", alt: "Artifact Fault", label: "01.02", subtitle: "FAULT — FRACTURE LINES" },
+  { src: "/images/v2/artifact_horizon.jpg", alt: "Artifact Horizon", label: "01.03", subtitle: "HORIZON — CHROME RIM" },
+  { src: "/images/v2/manifesto.jpg", alt: "Manifesto", label: "02.00", subtitle: "MANIFESTO — RITUAL OBJECTS" },
+  { src: "/images/v2/process.jpg", alt: "Process", label: "05.00", subtitle: "PROCESS — LAYER LINES" },
+  { src: "/images/v2/hero.jpg", alt: "Hero", label: "00.00", subtitle: "HERO — CLINICAL ARCHIVE" },
 ];
 
 function V2Card({ asset, index }: { asset: V2Asset; index: number }) {
@@ -99,12 +70,56 @@ function V2Card({ asset, index }: { asset: V2Asset; index: number }) {
 }
 
 export default function V2GallerySection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const ctx = gsap.context(() => {
+      // Header stagger
+      gsap.from(el.querySelectorAll("[data-reveal]"), {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      });
+
+      // Card scale reveals
+      gsap.from(el.querySelectorAll("[data-scale-reveal]"), {
+        scale: 0.92,
+        opacity: 0,
+        duration: 0.9,
+        stagger: 0.12,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el.querySelector(".grid"),
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      });
+    }, el);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="v2-gallery" data-theme="dark" className="relative py-grid-1 bg-void">
+    <section
+      ref={sectionRef}
+      id="v2-gallery"
+      data-theme="dark"
+      className="relative py-grid-1 bg-void"
+    >
       <InterfaceGrid theme="dark" />
       <div className="max-w-[90vw] mx-auto px-8 md:px-16">
         {/* Header */}
-        <div className="flex items-baseline gap-4 mb-8 reveal-up">
+        <div className="flex items-baseline gap-4 mb-8" data-reveal>
           <span className="font-dm-mono text-micro tracking-mono text-white/40">[V2]</span>
           <h2 className="font-clash text-h2 tracking-tight text-white">V2 ASSETS</h2>
         </div>
@@ -114,8 +129,7 @@ export default function V2GallerySection() {
           {v2Assets.map((asset, i) => (
             <div
               key={asset.label}
-              className="reveal-up"
-              style={{ transitionDelay: `${i * 80}ms` }}
+              data-scale-reveal
             >
               <V2Card asset={asset} index={i} />
             </div>
@@ -123,7 +137,7 @@ export default function V2GallerySection() {
         </div>
 
         {/* Bottom note */}
-        <div className="mt-12 pt-8 border-t border-white/10 reveal-up">
+        <div className="mt-12 pt-8 border-t border-white/10" data-reveal>
           <p className="font-dm-mono text-micro tracking-mono text-white/30">
             GENERATED VIA FLUX ON POLLINATIONS.AI — CLINICAL ARCHIVE AESTHETIC
           </p>
