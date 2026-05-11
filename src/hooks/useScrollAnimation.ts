@@ -1,81 +1,139 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-// Register plugin once
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
+interface ScrollAnimationOptions {
+  /** Parallax: verschiebt Element vertikal beim Scroll (yPercent) */
+  parallax?: {
+    yPercent?: number;
+    start?: string;
+    end?: string;
+  };
+  /** FadeInUp: Element erscheint von unten mit Fade */
+  fadeInUp?: {
+    y?: number;
+    duration?: number;
+    stagger?: number;
+  };
+  /** ScaleReveal: Element skaliert von klein zu groß */
+  scaleReveal?: {
+    scale?: number;
+    duration?: number;
+  };
+  /** Pin: Section wird gepinnt */
+  pin?: {
+    end?: string;
+  };
 }
 
-export function useScrollAnimation() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
+/**
+ * Universal Scroll-Animation Hook für DEFACT Sections.
+ * Jede Section verwendet ihren eigenen useRef + useEffect.
+ * Cleanup automatisch via gsap.context().
+ *
+ * Usage:
+ *   const sectionRef = useRef<HTMLElement>(null);
+ *   useScrollAnimation(sectionRef, { parallax: { yPercent: 15 } });
+ */
+export function useScrollAnimation(
+  containerRef: React.RefObject<HTMLElement | null>,
+  options: ScrollAnimationOptions
+) {
   useEffect(() => {
-    if (!containerRef.current) return;
+    const el = containerRef.current;
+    if (!el) return;
+
     const ctx = gsap.context(() => {
-      // Fade in + slide up all sections
-      const sections = containerRef.current?.querySelectorAll(".animate-section");
-      sections?.forEach((section) => {
-        gsap.fromTo(
-          section,
-          { opacity: 0, y: 60 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1.2,
-            ease: "power3.out",
+      // Parallax
+      if (options.parallax) {
+        const targets = el.querySelectorAll("[data-parallax]");
+        if (targets.length === 0) {
+          // Fallback: container selbst animieren
+          gsap.to(el, {
+            yPercent: options.parallax.yPercent ?? 10,
+            ease: "none",
             scrollTrigger: {
-              trigger: section,
-              start: "top 85%",
-              end: "top 20%",
-              toggleActions: "play none none reverse",
+              trigger: el,
+              start: options.parallax.start ?? "top bottom",
+              end: options.parallax.end ?? "bottom top",
+              scrub: true,
             },
-          }
-        );
-      });
+          });
+        } else {
+          targets.forEach((target) => {
+            const y = parseFloat(target.getAttribute("data-parallax") ?? "10");
+            gsap.to(target, {
+              yPercent: y,
+              ease: "none",
+              scrollTrigger: {
+                trigger: el,
+                start: options.parallax?.start ?? "top bottom",
+                end: options.parallax?.end ?? "bottom top",
+                scrub: true,
+              },
+            });
+          });
+        }
+      }
 
-      // Stagger children within sections
-      const staggerContainers = containerRef.current?.querySelectorAll(".stagger-children");
-      staggerContainers?.forEach((container) => {
-        const children = container.children;
-        gsap.fromTo(
-          children,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: container,
-              start: "top 80%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-      });
+      // FadeInUp — auf Kinder mit data-reveal
+      if (options.fadeInUp) {
+        const targets = el.querySelectorAll("[data-reveal]");
+        if (targets.length > 0) {
+          gsap.from(
+            targets,
+            {
+              y: options.fadeInUp.y ?? 40,
+              opacity: 0,
+              duration: options.fadeInUp.duration ?? 1,
+              stagger: options.fadeInUp.stagger ?? 0.1,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: el,
+                start: "top 80%",
+                toggleActions: "play none none none",
+              },
+            }
+          );
+        }
+      }
 
-      // Parallax for video backgrounds
-      const videoBgs = containerRef.current?.querySelectorAll(".parallax-bg");
-      videoBgs?.forEach((bg) => {
-        gsap.to(bg, {
-          yPercent: 20,
-          ease: "none",
-          scrollTrigger: {
-            trigger: bg.parentElement,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1,
-          },
+      // ScaleReveal
+      if (options.scaleReveal) {
+        const targets = el.querySelectorAll("[data-scale-reveal]");
+        if (targets.length > 0) {
+          gsap.from(
+            targets,
+            {
+              scale: options.scaleReveal.scale ?? 0.9,
+              opacity: 0,
+              duration: options.scaleReveal.duration ?? 1,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: el,
+                start: "top 80%",
+                toggleActions: "play none none none",
+              },
+            }
+          );
+        }
+      }
+
+      // Pin
+      if (options.pin) {
+        ScrollTrigger.create({
+          trigger: el,
+          pin: true,
+          end: options.pin.end ?? "+=100%",
+          scrub: true,
         });
-      });
-    }, containerRef);
+      }
+    }, el);
 
     return () => ctx.revert();
-  }, []);
-
-  return containerRef;
+  }, [containerRef, options]);
 }
+
+export default useScrollAnimation;
