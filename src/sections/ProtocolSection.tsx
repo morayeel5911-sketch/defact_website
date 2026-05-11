@@ -1,3 +1,5 @@
+import InterfaceGrid from "@/components/InterfaceGrid";
+
 const steps = [
   { num: "01", title: "PARAMETRIC DESIGN", desc: "Algorithm-driven form generation using computational geometry and topology optimization." },
   { num: "02", title: "SIMULATION", desc: "Finite element analysis ensures structural integrity before physical production." },
@@ -8,6 +10,7 @@ const steps = [
 export default function ProtocolSection() {
   return (
     <section id="duo" data-theme="dark" className="relative min-h-screen py-grid-1 bg-void scanlines">
+      <InterfaceGrid theme="dark" />
       <div className="gc-g">
         <div className="flex items-baseline gap-4 mb-8 reveal-up">
           <span className="font-dm-mono text-micro tracking-mono text-steel/50">[03/06]</span>

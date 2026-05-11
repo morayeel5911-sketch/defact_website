@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 
+import InterfaceGrid from "@/components/InterfaceGrid";
+
 interface V2Asset {
   src: string;
   alt: string;
@@ -99,6 +101,7 @@ function V2Card({ asset, index }: { asset: V2Asset; index: number }) {
 export default function V2GallerySection() {
   return (
     <section id="v2-gallery" data-theme="dark" className="relative py-grid-1 bg-void">
+      <InterfaceGrid theme="dark" />
       <div className="max-w-[90vw] mx-auto px-8 md:px-16">
         {/* Header */}
         <div className="flex items-baseline gap-4 mb-8 reveal-up">

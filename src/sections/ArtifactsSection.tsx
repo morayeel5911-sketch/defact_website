@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import InterfaceGrid from "@/components/InterfaceGrid";
 import { products, type Product } from "@/data/products";
 
 const CATEGORY_PILLS = ["3D PRINTING", "ART DIRECTION", "MERCHANDISE", "TECHNOLOGY", "CONCEPT", "MISC"] as const;
@@ -101,6 +102,8 @@ function ArtifactCard({ artifact, index }: { artifact: Product; index: number })
 export default function ArtifactsSection() {
   return (
     <section id="artifacts" data-theme="dark" className="relative py-grid-1 px-6 lg:px-16 min-h-screen bg-void">
+      <InterfaceGrid theme="dark" />
+
       {/* Section header */}
       <div className="mb-16 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 border-b border-white/10 pb-8">
         <div>
