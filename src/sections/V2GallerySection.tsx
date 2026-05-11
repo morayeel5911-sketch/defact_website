@@ -76,6 +76,12 @@ export default function V2GallerySection() {
     const el = sectionRef.current;
     if (!el) return;
 
+    // Skip animations if user prefers reduced motion
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+
     const ctx = gsap.context(() => {
       // Header stagger
       gsap.from(el.querySelectorAll("[data-reveal]"), {

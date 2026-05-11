@@ -15,6 +15,12 @@ export default function TransmitSection() {
     const el = sectionRef.current;
     if (!el) return;
 
+    // Skip animations if user prefers reduced motion
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+
     const ctx = gsap.context(() => {
       gsap.from(el.querySelectorAll("[data-reveal]"), {
         y: 50,
