@@ -9,7 +9,7 @@ export default function Footer() {
   };
 
   return (
-    <footer id="contact" className="bg-void text-signal relative">
+    <footer id="contact" data-theme="dark" className="bg-void text-signal relative">
       <InterfaceGrid theme="dark" />
       {/* Contact CTA Banner */}
       <div className="border-y border-border-dark">

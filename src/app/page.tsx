@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import dynamic from "next/dynamic";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navigation from "@/components/Navigation";
 import CustomCursor from "@/components/CustomCursor";
 import Preloader from "@/components/Preloader";
@@ -20,6 +22,9 @@ import Footer from "@/sections/Footer";
 
 // ScrollProgress is kept here (not in ClientWrapper) since it depends on section names
 import ScrollProgress from "@/components/ScrollProgress";
+
+// Register ScrollTrigger (redundant/safe since LenisProvider also does this)
+gsap.registerPlugin(ScrollTrigger);
 
 const Scene = dynamic(() => import("@/components/Scene"), {
   ssr: false,
@@ -49,7 +54,16 @@ const sectionNames = [
 export default function Home() {
   const [currentTheme, setCurrentTheme] = useState("dark");
   const [loaded, setLoaded] = useState(false);
+  const mainRef = useRef<HTMLElement>(null);
   useScrollReveal();
+
+  // ScrollTrigger global config — setup
+  useEffect(() => {
+    ScrollTrigger.config({ ignoreMobileResize: true });
+    return () => {
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+    };
+  }, []);
 
   // Theme observer — deduplicated: SectionNav reads from here instead of running its own
   useEffect(() => {
@@ -75,7 +89,7 @@ export default function Home() {
     <>
       <Preloader onComplete={handlePreloaderDone} />
 
-      <main className={`relative w-full bg-void text-signal transition-opacity duration-700 ${loaded ? "opacity-100" : "opacity-0"}`}>
+      <main ref={mainRef} className={`relative w-full bg-void text-signal transition-opacity duration-700 ${loaded ? "opacity-100" : "opacity-0"}`}>
         <ScrollProgress sections={sectionNames} />
         <SectionNav sections={sectionNames} />
         <Navigation theme={currentTheme} />

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEFACT — Website Improvement Pitch</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap');
+
+  :root {
+    --void: #000FEA;
+    --void-deep: #0007A0;
+    --signal: #F0F0F0;
+    --chrome: #D0D0D0;
+    --steel: #9A9A9A;
+    --molten: #FF8C00;
+    --blood: #E81123;
+    --slime: #39FF14;
+    --surface: #050505;
+    --surface-raised: #0A0A0A;
+    --border: rgba(255,255,255,0.08);
+    --font-body: 'Inter', system-ui, sans-serif;
+    --font-mono: 'DM Mono', ui-monospace, monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--surface);
+    color: var(--signal);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .badge {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    color: var(--steel);
+  }
+
+  .badge.urgent {
+    color: var(--blood);
+    border-color: rgba(232,17,35,0.3);
+    background: rgba(232,17,35,0.06);
+  }
+
+  h1 {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--signal);
+  }
+
+  .subtitle {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--steel);
+    margin-top: 0.75rem;
+    max-width: 600px;
+  }
+
+  /* Summary Bar */
+  .summary-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .summary-item {
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    padding: 1.25rem;
+    border-radius: 4px;
+  }
+
+  .summary-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--steel);
+    margin-bottom: 0.5rem;
+  }
+
+  .summary-value {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--signal);
+  }
+
+  .summary-value.warning { color: var(--blood); }
+  .summary-value.good { color: var(--slime); }
+  .summary-value.medium { color: var(--molten); }
+
+  /* Options Grid */
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .option-card {
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.75rem;
+    position: relative;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .option-card:hover {
+    border-color: rgba(255,255,255,0.15);
+    transform: translateY(-2px);
+  }
+
+  .option-card.recommended {
+    border-color: var(--void);
+  }
+
+  .option-card.recommended::before {
+    content: "★ EMPFOHLEN";
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    background: var(--void);
+    color: var(--signal);
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    padding: 4px 10px;
+    border-radius: 0 4px 0 4px;
+  }
+
+  .option-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+
+  .option-letter {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--signal);
+    flex-shrink: 0;
+  }
+
+  .option-letter.a { background: rgba(57,255,20,0.08); border-color: rgba(57,255,20,0.2); color: var(--slime); }
+  .option-letter.b { background: rgba(0,15,234,0.08); border-color: rgba(0,15,234,0.3); color: var(--void); }
+  .option-letter.c { background: rgba(255,140,0,0.08); border-color: rgba(255,140,0,0.2); color: var(--molten); }
+
+  .option-meta {
+    text-align: right;
+  }
+
+  .option-cost {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--steel);
+  }
+
+  .option-risk {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 0.25rem;
+  }
+
+  .risk-low { color: var(--slime); }
+  .risk-med { color: var(--molten); }
+  .risk-high { color: var(--blood); }
+
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.75rem;
+    color: var(--signal);
+  }
+
+  .option-desc {
+    font-size: 0.875rem;
+    color: var(--chrome);
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+  }
+
+  .feature-list {
+    list-style: none;
+  }
+
+  .feature-list li {
+    font-size: 0.8rem;
+    color: var(--steel);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .feature-list li:last-child { border-bottom: none; }
+
+  .feature-list .check {
+    color: var(--slime);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .feature-list .new {
+    color: var(--molten);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  /* Audit Section */
+  .audit-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .audit-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .audit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+
+  .audit-item {
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    padding: 1rem;
+    border-radius: 4px;
+  }
+
+  .audit-item.good {
+    border-left: 2px solid var(--slime);
+  }
+
+  .audit-item.warn {
+    border-left: 2px solid var(--molten);
+  }
+
+  .audit-item.crit {
+    border-left: 2px solid var(--blood);
+  }
+
+  .audit-title {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--steel);
+    margin-bottom: 0.5rem;
+  }
+
+  .audit-text {
+    font-size: 0.8rem;
+    color: var(--chrome);
+  }
+
+  /* CTA */
+  .cta {
+    margin-top: 3rem;
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+
+  .cta p {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--steel);
+  }
+
+  .cta .choice {
+    font-size: 1rem;
+    color: var(--signal);
+    margin-top: 0.5rem;
+  }
+
+  /* Mobile */
+  @media (max-width: 480px) {
+    .options-grid { grid-template-columns: 1fr; }
+    .summary-bar { grid-template-columns: 1fr; }
+    body { padding: 1rem; }
+  }
+
+  /* Print */
+  @media print {
+    body { background: #fff; color: #000; }
+    .option-card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="header">
+    <div class="header-top">
+      <span class="badge">DEFACT</span>
+      <span class="badge urgent">Live Audit — 11. Mai 2026</span>
+    </div>
+    <h1>Website Improvement Pitch</h1>
+    <p class="subtitle">
+      9 Sections — Next.js 16 + R3F v9 + Tailwind v4 — Royal Blue (#000FEA) Palette — Static Export
+    </p>
+  </header>
+
+  <!-- Summary Bar -->
+  <div class="summary-bar">
+    <div class="summary-item">
+      <div class="summary-label">Aktuelle Performance</div>
+      <div class="summary-value medium">Durchschnittlich</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-label">Mobile Erfahrung</div>
+      <div class="summary-value warning">Schwach</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-label">Accessibility</div>
+      <div class="summary-value warning">Fehlend</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-label">Visueller Impact</div>
+      <div class="summary-value medium">Stark, aber ungenutzt</div>
+    </div>
+  </div>
+
+  <!-- Options -->
+  <div class="options-grid">
+
+    <!-- OPTION A -->
+    <div class="option-card">
+      <div class="option-header">
+        <div class="option-letter a">A</div>
+        <div class="option-meta">
+          <div class="option-cost">~2-3 Sessions</div>
+          <div class="option-risk risk-low">Risiko: Niedrig</div>
+        </div>
+      </div>
+      <h2>Performance First</h2>
+      <p class="option-desc">
+        Die Website ist visuell stark, aber technisch anfällig. Der 3D-Canvas läuft permanent — auch wenn der Nutzer 5 Screens weiter unten ist. Mobile Nutzer sehen nur 50% des Contents.
+      </p>
+      <ul class="feature-list">
+        <li><span class="check">✓</span> Canvas pausiert wenn Hero nicht sichtbar <span class="new">Neu</span></li>
+        <li><span class="check">✓</span> Mobile DPR auf 1 cap (kein 2×-Rendering) <span class="new">Neu</span></li>
+        <li><span class="check">✓</span> RAF Memory-Leak Fix (useRef Pattern) <span class="new">Neu</span></li>
+        <li><span class="check">✓</span> Dead Dependencies entfernen <span class="new">Neu</span></li>
+        <li><span class="check">✓</span> prefers-reduced-motion Support <span class="new">Neu</span></li>
+        <li><span class="check">✓</span> Scroll-Debounce statt per-Pixel <span class="new">Neu</span></li>
+      </ul>
+    </div>
+
+    <!-- OPTION B (Recommended) -->
+    <div class="option-card recommended">
+      <div class="option-header">
+        <div class="option-letter b">B</div>
+        <div class="option-meta">
+          <div class="option-cost">~4-5 Sessions</div>
+          <div class="option-risk risk-med">Risiko: Mittel</div>
+        </div>
+      </div>
+      <h2>Narrative Scroll Journey</h2>
+      <p class="option-desc">
+        Die 9 Sections fühlen sich wie getrennte Inseln. Es fehlt ein roter Faden. Der Nutzer scrollt — aber es gibt keine Geschichte, keine Transformation zwischen den Welten. Die Sections "wechseln" abrupt.
+      </p>
+      <ul class="feature-list">
+        <li><span class="check">✓</span> Scroll-driven Farbwechsel (Void → Signal → Chrome) <span class="new">Neu</span></li>
+        <li><span class="check">✓</span> Parallax-Tiefen-System für Bilder/Text <span class="new">Neu</span></li>
+        <li><span class="check">✓</span> Section-Übergänge mit Morphing / Blends <span class="new">Neu</span></li>
+        <li><span class="check">✓</span> Progress-Indikator (nicht nur Bar — numerisch) <span class="new">Neu</span></li>
+        <li><span class="check">✓</span> Sticky-Section-Headlines (wie NYT Feature) <span class="new">Neu</span></li>
+        <li><span class="check">✓</span> Micro-animations (Reveal, Stagger, Line-Draw) <span class="new">Neu</span></li>
+      </ul>
+    </div>
+
+    <!-- OPTION C -->
+    <div class="option-card">
+      <div class="option-header">
+        <div class="option-letter c">C</div>
+        <div class="option-meta">
+          <div class="option-cost">~6-8 Sessions</div>
+          <div class="option-risk risk-high">Risiko: Hoch</div>
+        </div>
+      </div>
+      <h2>Product Theater</h2>
+      <p class="option-desc">
+        Die Produkte sind präsent — aber man kann sie nicht "erleben". Kein Zoom, kein 360°, kein "In-den-Warenkorb". Die V2 Gallery ist statisch. Die Produkte sind der Star, aber sie stehen im Hintergrund.
+      </p>
+      <ul class="feature-list">
+        <li><span class="check">✓</span> 3D Product Viewer im Hero (statt statischem Bild) <span class="new">Neu</span></li>
+        <li><span class="check">✓</span> Interaktive Gallery mit Hover-Zoom + Details <span class="new">Neu</span></li>
+        <li><span class="check">✓</span> "Add to Cart" Flow (Session-Storage) <span class="new">Neu</span></li>
+        <li><span class="check">✓</span> Produkt-Annotationen (Material, Gewicht, Preis) <span class="new">Neu</span></li>
+        <li><span class="check">✓</span> Dark-Background Produktfotos (statt weiß) <span class="new">Neu</span></li>
+        <li><span class="check">✓</span> Sticky Product-Bar beim Scrollen <span class="new">Neu</span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Quick Audit -->
+  <section class="audit-section">
+    <h2>Quick Audit — Was ich gesehen habe</h2>
+    <div class="audit-grid">
+      <div class="audit-item good">
+        <div class="audit-title">✓ Stark</div>
+        <div class="audit-text">Das Grid-System ist jetzt adaptiv (dark/light/chrome). Die Typografie-Hierarchie ist klar. Das Design-System ist konsistent.</div>
+      </div>
+      <div class="audit-item good">
+        <div class="audit-title">✓ Stark</div>
+        <div class="audit-text">Die Micro-typography (DM Mono, Tracking, Labels) ist awwards-Level. Die Annotation-Lines und das HUD-Feeling sind gut umgesetzt.</div>
+      </div>
+      <div class="audit-item warn">
+        <div class="audit-title">⚠ Achtung</div>
+        <div class="audit-text">Mobile: Viele Elemente sind `hidden md:flex` — auf dem Phone fehlen Floating Images, Spec-Grids, Annotationen. Die mobile Erfahrung ist dünn.</div>
+      </div>
+      <div class="audit-item warn">
+        <div class="audit-title">⚠ Achtung</div>
+        <div class="audit-text">Performance: Keine `frameloop="demand"` + IntersectionObserver. Der 3D-Canvas rendert 60fps auch wenn man ihn nicht sieht. Das frisst Batterie.</div>
+      </div>
+      <div class="audit-item crit">
+        <div class="audit-title">✗ Kritisch</div>
+        <div class="audit-text">Kein `prefers-reduced-motion`. Marquee, Custom Cursor, und Scroll-Effects laufen für motion-sensitive Nutzer ohne Ausweg. Das ist ein a11y-Problem.</div>
+      </div>
+      <div class="audit-item crit">
+        <div class="audit-title">✗ Kritisch</div>
+        <div class="audit-text">Keine CSP Meta-Tag im Layout. Bei einem öffentlichen Repo (GitHub Pages) ist das ein Security-Risiko, besonders mit `dangerouslySetInnerHTML` oder Inline-Scripts.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta">
+    <p>Wähle eine Option. Ich baue einen Feature-Branch, teste lokal, und merge nur wenn du es gesehen hast.</p>
+    <p class="choice">A = Schnell + Sicher &nbsp;|&nbsp; B = Mittel + Wow &nbsp;|&nbsp; C = Lang + Conversion</p>
+  </div>
+
+</div>
+</body>
+</html>

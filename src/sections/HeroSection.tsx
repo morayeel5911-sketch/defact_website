@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef, Suspense } from "react";
+import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import heroBg from "../../public/images/v2/hero_v3.webp";
 import InterfaceGrid from "@/components/InterfaceGrid";
 
@@ -14,17 +16,40 @@ const HeroShader = dynamic(() => import("@/components/HeroShader"), {
 
 export default function HeroSection() {
   const [glitchEnabled, setGlitchEnabled] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+
+  // Parallax on hero image
+  useEffect(() => {
+    if (!imageRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.to(imageRef.current, {
+        yPercent: 15,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section
+      ref={sectionRef}
       id="hero"
       data-theme="dark"
       className="relative min-h-[100dvh] overflow-hidden"
     >
       <InterfaceGrid theme="dark" />
 
-      {/* FLUX-generated dark metallic background */}
-      <div className="absolute inset-0 z-0">
+      {/* FLUX-generated dark metallic background — with parallax */}
+      <div ref={imageRef} className="absolute inset-0 z-0 will-change-transform">
         <Image
           src={heroBg}
           alt="DEFACT Hero Background"
