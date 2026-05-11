@@ -1,5 +1,7 @@
 "use client";
 
+import InterfaceGrid from "@/components/InterfaceGrid";
+
 export default function CreatorBiosSection() {
   const creators = [
     {
@@ -22,6 +24,8 @@ export default function CreatorBiosSection() {
       data-theme="light"
       className="relative py-24 md:py-32 px-6 md:px-[10vw] overflow-hidden animate-section bg-void"
     >
+      <InterfaceGrid theme="light" />
+
       {/* Global noise texture overlay */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.025]"

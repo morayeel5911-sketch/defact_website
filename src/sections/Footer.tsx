@@ -1,5 +1,6 @@
 "use client";
 
+import InterfaceGrid from "@/components/InterfaceGrid";
 import Marquee from "@/components/Marquee";
 
 export default function Footer() {
@@ -9,6 +10,7 @@ export default function Footer() {
 
   return (
     <footer id="contact" className="bg-void text-signal relative">
+      <InterfaceGrid theme="dark" />
       {/* Contact CTA Banner */}
       <div className="border-y border-border-dark">
         <a

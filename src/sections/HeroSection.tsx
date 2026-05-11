@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, Suspense } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import heroBg from "../../public/images/v2/hero_v3.webp";
+import InterfaceGrid from "@/components/InterfaceGrid";
 
 // Dynamic import for R3F — must be client-only
 const HeroShader = dynamic(() => import("@/components/HeroShader"), {
@@ -20,6 +21,8 @@ export default function HeroSection() {
       data-theme="dark"
       className="relative min-h-[100dvh] overflow-hidden"
     >
+      <InterfaceGrid theme="dark" />
+
       {/* FLUX-generated dark metallic background */}
       <div className="absolute inset-0 z-0">
         <Image

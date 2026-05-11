@@ -1,6 +1,9 @@
+import InterfaceGrid from "@/components/InterfaceGrid";
+
 export default function ManifestoSection() {
   return (
     <section id="manifesto" data-theme="light" className="relative min-h-screen py-grid-1 bg-signal text-void">
+      <InterfaceGrid theme="light" />
       <div className="gc-g">
         <div className="flex items-baseline gap-4 mb-8 reveal-up">
           <span className="font-dm-mono text-micro tracking-mono text-void/40">[02/06]</span>

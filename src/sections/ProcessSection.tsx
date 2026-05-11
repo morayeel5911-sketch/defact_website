@@ -1,6 +1,9 @@
+import InterfaceGrid from "@/components/InterfaceGrid";
+
 export default function ProcessSection() {
   return (
     <section id="process" data-theme="chrome" className="relative min-h-screen py-grid-1 bg-chrome text-void">
+      <InterfaceGrid theme="chrome" />
       <div className="gc-g">
         <div className="flex items-baseline gap-4 mb-8 reveal-up">
           <span className="font-dm-mono text-micro tracking-mono text-void/40">[05/06]</span>

@@ -1,6 +1,9 @@
+import InterfaceGrid from "@/components/InterfaceGrid";
+
 export default function TransmitSection() {
   return (
     <section id="transmit" data-theme="dark" className="relative min-h-screen py-grid-1 bg-void flex items-center">
+      <InterfaceGrid theme="dark" />
       <div className="gc-g w-full">
         <div className="flex items-baseline gap-4 mb-8 reveal-up">
           <span className="font-dm-mono text-micro tracking-mono text-steel/50">[06/06]</span>
