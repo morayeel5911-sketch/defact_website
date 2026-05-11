@@ -29,6 +29,9 @@ jobs:
         env:
           TURBOPACK: "0"
 
+      - name: Copy .nojekyll to out
+        run: cp public/.nojekyll out/.nojekyll
+
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
