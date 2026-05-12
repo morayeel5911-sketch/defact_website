@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DEFACT Visual Direction Cleanup Pitch</title>
+  <style>
+    :root {
+      --void: #0d0d0d;
+      --anodized: #1a1a1a;
+      --signal: #f0f0f0;
+      --steel: #9a9a9a;
+      --chrome: #a0a0a0;
+      --border: #2a2a2a;
+      --alarm: #d0403b;
+      --blue: #2646ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: radial-gradient(circle at 20% 0%, #1f1f1f 0%, var(--void) 55%);
+      color: var(--signal);
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 28px 18px 64px; }
+    h1 { font-size: clamp(2rem, 6vw, 4rem); margin: 0 0 12px; letter-spacing: -0.02em; }
+    .sub { color: var(--steel); margin: 0 0 24px; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .decision {
+      border: 1px solid rgba(38,70,255,0.55);
+      background: rgba(38,70,255,0.12);
+      color: var(--signal);
+      padding: 12px 14px;
+      margin: 0 0 18px;
+      font: 600 0.78rem/1.4 "DM Mono", monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .card { border: 1px solid var(--border); background: rgba(255,255,255,0.02); padding: 18px; position: relative; }
+    .card.selected {
+      border-color: rgba(38,70,255,0.82);
+      background: linear-gradient(180deg, rgba(38,70,255,0.18), rgba(255,255,255,0.025));
+      box-shadow: 0 0 0 1px rgba(38,70,255,0.28) inset;
+    }
+    .selected-mark {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      color: var(--signal);
+      border: 1px solid rgba(38,70,255,0.75);
+      padding: 4px 7px;
+      font: 700 0.62rem/1 "DM Mono", monospace;
+      letter-spacing: 0.12em;
+    }
+    .kicker { font: 600 0.75rem/1 "DM Mono", monospace; color: var(--chrome); letter-spacing: 0.14em; }
+    h2 { margin: 10px 0; font-size: clamp(1.35rem, 3vw, 2rem); }
+    ul { margin: 10px 0 0; padding-left: 18px; color: #d6d6d6; }
+    .tagrow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .tag { border: 1px solid var(--border); padding: 4px 8px; font: 500 0.72rem/1 "DM Mono", monospace; color: var(--steel); }
+    .a { border-left: 3px solid var(--chrome); }
+    .b { border-left: 3px solid var(--blue); }
+    .c { border-left: 3px solid #d0d0d0; }
+    @media (min-width: 860px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>DEFACT Cleanup Visual Direction</h1>
+    <p class="sub">Single-pass cleanup options mapped to approved technical refactor.</p>
+    <div class="decision">Selected 2026-05-12: Option B / Royal Blue Digital Decay Refinement</div>
+    <section class="grid">
+      <article class="card a">
+        <div class="kicker">OPTION A</div>
+        <h2>Clinical Archive / The Vault Reset</h2>
+        <ul>
+          <li>Benefit: strongest alignment to existing `--void`, `--signal`, `--chrome`, mono labeling.</li>
+          <li>Risk: can feel too sterile if motion and artifact texture stay minimal.</li>
+          <li>Effort: low-medium, mostly typography and spacing normalization.</li>
+        </ul>
+        <div class="tagrow">
+          <span class="tag">Clash Grotesk display</span><span class="tag">DM Mono index</span><span class="tag">1px borders only</span>
+        </div>
+      </article>
+      <article class="card b selected">
+        <div class="selected-mark">LOCKED</div>
+        <div class="kicker">OPTION B</div>
+        <h2>Royal Blue Digital Decay Refinement</h2>
+        <ul>
+          <li>Benefit: preserves approved Scroll Journey energy with restrained blue signal accents.</li>
+          <li>Risk: blue accents can overpower archive neutrality if overused.</li>
+          <li>Effort: medium, requires section-level accent token rules.</li>
+        </ul>
+        <div class="tagrow">
+          <span class="tag">Controlled blue accent</span><span class="tag">Grain + scanline overlays</span><span class="tag">GSAP stagger hierarchy</span>
+        </div>
+      </article>
+      <article class="card c">
+        <div class="kicker">OPTION C</div>
+        <h2>Chrome Archive Hybrid</h2>
+        <ul>
+          <li>Benefit: bridges A precision with B atmosphere using chrome-heavy object emphasis.</li>
+          <li>Risk: mixed direction can reduce clarity without strict component constraints.</li>
+          <li>Effort: medium-high, needs explicit per-section visual governance.</li>
+        </ul>
+        <div class="tagrow">
+          <span class="tag">Chrome object surfaces</span><span class="tag">Playfair manifesto quotes</span><span class="tag">Inter body restraint</span>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

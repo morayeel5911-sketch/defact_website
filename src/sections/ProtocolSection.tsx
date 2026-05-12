@@ -4,14 +4,13 @@ import InterfaceGrid from "@/components/InterfaceGrid";
 
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 
 const steps = [
-  { num: "01", title: "PARAMETRIC DESIGN", desc: "Algorithm-driven form generation using computational geometry and topology optimization." },
-  { num: "02", title: "SIMULATION", desc: "Finite element analysis ensures structural integrity before physical production." },
-  { num: "03", title: "MATERIALIZATION", desc: "Multi-material additive manufacturing with micron-level precision." },
-  { num: "04", title: "FINISHING", desc: "Hand-finished surfaces: patination, polishing, and surface treatment." },
+  { num: "01", title: "COLLECT SIGNAL", desc: "Images, club residue, ritual hardware, body references, and digital noise enter the archive." },
+  { num: "02", title: "DISTORT FORM", desc: "The object is modeled, compressed, sharpened, softened, and pushed until it feels half-found." },
+  { num: "03", title: "MATERIALIZE", desc: "PLA, gloss, chrome, ceramic surfaces, and hand finishing turn the file into a physical witness." },
+  { num: "04", title: "ACTIVATE", desc: "The artifact is photographed, worn, installed, sold, or kept as a private tool." },
 ];
 
 export default function ProtocolSection() {
@@ -47,7 +46,7 @@ export default function ProtocolSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="duo" data-theme="dark" className="relative min-h-screen py-grid-1 bg-void scanlines">
+    <section ref={sectionRef} id="protocol" data-theme="dark" className="relative min-h-screen py-grid-1 bg-void scanlines">
       <InterfaceGrid theme="dark" />
       <div className="gc-g">
         <div className="flex items-baseline gap-4 mb-8 " data-reveal>
@@ -55,7 +54,7 @@ export default function ProtocolSection() {
           <h2 className="font-clash text-h2 tracking-tight text-signal">03 — PROTOCOL</h2>
         </div>
         <p className="font-clash text-h3 tracking-tight text-molten mb-16 " data-reveal>
-          SIGNAL {'>'} NOISE
+          SIGNAL {'>'} FORM {'>'} RESIDUE
         </p>
 
         <div className="space-y-0">

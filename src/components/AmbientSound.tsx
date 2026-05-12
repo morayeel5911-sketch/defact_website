@@ -3,18 +3,21 @@
 import { useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
 
+type ToneModule = typeof import("tone");
+type ManagedSynth = import("tone").AMSynth;
+
 export default function AmbientSound() {
   const pathname = usePathname();
   const [enabled, setEnabled] = useState(false);
   const [consented, setConsented] = useState(false);
-  const synthRef = useRef<any>(null);
-  const ToneRef = useRef<any>(null);
+  const synthRef = useRef<ManagedSynth | null>(null);
+  const toneRef = useRef<ToneModule | null>(null);
 
   useEffect(() => {
     let cancelled = false;
     import("tone").then((Tone) => {
       if (cancelled) return;
-      ToneRef.current = Tone;
+      toneRef.current = Tone;
     });
     return () => {
       cancelled = true;
@@ -22,8 +25,8 @@ export default function AmbientSound() {
   }, []);
 
   useEffect(() => {
-    if (!enabled || !ToneRef.current) return;
-    const Tone = ToneRef.current;
+    if (!enabled || !toneRef.current) return;
+    const Tone = toneRef.current;
 
     const synth = new Tone.AMSynth({
       harmonicity: 0.5,
@@ -56,6 +59,7 @@ export default function AmbientSound() {
 
     return () => {
       active = false;
+      synthRef.current = null;
       synth.dispose();
       lfo.dispose();
       filter.dispose();
@@ -64,13 +68,7 @@ export default function AmbientSound() {
     };
   }, [enabled]);
 
-  useEffect(() => {
-    if (pathname !== "/") {
-      setConsented(false);
-    }
-  }, [pathname]);
-
-  const isHomepage = pathname === "/";
+  const isHomepage = pathname === "/" || pathname === "/defact_website";
 
   if (!isHomepage) return null;
 

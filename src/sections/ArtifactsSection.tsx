@@ -7,10 +7,9 @@ import { products, type Product } from "@/data/products";
 
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 
-const CATEGORY_PILLS = ["3D PRINTING", "ART DIRECTION", "MERCHANDISE", "TECHNOLOGY", "CONCEPT", "MISC"] as const;
+const CATEGORY_PILLS = ["RITUAL OBJECT", "BODY ARTIFACT", "IMAGE SYSTEM", "3D PRINTED", "HAND FINISHED", "COLOGNE"] as const;
 
 function ArtifactCard({ artifact, index }: { artifact: Product; index: number }) {
   const [imgError, setImgError] = useState(false);
@@ -178,12 +177,12 @@ export default function ArtifactsSection() {
             DEFACT.ARTIFACTS
           </span>
           <h2 className="font-display text-5xl lg:text-7xl uppercase text-white leading-[0.9]">
-            OBJECTS FOR<br />THE REAL
+            ARTIFACTS<br />NOT PRODUCTS
           </h2>
         </div>
         <p className="text-sm text-white/70 max-w-md lg:text-right">
-          EXPLORE THE INTERSECTION OF CRAFTSMANSHIP AND DIGITAL PRECISION.
-          EACH PIECE IS DESIGNED, 3D-PRINTED, AND HAND-FINISHED IN COLOGNE.
+          SMALL RITUAL SYSTEMS BUILT THROUGH DIGITAL MODELING, 3D PRINTING,
+          HAND FINISHING, AND IMAGE-BASED MYTH-MAKING IN COLOGNE.
         </p>
       </div>
 
@@ -206,7 +205,7 @@ export default function ArtifactsSection() {
       {/* Bottom CTA */}
       <div className="mt-24 flex flex-col items-center gap-6">
         <p className="text-[10px] tracking-[0.3em] text-white/50 uppercase text-center font-mono">
-          ALL OBJECTS ARE MADE TO ORDER. CONTACT FOR CUSTOM EDITIONS.
+          SMALL RUNS, STUDY OBJECTS, CUSTOM SURFACES, AND EXHIBITION EDITIONS.
         </p>
         <a
           href="https://defact.world"

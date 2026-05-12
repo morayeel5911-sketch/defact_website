@@ -15,22 +15,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 // ScrollTrigger already registered in lenis.ts (single source of truth)
 
-// Global will-change cleanup helper
-function addWillChange(el: Element | NodeListOf<Element>, props: string[] = ["transform", "opacity"]) {
-  const set = (e: Element) => (e as HTMLElement).style.willChange = props.join(", ");
-  const clear = (e: Element) => (e as HTMLElement).style.willChange = "auto";
-  
-  if (el instanceof NodeList) {
-    el.forEach(set);
-    return () => el.forEach(clear);
-  }
-  set(el);
-  return () => clear(el);
-}
-
 export function useScrollEffects() {
   useEffect(() => {
-    let marqueeRafId: number;
+    let marqueeRafId = 0;
     let marqueeActive = true;
 
     const ctx = gsap.context(() => {
@@ -154,7 +141,6 @@ export function useScrollEffects() {
       // ─── 6. MARQUEE SPEED = SCROLL SPEED ───
       let scrollVelocity = 0;
       let lastScrollTop = 0;
-      let marqueeActive = true;
       
       const updateVelocity = () => {
         if (!marqueeActive) return;
@@ -166,7 +152,7 @@ export function useScrollEffects() {
         const marquees = document.querySelectorAll("[data-marquee]");
         marquees.forEach((el) => {
           const baseSpeed = parseFloat(el.getAttribute("data-marquee-speed") || "20");
-          const speedMultiplier = Math.min(scrollVelocity / 10, 3);
+          const speedMultiplier = Math.max(1, Math.min(scrollVelocity / 10, 3));
           (el as HTMLElement).style.setProperty("--marquee-speed", `${baseSpeed / speedMultiplier}s`);
         });
         

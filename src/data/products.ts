@@ -1,3 +1,5 @@
+import { publicAsset } from "@/lib/publicAsset";
+
 export interface Product {
   id: string;
   name: string;
@@ -19,37 +21,37 @@ export const products: Product[] = [
   {
     id: "01.01",
     name: "STARMIRROR",
-    tagline: "REFLECT. PROTECT. STRIKE.",
+    tagline: "REFLECTIVE RITUAL INTERFACE.",
     description:
-      "A FOUR-POINTED PRECISION THROWING STAR WITH CENTRAL GRIP HOLE. 3D-PRINTED IN PLA, HAND-FINISHED WITH GLOSS PAINT. BALANCED FOR ROTATION. EACH PIECE UNIQUE.",
+      "A FOUR-POINT FIELD OBJECT FOR MIRRORING SIGNAL, BODY, AND ROOM. PRINTED IN PLA, HAND-FINISHED WITH GLOSS PAINT, THEN TREATED AS AN ARTIFACT RATHER THAN A PRODUCT.",
     price: "€240",
     status: "ACTIVE",
-    image: "/images/artifacts/starmirror_1.webp",
+    image: publicAsset("/images/artifacts/starmirror_1.webp"),
     specs: { material: "PLA + Gloss Paint", weight: "120g", edition: "∞" },
-    category: "MERCHANDISE",
+    category: "RITUAL OBJECT",
   },
   {
     id: "01.02",
     name: "PHYLACTERY",
-    tagline: "LONG TAIL. SHORT FUSE.",
+    tagline: "CONTAINER FOR SIGNALS.",
     description:
-      "A THREE-BLADED SHURIKEN WITH ELONGATED TAPERED HANDLE. DESIGNED FOR DISTANCE AND ACCURACY. THE EXTENDED TAIL PROVIDES STABILITY IN FLIGHT. HAND-FINISHED, MADE TO MOVE.",
+      "A THREE-POINT CARRIER WITH AN EXTENDED HANDLE, BUILT LIKE A SMALL ARCHIVE FOR PRESSURE, INTENTION, AND TOUCH. EACH PIECE SITS BETWEEN TALISMAN, ACCESSORY, AND PROP.",
     price: "€180",
     status: "ACTIVE",
-    image: "/images/artifacts/phylactery_1.webp",
+    image: publicAsset("/images/artifacts/phylactery_1.webp"),
     specs: { material: "PLA + Gloss Paint", weight: "85g", edition: "∞" },
-    category: "MERCHANDISE",
+    category: "BODY ARTIFACT",
   },
   {
     id: "01.03",
     name: "TIARA",
-    tagline: "WEARABLE WEAPON.",
+    tagline: "WEARABLE INTERFERENCE.",
     description:
-      "A COMPACT FOUR-POINTED STAR WITH SMOOTH CERAMIC SURFACE. SMALL ENOUGH TO CONCEAL. SHARP ENOUGH TO MATTER. THE TIARA BLURS THE LINE BETWEEN ORNAMENT AND TOOL.",
+      "A COMPACT CEREMONIAL STAR FOR THE HEAD, HAND, OR SURFACE. SMALL ENOUGH TO READ AS JEWELRY, STRANGE ENOUGH TO INTERRUPT THE ROOM.",
     price: "€160",
     status: "COMING_SOON",
-    image: "/images/artifacts/tiara_1.webp",
+    image: publicAsset("/images/artifacts/tiara_1.webp"),
     specs: { material: "PLA + Ceramic Coat", weight: "65g", edition: "50" },
-    category: "MERCHANDISE",
+    category: "ORNAMENT SYSTEM",
   },
 ];

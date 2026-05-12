@@ -1,18 +1,11 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import heroBg from "../../public/images/v2/hero_v3.webp";
 import InterfaceGrid from "@/components/InterfaceGrid";
-
-// Dynamic import for R3F — must be client-only
-const HeroShader = dynamic(() => import("@/components/HeroShader"), {
-  ssr: false,
-  loading: () => <div className="absolute inset-0 bg-void" />,
-});
+import { publicAsset } from "@/lib/publicAsset";
 
 export default function HeroSection() {
   const [glitchEnabled, setGlitchEnabled] = useState(false);
@@ -85,7 +78,9 @@ export default function HeroSection() {
             [GLITCH: {glitchEnabled ? "ON" : "OFF"}]
           </button>
           <a
-            href="#shop"
+            href="https://defact.world"
+            target="_blank"
+            rel="noopener noreferrer"
             className="font-dm-mono text-micro tracking-mono text-signal hover:text-blood transition-colors uppercase"
             data-cursor-hover
           >
@@ -103,75 +98,83 @@ export default function HeroSection() {
               01.01
             </span>
             <span className="font-dm-mono text-micro tracking-mono text-steel/50 block">
-              COLLECTIVE
+              ARTIST / DESIGN DUO
             </span>
           </div>
 
           {/* Floating product images — asymmetric scattered (Sutera-style) */}
           <div className="hidden md:flex gap-4 relative">
             <HeroFloatingImage
-              src="/images/artifacts/starmirror_1.webp"
+              src={publicAsset("/images/artifacts/starmirror_1.webp")}
               alt="Starmirror Shuriken"
               width={140}
               height={160}
               className="opacity-70 hover:opacity-100 transition-opacity duration-500"
               style={{ marginTop: 0 }}
               annotation="01.01"
-              annotationLabel="VIERZACKIGER WURFSTERN"
+              annotationLabel="REFLECTIVE RITUAL INTERFACE"
             />
             <HeroFloatingImage
-              src="/images/artifacts/phylactery_1.webp"
+              src={publicAsset("/images/artifacts/phylactery_1.webp")}
               alt="Phylactery Shuriken"
               width={120}
               height={140}
               className="opacity-60 hover:opacity-100 transition-opacity duration-500"
               style={{ marginTop: 40 }}
               annotation="01.02"
-              annotationLabel="DREIZACKIGER DISTANCE-STAR"
+              annotationLabel="SIGNAL CONTAINER"
             />
           </div>
         </div>
 
         {/* Center: Massive DEFACT Logo */}
         <div className="flex-1 flex items-center relative">
-          <h1
-            data-hero-title
-            className={`font-clash text-[clamp(4rem,18vw,16rem)] tracking-tight text-signal leading-[0.85] ${glitchEnabled ? "glitch-intense" : ""}`}
-            data-text="DEFACT"
-          >
-            DEFACT
-          </h1>
+          <div>
+            <div className="font-dm-mono text-micro tracking-mono text-cyan/70 uppercase mb-4">
+              [ROYAL BLUE DIGITAL DECAY / COLOGNE]
+            </div>
+            <h1
+              data-hero-title
+              className={`font-clash text-[clamp(4rem,18vw,16rem)] tracking-tight text-signal leading-[0.85] ${glitchEnabled ? "glitch-intense" : ""}`}
+              data-text="DEFACT"
+            >
+              DEFACT
+            </h1>
+            <p className="font-clash text-[clamp(1.4rem,4vw,4.4rem)] tracking-tight leading-[0.95] text-signal/80 max-w-5xl mt-4">
+              RITUAL OBJECTS FOR THE POST-DIGITAL BODY.
+            </p>
+          </div>
         </div>
 
         {/* Bottom: Description + Specs Grid + Categories */}
         <div className="space-y-8">
           <p className="font-inter text-body text-steel max-w-md leading-relaxed">
-            A COLOGNE - BASED DESIGN DUO EXPLORING THE INTERSECTION OF CRAFTSMANSHIP AND DIGITAL AESTHETICS.
+            DEFACT IS LYAHUASCA + MIKI.NGLO: A COLOGNE-BASED ARTIST/DESIGN DUO MAKING 3D-PRINTED RELICS, WEARABLE INTERFERENCE, AND BLUE-SIGNAL OBJECTS.
           </p>
 
           {/* Specs Grid (micro-typography) */}
           <div className="hidden md:grid grid-cols-4 gap-4 border-t border-border-dark/50 pt-4 max-w-lg">
             <div>
-              <span className="font-dm-mono text-micro tracking-mono text-steel/40 block uppercase">Material</span>
-              <span className="font-dm-mono text-micro tracking-mono text-steel/70 block mt-1">PLA + Glanzfarbe</span>
+              <span className="font-dm-mono text-micro tracking-mono text-steel/40 block uppercase">Practice</span>
+              <span className="font-dm-mono text-micro tracking-mono text-steel/70 block mt-1">Objects + Images</span>
             </div>
             <div>
-              <span className="font-dm-mono text-micro tracking-mono text-steel/40 block uppercase">Typ</span>
-              <span className="font-dm-mono text-micro tracking-mono text-steel/70 block mt-1">VIERZACKIGER WURFSTERN</span>
+              <span className="font-dm-mono text-micro tracking-mono text-steel/40 block uppercase">Method</span>
+              <span className="font-dm-mono text-micro tracking-mono text-steel/70 block mt-1">3D Print + Finish</span>
             </div>
             <div>
-              <span className="font-dm-mono text-micro tracking-mono text-steel/40 block uppercase">Gewicht</span>
-              <span className="font-dm-mono text-micro tracking-mono text-steel/70 block mt-1">120g</span>
+              <span className="font-dm-mono text-micro tracking-mono text-steel/40 block uppercase">Field</span>
+              <span className="font-dm-mono text-micro tracking-mono text-steel/70 block mt-1">Ritual Design</span>
             </div>
             <div>
               <span className="font-dm-mono text-micro tracking-mono text-steel/40 block uppercase">Status</span>
-              <span className="font-dm-mono text-micro tracking-mono text-steel/70 block mt-1">UNENDLICHE AUFLAGE</span>
+              <span className="font-dm-mono text-micro tracking-mono text-steel/70 block mt-1">ACTIVE STUDY</span>
             </div>
           </div>
 
           {/* Category pills */}
           <div className="flex flex-wrap gap-3">
-            {["3D PRINTING", "ART DIRECTION", "PRODUCT DESIGN"].map((cat) => (
+            {["RITUAL OBJECTS", "3D PRINTED RELICS", "IMAGE SYSTEMS"].map((cat) => (
               <span
                 key={cat}
                 className="font-dm-mono text-micro tracking-mono text-steel/60 border border-border-dark px-3 py-1"

@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import InterfaceGrid from "@/components/InterfaceGrid";
+import { publicAsset } from "@/lib/publicAsset";
 
 interface V2Asset {
   src: string;
@@ -14,15 +14,15 @@ interface V2Asset {
 }
 
 const v2Assets: V2Asset[] = [
-  { src: "/images/v2/artifact_abyss.jpg", alt: "Artifact Abyss", label: "01.01", subtitle: "ABYSS — DEEP CERAMIC" },
-  { src: "/images/v2/artifact_fault.jpg", alt: "Artifact Fault", label: "01.02", subtitle: "FAULT — FRACTURE LINES" },
-  { src: "/images/v2/artifact_horizon.jpg", alt: "Artifact Horizon", label: "01.03", subtitle: "HORIZON — CHROME RIM" },
-  { src: "/images/v2/manifesto.jpg", alt: "Manifesto", label: "02.00", subtitle: "MANIFESTO — RITUAL OBJECTS" },
-  { src: "/images/v2/process.jpg", alt: "Process", label: "05.00", subtitle: "PROCESS — LAYER LINES" },
-  { src: "/images/v2/hero.jpg", alt: "Hero", label: "00.00", subtitle: "HERO — CLINICAL ARCHIVE" },
+  { src: publicAsset("/images/v2/artifact_abyss.jpg"), alt: "Artifact Abyss", label: "01.01", subtitle: "ABYSS — DEEP CERAMIC" },
+  { src: publicAsset("/images/v2/artifact_fault.jpg"), alt: "Artifact Fault", label: "01.02", subtitle: "FAULT — FRACTURE LINES" },
+  { src: publicAsset("/images/v2/artifact_horizon.jpg"), alt: "Artifact Horizon", label: "01.03", subtitle: "HORIZON — CHROME RIM" },
+  { src: publicAsset("/images/v2/manifesto.jpg"), alt: "Manifesto", label: "02.00", subtitle: "MANIFESTO — RITUAL OBJECTS" },
+  { src: publicAsset("/images/v2/process.jpg"), alt: "Process", label: "05.00", subtitle: "PROCESS — LAYER LINES" },
+  { src: publicAsset("/images/v2/hero.jpg"), alt: "Hero", label: "00.00", subtitle: "HERO — ROYAL BLUE FIELD" },
 ];
 
-function V2Card({ asset, index }: { asset: V2Asset; index: number }) {
+function V2Card({ asset }: { asset: V2Asset }) {
   const [loaded, setLoaded] = useState(false);
 
   return (
@@ -126,18 +126,18 @@ export default function V2GallerySection() {
       <div className="max-w-[90vw] mx-auto px-8 md:px-16">
         {/* Header */}
         <div className="flex items-baseline gap-4 mb-8" data-reveal>
-          <span className="font-dm-mono text-micro tracking-mono text-white/40">[V2]</span>
-          <h2 className="font-clash text-h2 tracking-tight text-white">V2 ASSETS</h2>
+          <span className="font-dm-mono text-micro tracking-mono text-white/40">[IMAGE FIELD]</span>
+          <h2 className="font-clash text-h2 tracking-tight text-white">VISUAL RITUALS</h2>
         </div>
 
         {/* Grid — 3 columns on desktop, 2 on tablet, 1 on mobile */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {v2Assets.map((asset, i) => (
+          {v2Assets.map((asset) => (
             <div
               key={asset.label}
               data-scale-reveal
             >
-              <V2Card asset={asset} index={i} />
+              <V2Card asset={asset} />
             </div>
           ))}
         </div>
@@ -145,7 +145,7 @@ export default function V2GallerySection() {
         {/* Bottom note */}
         <div className="mt-12 pt-8 border-t border-white/10" data-reveal>
           <p className="font-dm-mono text-micro tracking-mono text-white/30">
-            GENERATED VIA FLUX ON POLLINATIONS.AI — CLINICAL ARCHIVE AESTHETIC
+            FLUX / COMFYUI STUDIES — MATERIAL DREAMS FOR THE ROYAL BLUE DIGITAL DECAY SYSTEM
           </p>
         </div>
       </div>

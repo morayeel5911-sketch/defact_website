@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, ReactNode, useEffect, useRef, useState } from "react";
+import { Suspense, ReactNode, useEffect, useRef, type MutableRefObject } from "react";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import { ShaderPlane } from "./HeroShader";
@@ -31,8 +31,11 @@ function ScrollInvalidate() {
 }
 
 // Mouse tracking for HeroShader — shared via state in parent
-function HeroMouseTracker({ mousePos }: { mousePos: { x: number; y: number } }) {
-  const { gl } = useThree();
+function HeroMouseTracker({
+  mousePosRef,
+}: {
+  mousePosRef: MutableRefObject<{ x: number; y: number }>;
+}) {
   const targetRef = useRef({ x: 0.5, y: 0.5 });
 
   useEffect(() => {
@@ -47,23 +50,27 @@ function HeroMouseTracker({ mousePos }: { mousePos: { x: number; y: number } }) 
   }, []);
 
   useFrame(() => {
-    mousePos.x += (targetRef.current.x - mousePos.x) * 0.05;
-    mousePos.y += (targetRef.current.y - mousePos.y) * 0.05;
+    mousePosRef.current.x += (targetRef.current.x - mousePosRef.current.x) * 0.05;
+    mousePosRef.current.y += (targetRef.current.y - mousePosRef.current.y) * 0.05;
   });
 
   return null;
 }
 
-function HeroBackground({ mousePos }: { mousePos: { x: number; y: number } }) {
+function HeroBackground({
+  mousePosRef,
+}: {
+  mousePosRef: MutableRefObject<{ x: number; y: number }>;
+}) {
   return (
     <group>
-      <ShaderPlane mousePos={mousePos} />
+      <ShaderPlane mousePosRef={mousePosRef} />
     </group>
   );
 }
 
 export default function Scene({ children }: { children?: ReactNode }) {
-  const [mousePos] = useState({ x: 0.5, y: 0.5 });
+  const mousePosRef = useRef({ x: 0.5, y: 0.5 });
   return (
     <div className="fixed inset-0 z-0" style={{ touchAction: "none" }}>
       <CanvasErrorBoundary>
@@ -79,7 +86,7 @@ export default function Scene({ children }: { children?: ReactNode }) {
           dpr={[1, 2]}
         >
           <ScrollInvalidate />
-          <HeroMouseTracker mousePos={mousePos} />
+          <HeroMouseTracker mousePosRef={mousePosRef} />
 
           {/* Lighting */}
           <ambientLight intensity={0.5} />
@@ -92,7 +99,7 @@ export default function Scene({ children }: { children?: ReactNode }) {
 
           {/* Hero shader background */}
           <Suspense fallback={<LoadingFallback />}>
-            <HeroBackground mousePos={mousePos} />
+            <HeroBackground mousePosRef={mousePosRef} />
             {children}
           </Suspense>
         </Canvas>

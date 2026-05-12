@@ -1,8 +1,6 @@
 // lib/comfyAssets.ts
 // Helpers for loading ComfyUI-generated assets from /public/assets/comfy
 
-import { join } from "path";
-
 export type ComfyCategory = "products" | "textures" | "backgrounds" | "heroes" | "raw";
 
 const BASE = "/assets/comfy";

@@ -4,7 +4,6 @@ import InterfaceGrid from "@/components/InterfaceGrid";
 
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 
 export default function TransmitSection() {
@@ -51,17 +50,17 @@ export default function TransmitSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           <div className=" " data-reveal>
             <p className="font-clash text-h1 tracking-tight leading-[0.9] text-signal mb-8">
-              ESTABLISH<br />
-              <span className="glitch-intense" data-text="CONNECTION">CONNECTION</span>
+              SEND<br />
+              <span className="glitch-intense" data-text="A SIGNAL">A SIGNAL</span>
             </p>
             <p className="font-inter text-body text-steel max-w-md mb-8">
-              For acquisition inquiries, collaboration proposals, or studio visits in Cologne.
+              For objects, editions, visual systems, exhibitions, styling, or studio visits in Cologne.
             </p>
           </div>
 
           <div className="space-y-6 reveal-scale">
             <div className="vault-card p-6" data-cursor-hover>
-              <span className="font-dm-mono text-micro tracking-mono text-steel block mb-2">[EMAIL]</span>
+              <span className="font-dm-mono text-micro tracking-mono text-steel block mb-2">[COMMISSIONS / OBJECTS]</span>
               <a
                 href="mailto:hello@defact.studio"
                 className="font-clash text-h3 tracking-tight text-signal hover:text-slime transition-colors"
@@ -70,7 +69,7 @@ export default function TransmitSection() {
               </a>
             </div>
             <div className="vault-card p-6" data-cursor-hover>
-              <span className="font-dm-mono text-micro tracking-mono text-steel block mb-2">[INSTAGRAM]</span>
+              <span className="font-dm-mono text-micro tracking-mono text-steel block mb-2">[IMAGE FEED]</span>
               <a
                 href="https://instagram.com/defact.studio"
                 className="font-clash text-h3 tracking-tight text-signal hover:text-slime transition-colors"

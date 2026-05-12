@@ -140,3 +140,21 @@ Nach jedem implementierten Feature wird hier ein Eintrag gemacht:
 - Blockers?
 
 ---
+
+## 2026-05-12 — Technical Cleanup Pass (codex/defact-technical-cleanup-pitch)
+- Added shared basePath-aware public asset helper and applied it to Hero artifact images, `src/data/products.ts`, and `src/sections/V2GallerySection.tsx` to prevent root-relative static-export breaks.
+- Replaced Hero `SHOP/` anchor from `#shop` to `https://defact.world` with external-safe attributes.
+- Repaired `eslint.config.mjs` ignores for AppleDouble files, build/output folders, `public/draco`, `.hermes`, dashboard/pitch HTML artifacts, and prototype folder.
+- Fixed critical React/lint issues: duplicate hook block in `CreatorBiosSection`, removed unused dynamic imports in `page.tsx`, resolved `ScrollEffects` marquee scope issue, typed `AmbientSound` dynamic Tone import, ticker/listener cleanup in `LenisProvider`, and R3F safety updates in `Scene`/`ProductModel` (including Draco path before GLTF load).
+- Removed invalid metadata link object emission and migrated font loading to `next/font` for DM Mono, Inter, Playfair Display; added explicit Fontshare stylesheet link for Clash Grotesk in `layout.tsx`.
+- Added pitch file: `pitch/defact-visual-direction-cleanup.html` with options A/B/C (benefit/risk/effort + DEFACT tokens).
+
+### Validation
+- `npx tsc --noEmit`: ✅ pass
+- `npm run lint`: ✅ pass, no warnings
+- `TURBOPACK=0 npm run build`: ✅ pass after network approval for Google Fonts
+- Static export path checks: ✅ no invalid metadata link meta, no root-relative public asset `src`, `/defact_website/images/` present
+
+### Visual Decision
+- User selected Option B on 2026-05-12: Royal Blue Digital Decay refinement.
+- Implementation lock: preserve the current royal-blue base, use blue as a controlled signal field, keep grain/scanline atmosphere and GSAP stagger hierarchy, and avoid drifting back to full Clinical Archive reset or Chrome Archive hybrid without a new pitch approval.

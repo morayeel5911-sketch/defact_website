@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navigation from "@/components/Navigation";
@@ -25,19 +24,6 @@ import ScrollProgress from "@/components/ScrollProgress";
 
 // Register ScrollTrigger (redundant/safe since LenisProvider also does this)
 gsap.registerPlugin(ScrollTrigger);
-
-const Scene = dynamic(() => import("@/components/Scene"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full flex items-center justify-center bg-transparent">
-      <div className="font-dm-mono text-micro tracking-mono text-steel uppercase">
-        [INITIALIZING]
-      </div>
-    </div>
-  ),
-});
-
-const ProductModel = dynamic(() => import("@/components/ProductModel"), { ssr: false });
 
 const sectionNames = [
   "Hero",

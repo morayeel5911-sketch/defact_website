@@ -15,8 +15,6 @@ export default function CustomCursor() {
     
     let mouseX = 0, mouseY = 0;
     let cursorX = 0, cursorY = 0;
-    let isHovering = false;
-    
     const onMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
@@ -29,7 +27,6 @@ export default function CustomCursor() {
       const target = e.target as HTMLElement;
       if (!target.matches("a, button, [data-cursor-hover]")) return;
       const text = target.getAttribute("data-cursor") || "VIEW";
-      isHovering = true;
       gsap.to(cursor, { scale: 3, duration: 0.4, ease: "power2.out" });
       gsap.to(cursor, { backgroundColor: "rgba(57, 255, 20, 0.8)", duration: 0.2 });
       label.textContent = text;
@@ -39,7 +36,6 @@ export default function CustomCursor() {
     const onDelegatedMouseLeave = (e: Event) => {
       const target = e.target as HTMLElement;
       if (!target.matches("a, button, [data-cursor-hover]")) return;
-      isHovering = false;
       gsap.to(cursor, { scale: 1, duration: 0.4, ease: "power2.out" });
       gsap.to(cursor, { backgroundColor: "rgba(57, 255, 20, 0.6)", duration: 0.2 });
       label.style.opacity = "0";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, type MutableRefObject } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -106,7 +106,13 @@ const fragmentShader = `
   }
 `;
 
-export function ShaderPlane({ mousePos }: { mousePos: { x: number; y: number } }) {
+export function ShaderPlane({
+  mousePos,
+  mousePosRef,
+}: {
+  mousePos?: { x: number; y: number };
+  mousePosRef?: MutableRefObject<{ x: number; y: number }>;
+}) {
   const meshRef = useRef<THREE.Mesh>(null);
   
   const uniforms = useMemo(() => ({
@@ -121,8 +127,9 @@ export function ShaderPlane({ mousePos }: { mousePos: { x: number; y: number } }
       material.uniforms.uTime.value = state.clock.elapsedTime;
       
       // Smooth mouse following
-      const targetX = mousePos.x;
-      const targetY = 1.0 - mousePos.y; // Flip Y for WebGL
+      const source = mousePosRef?.current ?? mousePos ?? { x: 0.5, y: 0.5 };
+      const targetX = source.x;
+      const targetY = 1.0 - source.y; // Flip Y for WebGL
       material.uniforms.uMouse.value.x += (targetX - material.uniforms.uMouse.value.x) * 0.05;
       material.uniforms.uMouse.value.y += (targetY - material.uniforms.uMouse.value.y) * 0.05;
     }

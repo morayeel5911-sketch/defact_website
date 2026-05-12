@@ -19,7 +19,7 @@ export default function Footer() {
           data-cursor-hover
         >
           <h2 className="font-clash text-h1 tracking-tight text-signal">
-            CONTACT NOW!
+            ENTER THE FIELD
           </h2>
         </a>
       </div>

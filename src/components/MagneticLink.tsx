@@ -23,8 +23,9 @@ export default function MagneticLink({
 
   // Kill orphaned tweens on unmount
   useEffect(() => {
+    const element = ref.current;
     return () => {
-      if (ref.current) gsap.killTweensOf(ref.current);
+      if (element) gsap.killTweensOf(element);
     };
   }, []);
 

@@ -54,8 +54,9 @@ export default function MagneticButton({
   }, []);
 
   useEffect(() => {
+    const element = ref.current;
     return () => {
-      gsap.killTweensOf(ref.current);
+      gsap.killTweensOf(element);
     };
   }, []);
 

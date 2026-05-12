@@ -7,9 +7,15 @@ const eslintConfig = defineConfig([
   ...nextTs,
   // Override default ignores of eslint-config-next.
   globalIgnores([
-    // Default ignores of eslint-config-next:
+    "**/._*",
     ".next/**",
     "out/**",
+    "node_modules/**",
+    "public/draco/**",
+    ".hermes/**",
+    "dashboard.html",
+    "pitch/prototype/**",
+    "pitch/**/*.html",
     "build/**",
     "next-env.d.ts",
   ]),

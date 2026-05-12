@@ -1,14 +1,18 @@
 "use client";
 
-import React, { useRef, useEffect, Suspense } from "react";
+import React, { useRef, useEffect, Suspense, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { publicAsset } from "@/lib/publicAsset";
+
+const DEFAULT_MODEL_PATH = publicAsset("/models/starmirror.glb");
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
+  useGLTF.setDecoderPath(publicAsset("/draco/"));
 }
 
 type Variant = "chrome" | "matte" | "dark";
@@ -78,20 +82,14 @@ function LoadingFallback({ variant = "chrome" }: { variant?: Variant }) {
 }
 
 // Real GLB model loader
-function GLBModel({ modelPath = "/models/starmirror.glb", scale = 1, variant = "chrome" }: ProductModelProps) {
-  const { scene } = useGLTF(modelPath);
+function GLBModel({ modelPath = DEFAULT_MODEL_PATH, scale = 1, variant = "chrome" }: ProductModelProps) {
+  const resolvedModelPath = publicAsset(modelPath);
+  const { scene } = useGLTF(resolvedModelPath);
+  const modelScene = useMemo(() => scene.clone(true), [scene]);
   const groupRef = useRef<THREE.Group>(null);
   const innerRef = useRef<THREE.Group>(null);
   const scrollRef = useRef({ progress: 0 });
   const matProps = variantMaterials[variant];
-
-  // Set Draco decoder path (must be called after mount, not at module level)
-  useEffect(() => {
-    // Only runs in browser — setDecoderPath must be called before first model load
-    if (typeof window !== "undefined") {
-      useGLTF.setDecoderPath('/draco/');
-    }
-  }, []);
 
   // GSAP ScrollTrigger
   useEffect(() => {
@@ -111,7 +109,7 @@ function GLBModel({ modelPath = "/models/starmirror.glb", scale = 1, variant = "
   // GPU memory cleanup on unmount
   useEffect(() => {
     return () => {
-      scene.traverse((child) => {
+      modelScene.traverse((child) => {
         if ((child as THREE.Mesh).isMesh) {
           const mesh = child as THREE.Mesh;
           if (mesh.geometry) {
@@ -126,14 +124,12 @@ function GLBModel({ modelPath = "/models/starmirror.glb", scale = 1, variant = "
           }
         }
       });
-      // Clear the GLTF cache so the same path can be re-used without stale state
-      useGLTF.clear(modelPath);
     };
-  }, [scene, modelPath]);
+  }, [modelScene]);
 
   // Apply materials
   useEffect(() => {
-    scene.traverse((child) => {
+    modelScene.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
         if (mesh.material) {
@@ -153,7 +149,7 @@ function GLBModel({ modelPath = "/models/starmirror.glb", scale = 1, variant = "
         });
       }
     });
-  }, [scene, variant, matProps]);
+  }, [modelScene, variant, matProps]);
 
   useFrame((state) => {
     if (!innerRef.current || !groupRef.current) return;
@@ -177,20 +173,23 @@ function GLBModel({ modelPath = "/models/starmirror.glb", scale = 1, variant = "
 
   // Auto-center
   useEffect(() => {
-    const box = new THREE.Box3().setFromObject(scene);
+    const box = new THREE.Box3().setFromObject(modelScene);
     const center = box.getCenter(new THREE.Vector3());
     const size = box.getSize(new THREE.Vector3());
     const maxDim = Math.max(size.x, size.y, size.z);
     const normalizedScale = 1.8 / maxDim;
-    scene.position.sub(center);
-    scene.scale.setScalar(normalizedScale);
-    scene.position.y += size.y * normalizedScale * 0.5;
-  }, [scene]);
+    modelScene.scale.setScalar(normalizedScale);
+    modelScene.position.set(
+      -center.x,
+      -center.y + size.y * normalizedScale * 0.5,
+      -center.z
+    );
+  }, [modelScene]);
 
   return (
     <group ref={groupRef}>
       <group ref={innerRef}>
-        <primitive object={scene} />
+        <primitive object={modelScene} />
       </group>
     </group>
   );
@@ -215,7 +214,7 @@ class ModelErrorBoundary extends React.Component<
 }
 
 export default function ProductModel({
-  modelPath = "/models/starmirror.glb",
+  modelPath = DEFAULT_MODEL_PATH,
   position = [0, 0, 0] as [number, number, number],
   scale = 1,
   variant = "chrome",

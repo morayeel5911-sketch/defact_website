@@ -4,7 +4,6 @@ import InterfaceGrid from "@/components/InterfaceGrid";
 
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 
 export default function ProcessSection() {
@@ -51,27 +50,26 @@ export default function ProcessSection() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
           <div className="md:col-span-5 " data-reveal>
             <p className="font-clash text-h2 tracking-tight leading-[0.95] mb-8">
-              FROM BIT<br />TO MATTER
+              FROM ERROR<br />TO OBJECT
             </p>
             <div className="space-y-4 font-dm-mono text-micro tracking-mono text-void/50 mono-run">
               <p>
-                0010 1101 0110 1001<br />
-                PARAMETRIC_SEED: 0x4F2A<br />
-                VORONOI_DENSITY: HIGH<br />
-                MATERIAL: BRONZE_INFUSED_PLA<br />
-                LAYER_HEIGHT: 0.12mm<br />
-                INFILL: 85% GYROID<br />
-                POST_PROCESS: PATINA + POLISH
+                INPUT: BODY / CLUB / RELIC / TOOL<br />
+                MESH_STATE: UNSTABLE BUT HELD<br />
+                MATERIAL: PLA / GLOSS / CERAMIC / CHROME<br />
+                SURFACE: HAND FINISHED<br />
+                OUTPUT: LIMITED ARTIFACT<br />
+                SITE: COLOGNE BLUE FIELD
               </p>
             </div>
           </div>
 
           <div className="md:col-span-7 space-y-4">
             {[
-              { step: "01", title: "DESIGN", desc: "Topology optimization and form-finding" },
-              { step: "02", title: "SIMULATE", desc: "Stress analysis and thermal validation" },
-              { step: "03", title: "PRINT", desc: "72-hour continuous fabrication cycle" },
-              { step: "04", title: "FINISH", desc: "Chemical patination and hand-polishing" },
+              { step: "01", title: "COLLAGE", desc: "References are treated as material, not mood board filler." },
+              { step: "02", title: "MODEL", desc: "Forms are pushed until ornament, tool, and artifact start to overlap." },
+              { step: "03", title: "PRINT", desc: "Layer lines stay visible as proof of translation." },
+              { step: "04", title: "FINISH", desc: "Gloss, chrome, ceramic, and hand marks bring the object back into the room." },
             ].map((item, i) => (
               <div
                 key={item.step}

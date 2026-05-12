@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEFACT — Design System & Dashboard</title>
+  <style>
+    :root {
+      --void: #0D0D0D;
+      --signal: #F0F0F0;
+      --chrome: #D0D0D0;
+      --steel: #9A9A9A;
+      --accent: #000FEA;
+      --accent-mid: #0018D9;
+      --accent-light: #4D7AFF;
+      --molten: #FF8C00;
+      --blood: #E81123;
+      --slime: #39FF14;
+      --cyan: #00F0FF;
+      --border: rgba(255,255,255,0.06);
+      --font-display: 'Clash Grotesk', 'Helvetica Now', 'Inter', system-ui, sans-serif;
+      --font-body: 'Inter', 'Helvetica Neue', system-ui, sans-serif;
+      --font-mono: 'DM Mono', 'SF Mono', ui-monospace, monospace;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: var(--font-body);
+      background: var(--void);
+      color: var(--signal);
+      line-height: 1.6;
+      font-size: 14px;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+    
+    /* Header */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .header-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--signal);
+    }
+    
+    .header-sub {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--steel);
+      margin-top: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    
+    .header-meta {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .meta-item {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--steel);
+    }
+    
+    .meta-item strong {
+      color: var(--accent-light);
+      display: block;
+      font-size: 1.2rem;
+    }
+    
+    /* Section */
+    section {
+      margin-bottom: 4rem;
+    }
+    
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: -0.01em;
+    }
+    
+    .section-sub {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--steel);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+    
+    /* Color Swatches */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1rem;
+    }
+    
+    .swatch {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .swatch-color {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--void);
+    }
+    
+    .swatch-info {
+      padding: 0.75rem;
+    }
+    
+    .swatch-name {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--chrome);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .swatch-hex {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--steel);
+      margin-top: 0.25rem;
+    }
+    
+    /* Kanban Board */
+    .kanban-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--steel);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 0.5rem;
+    }
+    
+    .stat-done { color: var(--slime); }
+    .stat-running { color: var(--cyan); }
+    .stat-blocked { color: var(--blood); }
+    .stat-ready { color: var(--molten); }
+    .stat-todo { color: var(--chrome); }
+    
+    /* Task Cards */
+    .task-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1rem;
+    }
+    
+    .task-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      transition: border-color 0.2s;
+    }
+    
+    .task-card:hover {
+      border-color: rgba(0,15,234,0.15);
+    }
+    
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+    
+    .task-id {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--steel);
+    }
+    
+    .task-badge {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid;
+    }
+    
+    .badge-done { color: var(--slime); border-color: rgba(57,255,20,0.2); }
+    .badge-running { color: var(--cyan); border-color: rgba(0,240,255,0.2); }
+    .badge-blocked { color: var(--blood); border-color: rgba(232,17,35,0.2); }
+    .badge-ready { color: var(--molten); border-color: rgba(255,140,0,0.2); }
+    .badge-todo { color: var(--chrome); border-color: rgba(208,208,208,0.2); }
+    
+    .task-title {
+      font-size: 0.875rem;
+      color: var(--signal);
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+    
+    .task-meta {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--steel);
+      display: flex;
+      gap: 1rem;
+    }
+    
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+      margin-top: 4rem;
+      text-align: center;
+    }
+    
+    .footer-text {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--steel);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .color-grid { grid-template-columns: repeat(2, 1fr); }
+      .task-grid { grid-template-columns: 1fr; }
+      .kanban-stats { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="header-title">DEFACT</h1>
+      <p class="header-sub">Design System & Project Dashboard</p>
+      <div class="header-meta">
+        <div class="meta-item"><strong>30</strong> Total Tasks</div>
+        <div class="meta-item"><strong>23</strong> Completed</div>
+        <div class="meta-item"><strong>1</strong> Running</div>
+        <div class="meta-item"><strong>3</strong> Blocked</div>
+      </div>
+    </header>
+    
+    <!-- DESIGN SYSTEM -->
+    <section>
+      <p class="section-sub">Karpathy Pattern — HTML as AI Output</p>
+      <h2 class="section-title">Design System</h2>
+      <div class="color-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background: #0D0D0D; color: var(--signal);">#0D0D0D</div>
+          <div class="swatch-info">
+            <div class="swatch-name">void</div>
+            <div class="swatch-hex">#0D0D0D</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #F0F0F0; color: var(--void);">#F0F0F0</div>
+          <div class="swatch-info">
+            <div class="swatch-name">signal</div>
+            <div class="swatch-hex">#F0F0F0</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #D0D0D0; color: var(--void);">#D0D0D0</div>
+          <div class="swatch-info">
+            <div class="swatch-name">chrome</div>
+            <div class="swatch-hex">#D0D0D0</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #9A9A9A; color: var(--signal);">#9A9A9A</div>
+          <div class="swatch-info">
+            <div class="swatch-name">steel</div>
+            <div class="swatch-hex">#9A9A9A</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #000FEA; color: var(--signal);">#000FEA</div>
+          <div class="swatch-info">
+            <div class="swatch-name">accent</div>
+            <div class="swatch-hex">#000FEA</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #0018D9; color: var(--signal);">#0018D9</div>
+          <div class="swatch-info">
+            <div class="swatch-name">accent-mid</div>
+            <div class="swatch-hex">#0018D9</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #4D7AFF; color: var(--signal);">#4D7AFF</div>
+          <div class="swatch-info">
+            <div class="swatch-name">accent-light</div>
+            <div class="swatch-hex">#4D7AFF</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #FF8C00; color: var(--signal);">#FF8C00</div>
+          <div class="swatch-info">
+            <div class="swatch-name">molten</div>
+            <div class="swatch-hex">#FF8C00</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #E81123; color: var(--signal);">#E81123</div>
+          <div class="swatch-info">
+            <div class="swatch-name">blood</div>
+            <div class="swatch-hex">#E81123</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #39FF14; color: var(--void);">#39FF14</div>
+          <div class="swatch-info">
+            <div class="swatch-name">slime</div>
+            <div class="swatch-hex">#39FF14</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #00F0FF; color: var(--void);">#00F0FF</div>
+          <div class="swatch-info">
+            <div class="swatch-name">cyan</div>
+            <div class="swatch-hex">#00F0FF</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- TYPOGRAPHY -->
+    <section>
+      <p class="section-sub">Clinical Precision</p>
+      <h2 class="section-title">Typography</h2>
+      <div style="display: grid; gap: 1.5rem;">
+        <div>
+          <p style="font-family: var(--font-display); font-size: 2rem; color: var(--signal);">Display — Clash Grotesk</p>
+          <p style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--steel); margin-top: 0.5rem;">Hero-Headlines, Section Titles</p>
+        </div>
+        <div>
+          <p style="font-family: var(--font-body); font-size: 1rem; color: var(--chrome);">Body — Inter / Helvetica Neue</p>
+          <p style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--steel); margin-top: 0.5rem;">Paragraphs, Descriptions, UI Text</p>
+        </div>
+        <div>
+          <p style="font-family: var(--font-mono); font-size: 0.875rem; color: var(--steel);">Mono — DM Mono / SF Mono</p>
+          <p style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--steel); margin-top: 0.5rem;">Code, IDs, Metadata, Labels</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- KANBAN DASHBOARD -->
+    <section>
+      <p class="section-sub">Hermes Multi-Agent System</p>
+      <h2 class="section-title">Kanban Board</h2>
+      
+      <div class="kanban-stats">
+        <div class="stat-card">
+          <div class="stat-value stat-done">23</div>
+          <div class="stat-label">Done</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value stat-running">1</div>
+          <div class="stat-label">Running</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value stat-blocked">3</div>
+          <div class="stat-label">Blocked</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value stat-ready">1</div>
+          <div class="stat-label">Ready</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value stat-todo">2</div>
+          <div class="stat-label">Todo</div>
+        </div>
+      </div>
+      
+      <div class="task-grid">
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_9cd68e</span>
+            <span class="task-badge badge-done">done</span>
+          </div>
+          <div class="task-title">[COMFYUI] FLUX2 Workflow JSONs für DEFACT erstellen + testen</div>
+          <div class="task-meta">
+            <span>@default</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_84f38f</span>
+            <span class="task-badge badge-done">done</span>
+          </div>
+          <div class="task-title">CRITICAL: HeroShader Canvas-Nesting beheben</div>
+          <div class="task-meta">
+            <span>@coder</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_9a0e5c</span>
+            <span class="task-badge badge-done">done</span>
+          </div>
+          <div class="task-title">CRITICAL: GLTF Dispose + useGLTF.setDecoderPath fixen</div>
+          <div class="task-meta">
+            <span>@coder</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_92d6db</span>
+            <span class="task-badge badge-done">done</span>
+          </div>
+          <div class="task-title">CRITICAL: Navigation-Links reparieren</div>
+          <div class="task-meta">
+            <span>@coder</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_d5abde</span>
+            <span class="task-badge badge-blocked">blocked</span>
+          </div>
+          <div class="task-title">HIGH: CustomCursor MutationObserver Leak fixen</div>
+          <div class="task-meta">
+            <span>@coder</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_bdea9c</span>
+            <span class="task-badge badge-blocked">blocked</span>
+          </div>
+          <div class="task-title">HIGH: Hero-Shader Maus-tracking vereinheitlichen</div>
+          <div class="task-meta">
+            <span>@coder</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_4ad4bc</span>
+            <span class="task-badge badge-done">done</span>
+          </div>
+          <div class="task-title">HIGH: Error Boundary für 3D Canvas</div>
+          <div class="task-meta">
+            <span>@coder</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_4c7d86</span>
+            <span class="task-badge badge-ready">ready</span>
+          </div>
+          <div class="task-title">REVIEW: Oracle Code-Review aller Fixes</div>
+          <div class="task-meta">
+            <span>@oracle</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_46cb4b</span>
+            <span class="task-badge badge-done">done</span>
+          </div>
+          <div class="task-title">GLTF Dispose + setDecoderPath fix (ProductModel.tsx existiert)</div>
+          <div class="task-meta">
+            <span>@coder</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_46b00c</span>
+            <span class="task-badge badge-done">done</span>
+          </div>
+          <div class="task-title">CustomCursor MutationObserver Leak + Event Delegation Fix</div>
+          <div class="task-meta">
+            <span>@coder</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_9b4e75</span>
+            <span class="task-badge badge-done">done</span>
+          </div>
+          <div class="task-title">Error Boundary für Haupt-Canvas in Scene.tsx</div>
+          <div class="task-meta">
+            <span>@coder</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_106332</span>
+            <span class="task-badge badge-done">done</span>
+          </div>
+          <div class="task-title">Gateway-Kill-Loop Root-Cause Analyse + Report</div>
+          <div class="task-meta">
+            <span>@coder</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_087c95</span>
+            <span class="task-badge badge-done">done</span>
+          </div>
+          <div class="task-title">DEBUG + ARCH: Modell-Zuordnung für Multi-Agent-Team (max 3 gleichzeitig) + Wiki-</div>
+          <div class="task-meta">
+            <span>@oracle</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_469cc7</span>
+            <span class="task-badge badge-done">done</span>
+          </div>
+          <div class="task-title">DASHBOARD: Kanban-Sichtbarkeit prüfen + Erweiterungsplan</div>
+          <div class="task-meta">
+            <span>@default</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_9be508</span>
+            <span class="task-badge badge-done">done</span>
+          </div>
+          <div class="task-title">COMFYUI: Tower-PC Anbindung prüfen + Asset-Gen Workflow für DEFACT</div>
+          <div class="task-meta">
+            <span>@default</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_004ec4</span>
+            <span class="task-badge badge-done">done</span>
+          </div>
+          <div class="task-title">DEFACT: Code-Audit + Architecture-Plan für Überarbeitung erstellen</div>
+          <div class="task-meta">
+            <span>@oracle</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_b9392a</span>
+            <span class="task-badge badge-done">done</span>
+          </div>
+          <div class="task-title">DEFACT: ComfyUI-Asset-Integration planen (Tower-PC)</div>
+          <div class="task-meta">
+            <span>@default</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_951659</span>
+            <span class="task-badge badge-done">done</span>
+          </div>
+          <div class="task-title">DEFACT: ObjectsSection mit echten Produktdaten überarbeiten</div>
+          <div class="task-meta">
+            <span>@coder</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_ad3ffe</span>
+            <span class="task-badge badge-done">done</span>
+          </div>
+          <div class="task-title">DEFACT: Lifecycle-Cleanup — doppelte Imports + Memory-Leaks beheben</div>
+          <div class="task-meta">
+            <span>@glm</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-header">
+            <span class="task-id">t_a7b1c3</span>
+            <span class="task-badge badge-done">done</span>
+          </div>
+          <div class="task-title">DEFACT: HeroSection Überarbeitung — FLUX-Bilder + ComfyUI-Assets integrieren</div>
+          <div class="task-meta">
+            <span>@coder</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <footer>
+      <p class="footer-text">Generated 2026-05-12T13:20:00Z | DEFACT Dashboard v1.0</p>
+    </footer>
+  </div>
+</body>
+</html>

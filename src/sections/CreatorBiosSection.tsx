@@ -4,7 +4,6 @@ import InterfaceGrid from "@/components/InterfaceGrid";
 
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 
 export default function CreatorBiosSection() {
@@ -171,38 +170,7 @@ export default function CreatorBiosSection() {
               </div>
             );
 
-          
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-
-    // Skip animations if user prefers reduced motion
-    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
-
-
-    const ctx = gsap.context(() => {
-      gsap.from(el.querySelectorAll("[data-reveal]"), {
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 80%",
-          toggleActions: "play none none none",
-        },
-      });
-    }, el);
-
-    return () => ctx.revert();
-  }, []);
-
-  return (
+            return (
               <div
                 key={creator.name}
                 className={`grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 py-12 md:py-16 ${
